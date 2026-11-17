@@ -1,6 +1,6 @@
 # SkillPassport — Home hero
 
-A Neo4j-inspired network hero: a thick 3D shell of glowing nodes around a cloud of small white points, with soft background lights. Its structure, framing and motion follow the reference's own published scene (`hero-graph.js`), and were checked against a screen recording by optical flow. It has **no pointer or mouse interaction**, and **one motion only**: the camera orbits the sphere once every 180 s, swinging ±25° up and down once per orbit, so the loop is seamless and nothing runs on a clock of its own.
+A  network hero: a thick 3D shell of glowing nodes around a cloud of small white points, with soft background lights. Its structure, framing and motion follow the reference's own published scene (`hero-graph.js`), and were checked against a screen recording by optical flow. It has **no pointer or mouse interaction**, and **one motion only**: the camera orbits the sphere once every 180 s, swinging ±25° up and down once per orbit, so the loop is seamless and nothing runs on a clock of its own.
 
 ## Run (no installation)
 
