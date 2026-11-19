@@ -1,5 +1,33 @@
+# dependencies
 node_modules/
+
+# next.js
+.next/
+out/
+
+# env / secrets
 .env
 .env.*
+!.env.example
+*.pem
+*.p12
+*.pfx
+credentials.json
+**/secrets/**
+
+# typescript / build caches
+*.tsbuildinfo
+
+# OS / editor
 .DS_Store
 Thumbs.db
+*.log
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# vercel / local tooling
+.vercel
+.turbo
+coverage/
