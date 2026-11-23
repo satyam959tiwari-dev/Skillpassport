@@ -16,8 +16,8 @@ export function SiteFooter() {
           />
           <strong>{siteTagline}</strong>
           <p>
-            The trust layer connecting skills, credentials, people, organizations,
-            assessments and opportunities.
+            A verification-first talent platform connecting candidates, employers,
+            verifier companies, reviewers, and admins in one trust workflow.
           </p>
         </div>
         <nav className="footer-col" aria-label="Solutions">

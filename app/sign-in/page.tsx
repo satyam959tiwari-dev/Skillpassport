@@ -13,11 +13,11 @@ export default function SignInPage() {
         eyebrow="Sign in"
         title={
           <>
-            Sign in to explore the{" "}
-            <span className="sp-gradient-text">demo experience</span>
+            Sign in to{" "}
+            <span className="sp-gradient-text">SkillPassport</span>
           </>
         }
-        description="This is a static marketing demonstration. It validates the form locally and does not log into the live SkillPassport application."
+        description="One account for your profile, verifications, assessments, and jobs. New here? Create your Skill Passport first."
         primaryCta={{ label: "Jump to form", href: "#sign-in-form" }}
         secondaryCta={{ label: "Create Your Passport", href: "/create-passport/" }}
         visual="contact"
@@ -26,13 +26,12 @@ export default function SignInPage() {
       <section id="sign-in-form" className="sp-section bg-[#090d33]">
         <div className="sp-container grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
           <Reveal>
-            <p className="sp-eyebrow">Demo authentication</p>
+            <p className="sp-eyebrow">Account</p>
             <h2 className="sp-heading mt-4 text-[clamp(28px,3.5vw,44px)]">
-              Static sign-in preview
+              Welcome back
             </h2>
             <p className="sp-lede mt-4">
-              Use any sample email and password (6+ characters). Nothing is stored
-              on a server. For the signup-style journey, use{" "}
+              Enter your email and password. Don&apos;t have an account yet? Start with{" "}
               <Link href="/create-passport/" className="text-[var(--color-sky)] hover:underline">
                 Create Your Passport
               </Link>

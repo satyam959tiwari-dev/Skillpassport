@@ -8,7 +8,7 @@ const AiDemoLab = dynamic(
     ssr: false,
     loading: () => (
       <div className="sp-panel p-8 text-sm text-[var(--color-faint)]">
-        Loading AI demos…
+        Loading AI examples…
       </div>
     ),
   },

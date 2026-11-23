@@ -1,15 +1,26 @@
+import { EmployerHero } from "@/components/hero/EmployerHero";
 import { EmployerExperience } from "@/components/interactive/EmployerExperience";
 import { AudiencePage } from "@/components/sections/AudiencePage";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Reveal } from "@/components/ui/Reveal";
+import { getAudience } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata("employers");
+
+const audience = getAudience("employers");
 
 export default function EmployersPage() {
   return (
     <AudiencePage
       id="employers"
+      hero={
+        <EmployerHero
+          eyebrow={audience.eyebrow}
+          primaryCta={audience.primaryCta}
+          secondaryCta={audience.secondaryCta}
+        />
+      }
       uniqueSections={
         <>
           <section className="sp-section bg-[linear-gradient(#090d33,#0b0a33)]">
@@ -17,11 +28,11 @@ export default function EmployersPage() {
               <Reveal>
                 <p className="sp-eyebrow">Hiring challenges</p>
                 <h2 className="sp-heading mt-4 max-w-3xl text-[clamp(28px,3.5vw,44px)]">
-                  Hire beyond the résumé
+                  Evidence over guesswork
                 </h2>
                 <p className="sp-lede mt-4 max-w-2xl">
                   Discover talent supported by skills, credentials, and assessment evidence —
-                  then run jobs, applicants, interviews, and reporting in one explained workflow.
+                  then run jobs, applicants, interviews, and reporting in one workflow.
                 </p>
               </Reveal>
             </div>
@@ -30,9 +41,9 @@ export default function EmployersPage() {
           <section id="demo" className="sp-section bg-[#0b0a33]">
             <div className="sp-container">
               <Reveal className="mb-8 max-w-3xl">
-                <p className="sp-eyebrow">Interactive demo</p>
+                <p className="sp-eyebrow">Try it</p>
                 <h2 className="sp-heading mt-4 text-[clamp(28px,3.5vw,44px)]">
-                  Explore employer workflows with sample data
+                  Explore the employer workspace
                 </h2>
               </Reveal>
               <EmployerExperience />
@@ -48,7 +59,12 @@ export default function EmployersPage() {
           </section>
 
           <section className="sp-section bg-[#090d33]">
-            <div className="sp-container grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div className="sp-container">
+              <Reveal className="mb-8 max-w-3xl">
+                <p className="sp-eyebrow">Also in the workspace</p>
+                <h2 className="sp-heading mt-4 text-[clamp(24px,2.6vw,34px)]">Everything your hiring team works with</h2>
+              </Reveal>
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {[
                 "Talent Search with skill-focused filters",
                 "Jobs: create/edit, screening, skills, locations, publish",
@@ -64,6 +80,7 @@ export default function EmployersPage() {
                   <p className="text-sm leading-relaxed text-[var(--color-muted)]">{item}</p>
                 </Reveal>
               ))}
+            </div>
             </div>
           </section>
         </>

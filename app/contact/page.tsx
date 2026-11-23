@@ -1,37 +1,46 @@
-import { PageHero } from "@/components/hero/PageHero";
+import { Clock, Mail, ShieldCheck } from "lucide-react";
+import { ContactHero } from "@/components/hero/ContactHero";
 import { ContactForm } from "@/components/interactive/ContactForm";
+import { ContactRouteList } from "@/components/interactive/ContactRouteList";
 import { Reveal } from "@/components/ui/Reveal";
 import { appLinks } from "@/lib/content";
-import { accentHeadline } from "@/lib/title";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata("contact");
 
+const promises = [
+  {
+    icon: Clock,
+    title: "Human follow-up",
+    body: "A real person from the team reads and answers every message.",
+  },
+  {
+    icon: Mail,
+    title: "Email confirmation",
+    body: "You get an email copy with a reference number.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Private by default",
+    body: "Your details are only used to answer your inquiry.",
+  },
+] as const;
+
 export default function ContactPage() {
   return (
     <>
-      <PageHero
-        eyebrow="Contact"
-        title={accentHeadline(
-          "Talk with the SkillPassport team",
-          "SkillPassport",
-        )}
-        description="Use the demo form to preview how an inquiry flow feels, or email support directly. The on-site form does not transmit a real inquiry."
-        primaryCta={{ label: "Jump to demo form", href: "#contact-form" }}
-        secondaryCta={{ label: "Create Your Passport", href: "/create-passport/" }}
-        visual="contact"
-      />
+      <ContactHero />
 
-      <section id="contact-form" className="sp-section bg-[#090d33]">
-        <div className="sp-container grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+      <section id="contact-form" className="sp-section scroll-mt-28 bg-[radial-gradient(60%_50%_at_80%_20%,rgb(16_113_250/0.12),transparent_70%),#090d33]">
+        <div className="sp-container grid items-start gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
           <Reveal>
             <p className="sp-eyebrow">Get in touch</p>
             <h2 className="sp-heading mt-4 text-[clamp(28px,3.5vw,44px)]">
-              Demo inquiry form
+              Tell us what you&apos;re building
             </h2>
             <p className="sp-lede mt-4">
-              Validation, loading states, and success feedback all run locally.
-              For a real conversation, use{" "}
+              Share a few details and we&apos;ll route your message to the right team. Prefer email?
+              Write to{" "}
               <a
                 className="text-[var(--color-sky)] underline-offset-2 hover:underline"
                 href={appLinks.supportEmail}
@@ -40,11 +49,20 @@ export default function ContactPage() {
               </a>
               .
             </p>
-            <ul className="mt-8 space-y-3 text-sm text-[var(--color-muted)]">
-              <li>Candidates · Employers · Verifiers</li>
-              <li>Expert reviewers · Enterprises</li>
-              <li>Partnership and product questions</li>
+            <ul className="mt-8 space-y-4">
+              {promises.map(({ icon: Icon, title, body }) => (
+                <li key={title} className="flex items-start gap-4">
+                  <span className="sp-icon-tile !size-11 shrink-0">
+                    <Icon className="size-5" aria-hidden />
+                  </span>
+                  <span>
+                    <span className="block font-medium text-white">{title}</span>
+                    <span className="mt-0.5 block text-sm text-[var(--color-muted)]">{body}</span>
+                  </span>
+                </li>
+              ))}
             </ul>
+            <ContactRouteList />
           </Reveal>
           <Reveal>
             <ContactForm />

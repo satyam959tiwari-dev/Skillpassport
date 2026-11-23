@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import {
   skillNetworkCopy,
   skillNetworkEdges,
   skillNetworkNodes,
 } from "@/lib/content";
 import { cx } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 const relatedMap = (() => {
   const map = new Map<string, Set<string>>();
@@ -21,7 +22,7 @@ const relatedMap = (() => {
 })();
 
 export function SkillNetwork() {
-  const reduce = useReducedMotion();
+  const reduce = usePrefersReducedMotion();
   const [active, setActive] = useState<string>("candidate");
   const [pointer, setPointer] = useState({ x: 50, y: 50 });
   const [tabVisible, setTabVisible] = useState(true);
@@ -45,7 +46,7 @@ export function SkillNetwork() {
 
   return (
     <div
-      className="relative overflow-hidden rounded-[24px] border border-[var(--color-rule)] bg-[radial-gradient(circle_at_30%_20%,rgb(68_30_182/0.35),transparent_45%),radial-gradient(circle_at_80%_70%,rgb(16_113_250/0.18),transparent_40%),#05071c]"
+      className="relative overflow-hidden rounded-[24px] border border-[var(--color-rule)] bg-[radial-gradient(circle_at_30%_20%,rgb(68_30_182/0.35),transparent_45%),radial-gradient(circle_at_80%_70%,rgb(16_113_250/0.18),transparent_40%),#0b0e38]"
       onMouseMove={(e) => {
         if (!animate) return;
         const rect = e.currentTarget.getBoundingClientRect();

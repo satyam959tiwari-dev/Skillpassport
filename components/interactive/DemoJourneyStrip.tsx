@@ -28,7 +28,7 @@ export function DemoJourneyStrip<T extends string>({
   justHappened,
   activity = [],
   overviewHint = "Overview open — pick any module below. Order is optional.",
-  ariaLabel = "Demo modules",
+  ariaLabel = "Workspace modules",
 }: Props<T>) {
   const index = steps.findIndex((s) => s.id === activeId);
   const current = index >= 0 ? steps[index] : null;
@@ -69,7 +69,7 @@ export function DemoJourneyStrip<T extends string>({
       </div>
 
       <div className="grid gap-3 sm:grid-cols-[1.2fr_0.8fr]">
-        <div className="rounded-xl border border-[var(--color-rule)] bg-black/25 px-3 py-2.5">
+        <div className="rounded-xl border border-[var(--color-rule)] bg-inset-strong px-3 py-2.5">
           <p className="text-xs text-[var(--color-faint)]">
             {current ? "What you can do here" : "Where you are"}
           </p>
@@ -93,7 +93,7 @@ export function DemoJourneyStrip<T extends string>({
           ) : null}
         </div>
 
-        <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 px-3 py-2.5">
+        <div className="rounded-xl border border-[var(--color-rule)] bg-inset px-3 py-2.5">
           <p className="text-xs text-[var(--color-faint)]">Recent activity</p>
           {recent.length ? (
             <ul className="mt-2 space-y-1.5">

@@ -26,7 +26,7 @@ export function SignInForm() {
     }
     if (!fields.password.trim()) next.password = "Enter a password.";
     else if (fields.password.trim().length < 6) {
-      next.password = "Use at least 6 characters for this demo.";
+      next.password = "Use at least 6 characters.";
     }
     setErrors(next);
     if (Object.keys(next).length) return;
@@ -41,20 +41,15 @@ export function SignInForm() {
 
   return (
     <form className="sp-panel space-y-5 p-6 sm:p-8" onSubmit={onSubmit} noValidate>
-      <div className="rounded-xl border border-[var(--color-rule)] bg-[rgb(82_36_212/0.12)] px-4 py-3 text-sm text-[#d9d4ff]">
-        Static demo only. This does not authenticate a real SkillPassport account
-        and does not call a backend.
-      </div>
-
       {done ? (
         <div
           className="rounded-xl border border-[var(--color-sky)]/40 bg-[rgb(16_113_250/0.1)] px-4 py-4"
           role="status"
           aria-live="polite"
         >
-          <p className="font-medium text-white">Demo sign-in complete locally.</p>
+          <p className="font-medium text-white">Details look good.</p>
           <p className="mt-1 text-sm text-[var(--color-muted)]">
-            No session was created. Explore the Create Your Passport demo to continue.
+            Next, create your Skill Passport to set up your profile.
           </p>
           <Link
             href="/create-passport/"
@@ -75,7 +70,7 @@ export function SignInForm() {
             autoComplete="email"
             value={fields.email}
             onChange={(e) => setFields((f) => ({ ...f, email: e.target.value }))}
-            className="mt-2 w-full rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
+            className="mt-2 w-full rounded-xl border border-[var(--color-rule)] bg-field px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? "signin-email-error" : undefined}
           />
@@ -94,7 +89,7 @@ export function SignInForm() {
             autoComplete="current-password"
             value={fields.password}
             onChange={(e) => setFields((f) => ({ ...f, password: e.target.value }))}
-            className="mt-2 w-full rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
+            className="mt-2 w-full rounded-xl border border-[var(--color-rule)] bg-field px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
             aria-invalid={Boolean(errors.password)}
             aria-describedby={errors.password ? "signin-password-error" : undefined}
           />
@@ -107,7 +102,7 @@ export function SignInForm() {
       </div>
 
       <button type="submit" className="sp-btn-primary" disabled={loading} aria-busy={loading}>
-        {loading ? "Checking demo…" : "Sign in (demo)"}
+        {loading ? "Checking…" : "Sign in"}
       </button>
 
       <p className="text-sm text-[var(--color-faint)]">

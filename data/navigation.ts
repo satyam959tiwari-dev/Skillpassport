@@ -37,7 +37,7 @@ export const primaryNav: NavGroup[] = [
       {
         label: "Create Your Passport",
         href: "/create-passport/",
-        description: "Interactive demo: build an illustrative digital Skill Passport.",
+        description: "Build your digital Skill Passport in a few guided steps.",
       },
       {
         label: "How it works",

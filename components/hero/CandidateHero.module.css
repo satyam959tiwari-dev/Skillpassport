@@ -1,0 +1,276 @@
+/* Candidate hero — holographic passport stage. Keyframes + effects that are
+   cheaper in CSS than JS. All motion is disabled under prefers-reduced-motion. */
+
+.stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  border-radius: 9999px;
+  background: #cfe4ff;
+  box-shadow: 0 0 6px rgb(98 172 250 / 0.9);
+  animation: twinkle var(--dur, 4s) ease-in-out var(--delay, 0s) infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.7); }
+  50% { opacity: 0.95; transform: scale(1.15); }
+}
+
+.globe {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  width: 92%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 50% 40%, rgb(98 172 250 / 0.22), transparent 58%),
+    radial-gradient(circle at 50% 50%, rgb(68 30 182 / 0.28), transparent 70%);
+  box-shadow:
+    inset 0 0 80px rgb(98 172 250 / 0.18),
+    inset 0 0 2px rgb(160 200 255 / 0.5),
+    0 0 120px rgb(82 36 212 / 0.25);
+}
+
+.globeDots {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background-image: radial-gradient(rgb(160 200 255 / 0.55) 1px, transparent 1.4px);
+  background-size: 11px 11px;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 70%);
+  mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 70%);
+  opacity: 0.45;
+  animation: drift 40s linear infinite;
+}
+
+@keyframes drift {
+  from { background-position: 0 0; }
+  to { background-position: 220px 0; }
+}
+
+.beam {
+  position: absolute;
+  left: 50%;
+  bottom: 13%;
+  width: 46%;
+  height: 52%;
+  transform: translateX(-50%);
+  clip-path: polygon(12% 0, 88% 0, 100% 100%, 0 100%);
+  background: linear-gradient(
+    0deg,
+    rgb(98 172 250 / 0.55) 0%,
+    rgb(82 36 212 / 0.22) 45%,
+    transparent 100%
+  );
+  filter: blur(6px);
+  animation: beamPulse 3.6s ease-in-out infinite;
+}
+
+@keyframes beamPulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.95; }
+}
+
+.pedestal {
+  position: absolute;
+  left: 50%;
+  bottom: 4%;
+  width: 64%;
+  aspect-ratio: 4 / 1;
+  transform: translateX(-50%);
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgb(98 172 250 / 0.85);
+  box-shadow:
+    0 0 18px rgb(98 172 250 / 0.9),
+    0 0 48px rgb(82 36 212 / 0.7),
+    inset 0 0 22px rgb(98 172 250 / 0.6);
+}
+
+.ringInner {
+  position: absolute;
+  inset: 22% 18%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgb(190 225 255 / 0.95), rgb(98 172 250 / 0.5) 40%, transparent 72%);
+  filter: blur(2px);
+  animation: beamPulse 2.8s ease-in-out infinite;
+}
+
+.ringBase {
+  position: absolute;
+  left: -6%;
+  right: -6%;
+  top: 38%;
+  bottom: -38%;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgb(30 26 110 / 0.95), rgb(9 13 51 / 0.95));
+  border: 1px solid rgb(98 172 250 / 0.35);
+  box-shadow: 0 30px 60px rgb(0 0 0 / 0.55), 0 0 40px rgb(68 30 182 / 0.45);
+  z-index: -1;
+}
+
+.ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgb(98 172 250 / 0.7);
+  animation: ripple 3.2s ease-out infinite;
+}
+
+.ripple:nth-child(2) { animation-delay: 1.06s; }
+.ripple:nth-child(3) { animation-delay: 2.13s; }
+
+@keyframes ripple {
+  0% { transform: scale(0.55); opacity: 0.9; }
+  100% { transform: scale(1.45); opacity: 0; }
+}
+
+.spinDash {
+  transform-origin: center;
+  animation: dash 9s linear infinite;
+}
+
+@keyframes dash {
+  to { stroke-dashoffset: -400; }
+}
+
+/* Passport card holographic layers */
+.cardShimmer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgb(160 210 255 / 0.18) 45%,
+    rgb(190 150 255 / 0.22) 50%,
+    transparent 65%
+  );
+  background-size: 250% 100%;
+  animation: shimmer 5.5s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+@keyframes shimmer {
+  0% { background-position: 120% 0; }
+  60%, 100% { background-position: -120% 0; }
+}
+
+.cardBorder {
+  position: absolute;
+  inset: -1.5px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    #62acfa,
+    #6a46e8,
+    #b38cff,
+    #3387f2,
+    #62acfa
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: spinAngle 6s linear infinite;
+  pointer-events: none;
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes spinAngle {
+  to { --angle: 360deg; }
+}
+
+.scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 30%;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgb(98 172 250 / 0.14), transparent);
+  animation: scan 4.5s ease-in-out infinite;
+}
+
+@keyframes scan {
+  0% { top: -30%; }
+  100% { top: 100%; }
+}
+
+.waves {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 42%;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.headlineGradient {
+  background: linear-gradient(90deg, #62acfa 0%, #8b7bff 45%, #b38cff 70%, #62acfa 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientFlow 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 22px rgb(98 172 250 / 0.35));
+}
+
+@keyframes gradientFlow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.primaryGlow {
+  position: relative;
+  overflow: hidden;
+}
+
+.primaryGlow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.28) 50%, transparent 70%);
+  transform: translateX(-120%);
+  animation: btnSweep 3.8s ease-in-out 1.2s infinite;
+  pointer-events: none;
+}
+
+@keyframes btnSweep {
+  0% { transform: translateX(-120%); }
+  45%, 100% { transform: translateX(120%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star,
+  .globeDots,
+  .beam,
+  .ringInner,
+  .ripple,
+  .spinDash,
+  .cardShimmer,
+  .cardBorder,
+  .scanline,
+  .headlineGradient,
+  .primaryGlow::after {
+    animation: none !important;
+  }
+  .ripple { opacity: 0; }
+  .scanline { display: none; }
+}

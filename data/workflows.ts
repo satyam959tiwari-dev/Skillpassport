@@ -38,7 +38,7 @@ export const skillNetworkEdges: Array<[string, string]> = [
 /** Short blurbs when a network node is selected. */
 export const skillNetworkCopy: Record<string, string> = {
   candidate:
-    "People bring skills, credentials, and proof into one profile — more than a résumé list.",
+    "People bring skills, credentials, and proof into one profile — more than a resume list.",
   skills: "Skills are the capabilities candidates claim and employers search for.",
   credential:
     "Credentials and documents enter verification — status is tracked, not assumed true on upload.",
@@ -57,92 +57,92 @@ export const skillNetworkCopy: Record<string, string> = {
 };
 
 /**
- * End-to-end SkillPassport story.
- * Conceptual — not a mandatory click path or product state machine.
+ * End-to-end SkillPassport story — seven steps, one per brief step, each owned by one role.
+ * Conceptual order, not a mandatory click path. Ids are stable (used for icons/visuals).
  */
 export const howItWorks: WorkflowStage[] = [
   {
     id: "build",
     label: "01",
-    title: "Build",
+    title: "Profile",
     description:
-      "Create a professional profile with skills, experience, professional summary, documents, and credentials — plus optional public sharing.",
+      "Candidates complete their profile — skills, experience, professional summary, and documents — and can choose to share it publicly.",
     outcomes: [
-      "Skills & experience",
-      "Professional summary",
-      "Documents & credentials",
+      "My Profile: skills, experience, summary",
+      "Documents upload",
+      "Visibility & share link",
     ],
   },
   {
     id: "verify",
     label: "02",
-    title: "Verify",
+    title: "Verification",
     description:
-      "Validate documents and credentials through structured verification workflows. Verify once. Reuse everywhere.",
+      "Verifier companies check submitted documents and credentials in verification queues, with Super Admin oversight. Nothing counts as verified until it is checked.",
     outcomes: [
-      "Verification queues & board",
-      "Tracked status (not auto-success)",
-      "Reusable trust with context",
+      "Apply Verification & Verification Board",
+      "Awaiting Admin",
+      "Verification status on the profile",
     ],
   },
   {
     id: "prove",
     label: "03",
-    title: "Prove",
+    title: "Assessments",
     description:
-      "Demonstrate skills through assessments, self-reviews, media submissions, and expert reviews — with rubrics, checklists, weighted criteria, performance levels, and mandatory gates.",
+      "Candidates take assessments to back up their skills — self-reviews, media submissions, and expert reviews built on a rubric or checklist.",
     outcomes: [
-      "Assessments & self-reviews",
-      "Media submissions",
-      "Expert reviews with structure",
+      "My Assessments",
+      "Add Media",
+      "Self-Reviews & Expert Reviews",
     ],
   },
   {
     id: "connect",
     label: "04",
-    title: "Connect",
+    title: "Hiring",
     description:
-      "Employers search talent, create jobs, manage applicants, conduct interviews, and use assessments in hiring.",
+      "Employers find candidates with Talent Search, move them from jobs to applicants to interviews, and attach company assessments to the process.",
     outcomes: [
-      "Talent search",
-      "Jobs → applicants → interviews",
-      "Hiring assessments",
+      "Talent Search",
+      "Jobs Management → Applicants → Interviews",
+      "Company hiring assessments",
     ],
   },
   {
     id: "review",
     label: "05",
-    title: "Review",
+    title: "Scoring",
     description:
-      "Reviewers work with documents, PDFs, video, rubrics, checklists, form previews, and grading summaries.",
+      "Reviewers grade each submission in rich workspaces — document preview, PDF annotation, and video review — scoring rubric criteria by level or checklist items as met / not met.",
     outcomes: [
-      "Rich media review workspaces",
-      "Rubrics & checklists",
+      "Assessment / Media queue & My Reviews",
+      "PDF annotation & video review",
       "Form preview & grading summary",
     ],
   },
   {
     id: "govern",
     label: "06",
-    title: "Govern",
+    title: "Governance",
     description:
-      "Administrators manage approvals, organizations, roles, permissions, verification oversight, review outcomes, audit activity, and affiliate programs — Super Admin and Organization Admin stay separate scopes.",
+      "Admins approve sensitive outcomes — review results, assessment and media approval requests — and manage organizations, users and roles, audit, and affiliate campaigns.",
     outcomes: [
-      "Approvals & audit",
-      "Orgs, roles & permissions",
-      "Affiliates & oversight",
+      "Review Results approval",
+      "Organizations, Users & Roles, Permissions",
+      "Audit Logs & Affiliate Management",
     ],
   },
   {
     id: "connected",
     label: "07",
-    title: "Stay Connected",
+    title: "Live updates",
     description:
-      "In the product app, realtime updates keep notifications, permission changes, verification and assessment queues, team membership, organization changes, and affiliate campaigns in sync. This marketing site explains that capability — it does not simulate live sockets.",
+      "Every role stays in sync — notifications, permission changes, and queue refreshes arrive without constant page reloads.",
     outcomes: [
-      "Notifications & queues",
-      "Team & org changes",
-      "Affiliate campaign updates",
+      "Notifications inbox",
+      "Permission changes",
+      "Queue refreshes",
     ],
   },
 ];
@@ -151,17 +151,17 @@ export const valuePillars = [
   {
     id: "verify",
     title: "Verify Credentials",
-    description: "Verify once. Use everywhere.",
+    description: "A credential checked once keeps its verified status wherever the profile is shared or searched.",
   },
   {
     id: "prove",
     title: "Prove Skills",
-    description: "Show what you can do.",
+    description: "Skills come with graded evidence on the profile, not just a line on a resume.",
   },
   {
     id: "hire",
     title: "Hire with Trust",
-    description: "Make better decisions with trusted talent information.",
+    description: "Employers shortlist on verified credentials and graded skills, with people making every decision.",
   },
 ] as const;
 

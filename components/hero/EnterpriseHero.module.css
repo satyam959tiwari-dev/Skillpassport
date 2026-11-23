@@ -1,0 +1,270 @@
+/* Enterprises hero — "Governance Constellation" tower with Platform /
+   Organization / Teams layers, role + domain callouts and a scoped-access bar.
+   Super Admin (platform-wide) and Org Admin (tenant-scoped) stay separate.
+   Stage = 860 × 600 design px. */
+
+h1.title { max-width: 6em; }
+@media (min-width: 1024px) {
+  h1.title { font-size: clamp(48px, 4.9vw, 74px); }
+}
+
+.stageWrap svg { flex-shrink: 0; }
+.stageWrap :where(button) { pointer-events: auto; }
+
+.back { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.spin { animation: dash 16s linear infinite; }
+
+/* ---------- Pedestal ---------- */
+.pedestal { position: absolute; left: 196px; top: 398px; width: 428px; height: 92px; }
+.pedBase {
+  position: absolute;
+  left: -5%;
+  right: -5%;
+  top: 34%;
+  bottom: -42%;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgb(14 46 104 / 0.95), rgb(6 16 46 / 0.95));
+  border: 1px solid rgb(80 170 255 / 0.45);
+  box-shadow: 0 26px 50px rgb(0 0 0 / 0.55), 0 0 44px rgb(16 113 250 / 0.4);
+}
+.pedRing {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgb(140 196 255 / 0.95);
+  box-shadow: 0 0 18px rgb(98 172 250 / 0.9), 0 0 50px rgb(33 120 255 / 0.6), inset 0 0 24px rgb(120 185 255 / 0.6);
+}
+.pedCore {
+  position: absolute;
+  inset: 22% 16%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgb(210 245 255 / 0.95), rgb(60 170 255 / 0.5) 40%, transparent 72%);
+  filter: blur(2px);
+  animation: glow 3s ease-in-out infinite;
+}
+.ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgb(140 196 255 / 0.7);
+  animation: ripple 3.6s ease-out infinite;
+}
+.ripple + .ripple { animation-delay: 1.8s; }
+
+/* ---------- Tower ---------- */
+.tower {
+  position: absolute;
+  left: 310px;
+  top: 24px;
+  width: 200px;
+  animation: float 8s ease-in-out infinite;
+}
+.hex {
+  position: relative;
+  width: 200px;
+  height: 170px;
+  filter: drop-shadow(0 0 14px rgb(98 172 250 / 0.7)) drop-shadow(0 0 34px rgb(33 120 255 / 0.45));
+  transition: filter 0.4s;
+}
+.hex::before,
+.hexInner {
+  clip-path: polygon(50% 0, 100% 24%, 100% 76%, 50% 100%, 0 76%, 0 24%);
+}
+.hex::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #8ff1ff, #1f8bff 50%, #5b6cff);
+}
+.hexInner {
+  position: absolute;
+  inset: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background:
+    radial-gradient(70% 60% at 50% 20%, rgb(60 170 255 / 0.45), transparent 70%),
+    linear-gradient(170deg, #0f3c8c, #0a1d55 70%);
+  color: #fff;
+  font-size: 15.5px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+.hexIcon { width: 40px; height: 40px; color: #a6d4ff; stroke-width: 1.7; filter: drop-shadow(0 0 8px #6cb8ff); }
+.hexActive { filter: drop-shadow(0 0 20px rgb(98 172 250 / 0.95)) drop-shadow(0 0 46px rgb(33 120 255 / 0.6)); }
+
+.slabs { margin: 8px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.slab {
+  position: relative;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  clip-path: polygon(7% 0, 93% 0, 100% 50%, 93% 100%, 7% 100%, 0 50%);
+  background:
+    linear-gradient(180deg, rgb(140 196 255 / 0.35), transparent 30%),
+    linear-gradient(170deg, #1356c4, #0b2a74 80%);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: opacity 0.35s, filter 0.35s;
+}
+.slab::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  clip-path: inherit;
+  box-shadow: inset 0 0 0 1.5px rgb(140 196 255 / 0.9), inset 0 0 18px rgb(120 185 255 / 0.5);
+  pointer-events: none;
+}
+.slab svg { width: 22px; height: 22px; color: #a6d4ff; }
+.slabOff { opacity: 0.32; filter: saturate(0.4); }
+.slabHot { filter: brightness(1.25) drop-shadow(0 0 10px rgb(98 172 250 / 0.9)); }
+.slabStack { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; line-height: 1; }
+.notInherited {
+  font-style: normal;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #ffd77f;
+  text-transform: uppercase;
+}
+
+/* ---------- Callouts ---------- */
+.role,
+.domain {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid rgb(70 170 255 / 0.6);
+  border-radius: 14px;
+  background: linear-gradient(150deg, rgb(14 42 96 / 0.94), rgb(8 22 62 / 0.94));
+  box-shadow: 0 10px 28px rgb(0 0 0 / 0.35), 0 0 16px rgb(33 140 255 / 0.25), inset 0 1px rgb(255 255 255 / 0.08);
+  color: #fff;
+  transition: opacity 0.35s, border-color 0.3s, box-shadow 0.3s, transform 0.25s;
+}
+.role { cursor: pointer; text-align: left; font: inherit; }
+.role:hover { transform: translateY(-2px); border-color: #8cc4ff; }
+.role:focus-visible, .barItem:focus-visible { outline: 2px solid #9ccfff; outline-offset: 3px; }
+.role svg, .domain svg { width: 28px; height: 28px; color: #6cb8ff; stroke-width: 1.7; filter: drop-shadow(0 0 6px rgb(108 184 255 / 0.6)); }
+.role strong { display: block; font-size: 14.5px; font-weight: 700; }
+.role small { display: block; margin-top: 2px; font-size: 12.5px; color: #c9d8f0; }
+.roleOn, .domainOn {
+  border-color: #a6d4ff;
+  box-shadow: 0 0 0 1px rgb(111 240 255 / 0.4), 0 0 26px rgb(51 135 242 / 0.55);
+}
+.domain { font-size: 14px; font-weight: 650; line-height: 1.25; min-width: 150px; }
+.domainOff { opacity: 0.35; }
+
+/* ---------- Scoped access bar ---------- */
+.bar {
+  position: absolute;
+  left: 46px;
+  top: 494px;
+  width: 724px;
+  height: 70px;
+  display: grid;
+  grid-template-columns: 1.05fr 1.15fr 1.15fr;
+  align-items: stretch;
+  padding: 6px;
+  border: 1px solid rgb(80 170 255 / 0.65);
+  border-radius: 18px;
+  background: linear-gradient(105deg, rgb(12 38 90 / 0.94), rgb(9 22 62 / 0.94));
+  box-shadow: 0 14px 34px rgb(0 0 0 / 0.4), 0 0 22px rgb(33 140 255 / 0.35), inset 0 1px rgb(255 255 255 / 0.08);
+}
+.barLead {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 17px;
+  font-weight: 700;
+  border-right: 1px solid rgb(120 170 230 / 0.25);
+}
+.barLead svg { width: 26px; height: 26px; color: #6cb8ff; }
+.barItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 6px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: none;
+  color: #e6f0ff;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+.barItem + .barItem { border-left-color: transparent; }
+.barItem svg { width: 22px; height: 22px; color: #6cb8ff; }
+.barItem small { display: block; margin-top: 2px; font-size: 11.5px; font-weight: 500; color: #a9c0e2; }
+.barItem:hover { background: rgb(30 90 200 / 0.25); }
+.barItemOn {
+  border-color: #8cc4ff;
+  background: linear-gradient(120deg, rgb(18 108 239 / 0.5), rgb(51 135 242 / 0.3));
+  box-shadow: 0 0 16px rgb(51 135 242 / 0.4);
+}
+.caption {
+  position: absolute;
+  left: 52px;
+  top: 574px;
+  width: 712px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #b3c8e6;
+  font-size: 12.5px;
+}
+.caption svg { width: 15px; height: 15px; color: #6cb8ff; }
+
+@keyframes float { 50% { translate: 0 -8px; } }
+@keyframes dash { to { stroke-dashoffset: -340; } }
+@keyframes glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+@keyframes ripple {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+/* Phone: roles, domains and caption as real-size HTML under the cropped tower */
+.phoneRoles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px; }
+.phoneRole {
+  display: flex; align-items: center; gap: 10px;
+  min-height: 56px; padding: 8px 12px;
+  border-radius: 14px;
+  border: 1px solid rgb(98 172 250 / 0.4);
+  background: linear-gradient(150deg, rgb(26 64 150 / 0.45), rgb(10 22 70 / 0.85));
+  color: #fff; text-align: left;
+}
+.phoneRole svg { width: 24px; height: 24px; color: #8cc4ff; flex: none; }
+.phoneRole b { display: block; font-size: 14px; font-weight: 600; }
+.phoneRole small { display: block; font-size: 12px; color: #b9c4e6; }
+.phoneRoleOn { border-color: #b9dcff; background: linear-gradient(150deg, rgb(51 135 242 / 0.5), rgb(82 36 212 / 0.4)); }
+.phoneDomains { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.phoneDomains li { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; border: 1px solid rgb(98 172 250 / 0.3); font-size: 12.5px; color: #e6ecff; transition: opacity 0.3s; }
+.phoneDomains svg { width: 15px; height: 15px; color: #8cc4ff; }
+.phoneDomainOff { opacity: 0.4; }
+.phoneDomainOn { border-color: #8cc4ff; background: rgb(51 135 242 / 0.25); }
+.phoneCaption { display: flex; gap: 8px; margin-top: 10px; font-size: 13px; line-height: 1.5; color: #b9c4e6; }
+.phoneCaption svg { width: 16px; height: 16px; flex: none; margin-top: 2px; color: #8cc4ff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .spin, .pedCore, .ripple, .tower { animation: none !important; }
+  .ripple { display: none; }
+  .hex, .slab, .role, .domain, .barItem { transition: none !important; }
+}

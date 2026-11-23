@@ -64,7 +64,7 @@ export default function RootLayout({
               url: siteUrl,
               slogan: siteTagline,
               description:
-                "SkillPassport connects verified credentials, proven skills, expert reviews, and career opportunities in one trusted ecosystem.",
+                "Verify credentials · Prove skills · Hire with trust. One trust workflow for candidates, employers, verifiers, reviewers, and admins.",
               logo: `${siteUrl}/images/masterpiece-logo.png`,
               email: "support@skillpassport.com",
             }),

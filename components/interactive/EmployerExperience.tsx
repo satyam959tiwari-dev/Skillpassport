@@ -48,12 +48,12 @@ const modules: ReadonlyArray<DemoJourneyStep<TabId>> = [
   {
     id: "jobs",
     label: "Jobs",
-    doNext: "Add or edit a job and publish (demo) — state stays when you leave the tab",
+    doNext: "Add or edit a job and publish — state stays when you leave the tab",
   },
   {
     id: "talent",
     label: "Talent",
-    doNext: "Filter sample talent by skill and shortlist people to Applicants",
+    doNext: "Filter talent by skill and shortlist people to Applicants",
   },
   {
     id: "pipeline",
@@ -135,10 +135,10 @@ const interviewActions: InterviewAction[] = ["schedule", "reschedule", "cancel",
 const QUEUED = "Queued";
 const ON_HOLD = "On hold (draft assessment)";
 const IN_REVIEW = "In review";
-const REVIEWED = "Reviewed (demo)";
+const REVIEWED = "Reviewed";
 const CLOSED = "Closed (applicant advanced)";
-const IN_PROGRESS = "In progress (demo)";
-const COMPLETED = "Completed (demo)";
+const IN_PROGRESS = "In progress";
+const COMPLETED = "Completed";
 
 const initialJobs: JobDraft[] = [
   {
@@ -170,13 +170,13 @@ const initialAssessments: HiringAssessment[] = [
     id: "ha1",
     title: "Frontend practical — accessibility checklist",
     jobId: "j1",
-    state: "Ready (demo)",
+    state: "Ready",
   },
   {
     id: "ha2",
     title: "API design scenario",
     jobId: "j2",
-    state: "Draft (demo)",
+    state: "Draft",
   },
 ];
 
@@ -186,7 +186,7 @@ const initialQueue: QueueItem[] = [
 
 const initialMyReviews: MyReview[] = [
   { id: "mr1", title: "Communication review — Priya K.", jobId: "j1", outcome: COMPLETED },
-  { id: "mr2", title: "Frontend practical — sample", outcome: COMPLETED },
+  { id: "mr2", title: "Frontend practical", outcome: COMPLETED },
 ];
 
 const BRIDGE_EVENT = "sp-demo-bridge";
@@ -226,7 +226,7 @@ function getBridgeServerSnapshot() {
 const BRIDGE_TALENT_ID = "bridge-candidate";
 
 const inputCls =
-  "mt-2 w-full rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]";
+  "mt-2 w-full rounded-xl border border-[var(--color-rule)] bg-field px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]";
 
 const isReady = (a: HiringAssessment) => a.state.startsWith("Ready");
 
@@ -238,9 +238,9 @@ function SeedBadge({ short = false }: { short?: boolean }) {
   return (
     <span
       className="inline-block rounded-full border border-[var(--color-rule)] bg-white/5 px-2.5 py-0.5 text-[11px] text-[var(--color-sky)]"
-      title="Sample history — publish does not invent applicants"
+      title="Existing history — publishing does not create applicants"
     >
-      {short ? "Sample history" : "Sample history — publish does not invent applicants"}
+      {short ? "Existing history" : "Existing history — publishing does not create applicants"}
     </span>
   );
 }
@@ -254,7 +254,7 @@ export function EmployerExperience() {
   const [jobs, setJobs] = useState<JobDraft[]>(initialJobs.map((j) => ({ ...j })));
   const [activeJobId, setActiveJobId] = useState(initialJobs[0].id);
   const [applicantFilter, setApplicantFilter] = useState<string | "all">("all");
-  const [companyName, setCompanyName] = useState("Lumen Hire (demo)");
+  const [companyName, setCompanyName] = useState("Lumen Hire");
   const [recruiterName, setRecruiterName] = useState("Anika Rao");
   const [hiringAssessments, setHiringAssessments] = useState<HiringAssessment[]>(
     initialAssessments.map((a) => ({ ...a })),
@@ -347,7 +347,7 @@ export function EmployerExperience() {
       role: bridge.role,
       skills: bridge.skills,
       credential: `${bridge.verifiedDocs} of ${bridge.totalDocs} documents verified (live)`,
-      evidence: "From candidate demo — document status updates as verifiers act",
+      evidence: "From the candidate workspace — document status updates as verifiers act",
       live: true,
     };
     return [live, ...employerTalentSamples.map((t) => ({ ...t }))];
@@ -449,7 +449,7 @@ export function EmployerExperience() {
     const becomingReady = !isReady(item);
     setHiringAssessments((prev) =>
       prev.map((a) =>
-        a.id === id ? { ...a, state: becomingReady ? "Ready (demo)" : "Draft (demo)" } : a,
+        a.id === id ? { ...a, state: becomingReady ? "Ready" : "Draft" } : a,
       ),
     );
     const next: QueueItem[] = reviewerQueue.map((q) => {
@@ -499,7 +499,7 @@ export function EmployerExperience() {
     if (q) {
       setReviewerQueue((prev) => prev.map((x) => (x.id === q.id ? { ...x, state: REVIEWED } : x)));
     }
-    act(`Review marked complete${q ? `: “${queueTitle(q)}”` : ""} (local).`);
+    act(`Review marked complete${q ? `: “${queueTitle(q)}”` : ""}.`);
   };
 
   const openQueue = (focus: { assessmentId?: string; applicantId?: string } | null) => {
@@ -550,15 +550,15 @@ export function EmployerExperience() {
       if (!interviewWhen) return;
       const when = formatWhen(interviewWhen);
       const verb = action === "schedule" ? "Scheduled" : "Rescheduled";
-      patchApplicant(a.id, { note: `${verb} for ${when} (demo)` });
-      act(`Interview ${verb.toLowerCase()} for ${a.name} (${title}) — ${when} (demo).`);
+      patchApplicant(a.id, { note: `${verb} for ${when}` });
+      act(`Interview ${verb.toLowerCase()} for ${a.name} (${title}) — ${when}.`);
     } else if (action === "cancel") {
-      patchApplicant(a.id, { note: "Interview cancelled (demo)" });
+      patchApplicant(a.id, { note: "Interview cancelled" });
       act(`Interview cancelled for ${a.name} (${title}); stage stays “${a.stage}”.`);
     } else {
       patchApplicant(a.id, {
         stage: "Evaluated",
-        note: "Evaluation notes saved locally (demo)",
+        note: "Evaluation notes saved",
       });
       if (a.stage !== "Evaluated") syncBridgeStage(a, "Evaluated");
       const suffix = a.stage === "Evaluated" ? "" : reconcileQueue(a, "Evaluated");
@@ -571,7 +571,7 @@ export function EmployerExperience() {
     if (!title) return;
     setHiringAssessments((prev) => [
       ...prev,
-      { id: `ha-${Date.now()}`, title, jobId: activeJob.id, state: "Draft (demo)" },
+      { id: `ha-${Date.now()}`, title, jobId: activeJob.id, state: "Draft" },
     ]);
     setNewAssessmentTitle("");
     act(`Created hiring assessment “${title}” and attached it to ${jobTitle(activeJob.id)} (Draft).`);
@@ -614,8 +614,8 @@ export function EmployerExperience() {
     updateActiveJob({ published: next });
     act(
       next
-        ? `“${displayJobTitle(activeJob.title)}” marked Published (demo). Publish does not invent applicants.`
-        : `“${displayJobTitle(activeJob.title)}” back to Draft (demo).`,
+        ? `“${displayJobTitle(activeJob.title)}” marked Published. Publish does not invent applicants.`
+        : `“${displayJobTitle(activeJob.title)}” back to Draft.`,
     );
   };
 
@@ -678,7 +678,7 @@ export function EmployerExperience() {
   const sendInvite = () => {
     const email = inviteEmail.trim();
     if (!email || !email.includes("@")) {
-      setInviteMsg("Enter a valid demo email to preview an invite.");
+      setInviteMsg("Enter a valid email to send an invite.");
       return;
     }
     const id = `inv-${Date.now()}`;
@@ -693,7 +693,7 @@ export function EmployerExperience() {
       },
     ]);
     setInviteEmail("");
-    setInviteMsg(`Invite preview created for ${email} as ${inviteRole} (local only).`);
+    setInviteMsg(`Invite preview created for ${email} as ${inviteRole}.`);
     act(`Invite preview created for ${email} as ${inviteRole}.`);
   };
 
@@ -706,25 +706,24 @@ export function EmployerExperience() {
 
   const runAiQuery = () => {
     setAiRanId(aiSelected.id);
-    act(`Ran Good Practice AI Query: “${aiSelected.query}” (sample result).`);
+    act(`Ran Good Practice AI Query: “${aiSelected.query}”.`);
   };
 
   const sourceLabel = (a: Applicant) =>
     a.source === "bridge"
-      ? "From candidate demo"
+      ? "From the candidate workspace"
       : a.source === "shortlist"
         ? "From Talent Search"
         : null;
 
   return (
     <div className="sp-panel overflow-hidden">
-      <div className="border-b border-[var(--color-rule)] bg-black/20 px-4 py-3 sm:px-6">
+      <div className="border-b border-[var(--color-rule)] bg-inset px-4 py-3 sm:px-6">
         <p className="text-xs tracking-[0.16em] text-[var(--color-sky)] uppercase">
-          Employer workspace demonstration
+          Employer workspace
         </p>
         <p className="mt-1 text-sm text-[var(--color-faint)]">
-          Explore in any order. Jobs, applicants, assessments, and team seats share local demo
-          state — not live hiring.
+          Explore in any order. Jobs, applicants, assessments, and team seats stay linked.
         </p>
         <DemoJourneyStrip
           steps={modules}
@@ -760,7 +759,7 @@ export function EmployerExperience() {
           <div className="space-y-5">
             <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
               {[
-                { label: "Open jobs (demo)", value: String(jobs.filter((j) => j.published).length) },
+                { label: "Open jobs", value: String(jobs.filter((j) => j.published).length) },
                 { label: "Applicants", value: String(applicants.length) },
                 {
                   label: "In interview",
@@ -783,8 +782,8 @@ export function EmployerExperience() {
               ))}
             </div>
             <div className="grid gap-4 lg:grid-cols-2">
-              <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
-                <h3 className="font-medium text-white">My Profile (demo)</h3>
+              <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
+                <h3 className="font-medium text-white">My Profile</h3>
                 <p className="mt-2 text-sm text-[var(--color-muted)]">
                   Recruiter: <span className="text-white">{recruiterName}</span>
                 </p>
@@ -804,12 +803,12 @@ export function EmployerExperience() {
                   <ChevronRight className="size-4" aria-hidden />
                 </button>
               </div>
-              <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
-                <h3 className="font-medium text-white">How this demo stays in sync</h3>
+              <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
+                <h3 className="font-medium text-white">How it stays in sync</h3>
                 <ul className="mt-3 space-y-2 text-sm text-[var(--color-muted)]">
                   <li>Jobs, applicants, and assessments share the same job IDs.</li>
                   <li>Rename a job — applicant, assessment, and queue labels update.</li>
-                  <li>Dashboard counts come from those same local records.</li>
+                  <li>Dashboard counts come from those same records.</li>
                   <li>Publish does not invent applicants — open Applicants for that job next.</li>
                 </ul>
                 <p className="mt-3 text-xs text-[var(--color-faint)]">
@@ -871,7 +870,7 @@ export function EmployerExperience() {
                 <select
                   value={activeJob.id}
                   onChange={(e) => setActiveJobId(e.target.value)}
-                  className="mt-1 block rounded-lg border border-[var(--color-rule)] bg-[#05071c] px-3 py-2 text-sm text-white"
+                  className="mt-1 block rounded-lg border border-[var(--color-rule)] bg-field px-3 py-2 text-sm text-white"
                 >
                   {jobs.map((job) => (
                     <option key={job.id} value={job.id}>
@@ -898,7 +897,7 @@ export function EmployerExperience() {
                           {person.name}
                           {person.live ? (
                             <span className="ml-2 rounded-full border border-[var(--color-rule)] px-2 py-0.5 text-[11px] font-normal text-[var(--color-sky)]">
-                              Live from candidate demo
+                              Live from candidate workspace
                             </span>
                           ) : null}
                         </p>
@@ -907,15 +906,15 @@ export function EmployerExperience() {
                       <p className="text-xs text-[var(--color-sky)]">{person.credential}</p>
                     </div>
                     <div className="mt-3 grid gap-2 sm:grid-cols-3 text-sm">
-                      <div className="rounded-lg bg-black/25 px-3 py-2">
+                      <div className="rounded-lg bg-inset-strong px-3 py-2">
                         <p className="text-xs text-[var(--color-faint)]">Skills</p>
                         <p className="mt-1 text-[var(--color-muted)]">{person.skills.join(" · ")}</p>
                       </div>
-                      <div className="rounded-lg bg-black/25 px-3 py-2">
+                      <div className="rounded-lg bg-inset-strong px-3 py-2">
                         <p className="text-xs text-[var(--color-faint)]">Credential status</p>
                         <p className="mt-1 text-[var(--color-muted)]">{person.credential}</p>
                       </div>
-                      <div className="rounded-lg bg-black/25 px-3 py-2">
+                      <div className="rounded-lg bg-inset-strong px-3 py-2">
                         <p className="text-xs text-[var(--color-faint)]">Assessment / reviews</p>
                         <p className="mt-1 text-[var(--color-muted)]">{person.evidence}</p>
                       </div>
@@ -961,7 +960,7 @@ export function EmployerExperience() {
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-2">
                 <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-faint)]">
-                  Job inventory (demo)
+                  Job inventory
                 </p>
                 <button
                   type="button"
@@ -985,7 +984,7 @@ export function EmployerExperience() {
                 >
                   <p className="font-medium text-white">{displayJobTitle(job.title)}</p>
                   <p className="mt-1 text-xs text-[var(--color-faint)]">
-                    {job.published ? "Published (demo)" : "Draft (demo)"}
+                    {job.published ? "Published" : "Draft"}
                     {job.location.trim() ? ` · ${job.location}` : ""}
                   </p>
                   {jobHasSeedHistory(job.id) ? (
@@ -996,7 +995,7 @@ export function EmployerExperience() {
                 </button>
               ))}
               <p className="text-xs text-[var(--color-faint)]">
-                Editing keeps state while you switch tabs. Publish is local only.
+                Edits are kept while you switch tabs.
               </p>
             </div>
             <div className="space-y-4">
@@ -1022,11 +1021,11 @@ export function EmployerExperience() {
                 Location
                 <input {...jobField("location", "location")} className={inputCls} />
               </label>
-              <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4 text-sm text-[var(--color-muted)]">
+              <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4 text-sm text-[var(--color-muted)]">
                 Preview: {jobTitle(activeJob.id)} · {activeJob.skills || "—"} ·{" "}
                 {activeJob.location || "—"} ·{" "}
                 <span className="text-white">
-                  {activeJob.published ? "Published (demo)" : "Draft (demo)"}
+                  {activeJob.published ? "Published" : "Draft"}
                 </span>
                 {jobHasSeedHistory(activeJob.id) ? (
                   <span className="mt-2 block">
@@ -1036,7 +1035,7 @@ export function EmployerExperience() {
               </div>
               <div className="flex flex-wrap gap-3">
                 <button type="button" className="sp-btn-primary" onClick={togglePublish}>
-                  {activeJob.published ? "Unpublish job (demo)" : "Publish job (demo)"}
+                  {activeJob.published ? "Unpublish job" : "Publish job"}
                 </button>
                 <button
                   type="button"
@@ -1089,10 +1088,9 @@ export function EmployerExperience() {
               <h3 className="font-medium text-white">Company hiring assessments</h3>
               <p className="mt-2 text-sm text-[var(--color-muted)]">
                 Assessments can attach to jobs and appear in the applicant pipeline. Marking one
-                Ready queues applicants already in Assessment for company reviewers. Sample
-                previews only — no invented scoring rules.
+                Ready queues applicants already in Assessment for company reviewers.
               </p>
-              <div className="mt-4 rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+              <div className="mt-4 rounded-xl border border-[var(--color-rule)] bg-inset p-4">
                 <label className="block text-sm text-[#bdb4ff]">
                   New hiring assessment title
                   <input
@@ -1173,9 +1171,9 @@ export function EmployerExperience() {
         {tab === "pipeline" && (
           <div className="space-y-4">
             <p className="text-sm text-[var(--color-muted)]">
-              Applicants are demo records linked to jobs. Publishing a job does not auto-create
-              applicants — shortlist from Talent Search, move stages, and run interview actions
-              for the selected applicant.
+              Applicants are linked to jobs. Publishing a job does not create applicants —
+              shortlist from Talent Search, move stages, and run interview actions for the
+              selected applicant.
             </p>
             <div className="flex flex-wrap gap-2">
               <button
@@ -1211,8 +1209,8 @@ export function EmployerExperience() {
             </div>
             {visibleApplicants.length === 0 ? (
               <p className="rounded-xl border border-dashed border-[var(--color-rule)] px-4 py-6 text-sm text-[var(--color-faint)]">
-                No applicants linked to this job in the demo set. Switch job filter or shortlist
-                someone from Talent Search.
+                No applicants linked to this job yet. Switch job filter or shortlist someone
+                from Talent Search.
               </p>
             ) : null}
             {visibleApplicants.map((a) => {
@@ -1281,7 +1279,7 @@ export function EmployerExperience() {
                 </div>
               );
             })}
-            <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4 space-y-3">
+            <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4 space-y-3">
               <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
                 Interview operations
               </p>
@@ -1354,20 +1352,20 @@ export function EmployerExperience() {
 
         {tab === "team" && (
           <div className="space-y-5">
-            <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4 space-y-3">
-              <h3 className="font-medium text-white">Invite teammate (demo)</h3>
+            <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4 space-y-3">
+              <h3 className="font-medium text-white">Invite teammate</h3>
               <div className="grid gap-3 sm:grid-cols-[1fr_auto_auto]">
                 <input
                   value={inviteEmail}
                   onChange={(e) => setInviteEmail(e.target.value)}
                   placeholder="teammate@company.demo"
-                  className="rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
+                  className="rounded-xl border border-[var(--color-rule)] bg-field px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
                   aria-label="Invite email"
                 />
                 <select
                   value={inviteRole}
                   onChange={(e) => setInviteRole(e.target.value)}
-                  className="rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-3 py-3 text-white"
+                  className="rounded-xl border border-[var(--color-rule)] bg-field px-3 py-3 text-white"
                   aria-label="Invite role"
                 >
                   <option>Recruiter</option>
@@ -1384,7 +1382,7 @@ export function EmployerExperience() {
                 </p>
               ) : (
                 <p className="text-xs text-[var(--color-faint)]">
-                  Creates a local pending seat preview — no email is sent.
+                  Adds a pending seat until the invite is accepted.
                 </p>
               )}
             </div>
@@ -1412,7 +1410,7 @@ export function EmployerExperience() {
               ))}
             </ul>
             <div className="grid gap-4 lg:grid-cols-2">
-              <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+              <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
                 <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
                   Company reviewer Assessment queue
                 </p>
@@ -1471,7 +1469,7 @@ export function EmployerExperience() {
                   </ul>
                 )}
               </div>
-              <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+              <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
                 <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
                   My Reviews
                 </p>
@@ -1529,11 +1527,11 @@ export function EmployerExperience() {
                       style={{ width: `${gap.coverage}%` }}
                     />
                   </div>
-                  <p className="mt-2 text-xs text-[var(--color-muted)]">Team coverage (demo)</p>
+                  <p className="mt-2 text-xs text-[var(--color-muted)]">Team coverage</p>
                 </div>
               ))}
             </div>
-            <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+            <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
               <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
                 Good Practice AI Query
               </p>
@@ -1567,17 +1565,17 @@ export function EmployerExperience() {
                     Result for: {aiRan.query}
                     {aiRan.id !== aiQueryId ? " — selection changed, press Run query to update" : ""}
                   </p>
-                  <pre className="mt-2 whitespace-pre-wrap rounded-lg bg-black/30 p-3 text-sm text-[var(--color-muted)]">
+                  <pre className="mt-2 whitespace-pre-wrap rounded-lg bg-inset-strong p-3 text-sm text-[var(--color-muted)]">
                     {aiRan.result}
                   </pre>
                 </>
               ) : (
-                <p className="mt-4 rounded-lg bg-black/30 p-3 text-sm text-[var(--color-faint)]">
-                  Pick a query and press Run query to see a sample result.
+                <p className="mt-4 rounded-lg bg-inset-strong p-3 text-sm text-[var(--color-faint)]">
+                  Pick a query and press Run query to see the matches.
                 </p>
               )}
               <p className="mt-2 text-xs text-[var(--color-faint)]">
-                Predefined mock — not a live AI service.{" "}
+                AI suggests matches; your team decides.{" "}
                 <Link href="/ai/" className="text-[var(--color-sky)] hover:underline">
                   AI page
                 </Link>

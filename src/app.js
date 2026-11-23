@@ -39,6 +39,14 @@ const SETTINGS={
   glow:1.0,
 };
 let w=0,h=0,dpr=1,gl=null,prog={},buf={},counts={},fbo={},view={},animation=0,last=0,phase=0,visible=true,running=false;
+// Meet-brighten: calm resting glow; clear lift when nodes cross on screen, then slow ease back.
+let graph=null,pointsData=null,meetBoost=null,meetScr=null,meetLastT=0;
+const POINT_STRIDE=12;
+const MEET_REST=.86;     // resting intensity vs authored
+const MEET_LIFT=.95;     // peak = base*(.86+.95)=1.81× authored — clearly brighter than initial
+const MEET_SIZE=.28;     // slight size swell at peak so the flash reads
+const MEET_HALO=.4;      // halo swell with the flash
+const MEET_FADE=1.8;     // seconds to ease boost ~to zero (slow, not sudden)
 
 function seeded(seed){return()=>{seed|=0;seed=(seed+0x6d2b79f5)|0;let t=Math.imul(seed^(seed>>>15),1|seed);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296}}
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
@@ -233,9 +241,11 @@ function compile(vs,fs){
   for(let i=0;i<n;i++){const name=gl.getActiveUniform(p,i).name.replace('[0]','');u[name]=gl.getUniformLocation(p,name)}
   return{p,u};
 }
-function upload(data,layout,old){
+function upload(data,layout,old,dynamic){
   if(old)gl.deleteBuffer(old.b);
-  const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(data),gl.STATIC_DRAW);
+  const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);
+  const arr=data instanceof Float32Array?data:new Float32Array(data);
+  gl.bufferData(gl.ARRAY_BUFFER,arr,dynamic?gl.DYNAMIC_DRAW:gl.STATIC_DRAW);
   return{b,layout,stride:layout.reduce((s,[,n])=>s+n,0)*4};
 }
 function bind(program,buffer){
@@ -248,20 +258,94 @@ function bind(program,buffer){
 }
 function build(){
   const{nodes,edges}=generate();const rand=seeded(SETTINGS.seed+1);
+  const baseI=nodes.map(nd=>nd.intensity);
+  const baseSize=nodes.map(nd=>nd.size);
+  const baseHalo=nodes.map(nd=>nd.halo*SETTINGS.glow);
   const pts=[];
-  for(const nd of nodes)pts.push(...nd.p,...nd.color,nd.size,nd.intensity,rand()*6.2832,nd.tier===3?1:0,nd.halo*SETTINGS.glow,nd.blur);
-  buf.points=upload(pts,[['aPos',3],['aColor',3],['aData',4],['aExtra',2]],buf.points);counts.points=nodes.length;
+  for(const nd of nodes){
+    // Rest a touch calmer; meet-brighten lifts clearly above initial when nodes cross.
+    const rest=nd.blur<0?nd.intensity:nd.intensity*MEET_REST;
+    pts.push(...nd.p,...nd.color,nd.size,rest,rand()*6.2832,nd.tier===3?1:0,nd.halo*SETTINGS.glow,nd.blur);
+  }
+  pointsData=new Float32Array(pts);
+  meetBoost=new Float32Array(nodes.length);
+  meetLastT=0;
+  buf.points=upload(pointsData,[['aPos',3],['aColor',3],['aData',4],['aExtra',2]],buf.points,true);counts.points=nodes.length;
   const ln=[];
-  for(const[i,j,v,mesh]of edges){
+  for(const[i,j,v,meshLink]of edges){
     const a=nodes[i],b=nodes[j],s=rand()*6.2832;
     // Every mesh filament carries a fixed lit stretch of its own length and strength; inward links stay plain.
-    const hi=mesh?.5+rand()*1.3:0;
+    const hi=meshLink?.5+rand()*1.3:0;
     const va=v*(.55+.45*a.intensity),vb=v*(.55+.45*b.intensity);
     // Two triangles per filament: (A-,A+,B-) and (B-,A+,B+).
     for(const[end,side]of[[0,-1],[0,1],[1,-1],[1,-1],[0,1],[1,1]])
       ln.push(...a.p,...b.p,end?vb:va,s,end,hi,side);
   }
   buf.lines=upload(ln,[['aA',3],['aB',3],['aData',4],['aSide',1]],buf.lines);counts.lines=edges.length*6;
+  graph={nodes,baseI,baseSize,baseHalo};
+}
+/** Clear proximity flash: any live nodes that cross on screen brighten, then ease back slowly. */
+function updateMeet(m,t){
+  if(!graph||!pointsData||!meetBoost||!buf.points)return;
+  const{nodes,baseI,baseSize,baseHalo}=graph;
+  // Every drawn graph node (shell + fill + core) can meet — skip only background bokeh lights.
+  const nCheck=SETTINGS.shellNodes+SETTINGS.fillNodes+SETTINGS.coreNodes;
+  if(!meetScr||meetScr.length!==nCheck*3)meetScr=new Float32Array(nCheck*3);
+  for(let i=0;i<nCheck;i++){
+    const s=project(nodes[i].p,m);
+    meetScr[i*3]=s[0];meetScr[i*3+1]=s[1];meetScr[i*3+2]=s[2];
+  }
+  // Slow time-based fade so the glow eases out over ~MEET_FADE seconds, not in a few frames.
+  const dt=meetLastT?Math.min(.05,Math.max(0,t-meetLastT)):0;
+  meetLastT=t;
+  const fade=dt>0?Math.exp(-dt*(3.2/MEET_FADE)):1;
+  for(let i=0;i<nCheck;i++){
+    meetBoost[i]*=fade;
+    if(meetBoost[i]<.008)meetBoost[i]=0;
+  }
+  // Generous meet window; soft depth weight (no hard cut) so more real passes register.
+  const meetPx=52*dpr,meetPx2=meetPx*meetPx,depthSoft=1.35;
+  // Grid so we don't miss pairs and stay cheap with ~780 nodes.
+  const cell=meetPx,inv=1/cell,buckets=new Map();
+  for(let i=0;i<nCheck;i++){
+    const ai=i*3;
+    if(meetScr[ai+2]<.8)continue;
+    const cx=Math.floor(meetScr[ai]*inv),cy=Math.floor(meetScr[ai+1]*inv);
+    const key=cx*73856093^cy*19349663;
+    let arr=buckets.get(key);if(!arr)buckets.set(key,arr=[]);
+    arr.push(i);
+  }
+  const seen=new Int32Array(nCheck);let seenId=1;
+  for(const list of buckets.values()){
+    for(const i of list){
+      const ai=i*3,xi=meetScr[ai],yi=meetScr[ai+1],di=meetScr[ai+2];
+      const bx=Math.floor(xi*inv),by=Math.floor(yi*inv);
+      seenId++;if(seenId>1e8){seen.fill(0);seenId=1}
+      for(let oy=-1;oy<=1;oy++)for(let ox=-1;ox<=1;ox++){
+        const others=buckets.get((bx+ox)*73856093^(by+oy)*19349663);if(!others)continue;
+        for(const j of others){
+          if(j<=i||seen[j]===seenId)continue;seen[j]=seenId;
+          const aj=j*3,dz=Math.abs(di-meetScr[aj+2]);
+          if(dz>depthSoft)continue;
+          const dx=xi-meetScr[aj],dy=yi-meetScr[aj+1],d2=dx*dx+dy*dy;
+          if(d2>=meetPx2)continue;
+          const k=1-Math.sqrt(d2)/meetPx;
+          // Floor so near-misses still flash; depth weight softens only false front/back hits.
+          const lift=(.4+.6*Math.pow(k,.7))*(1-dz/depthSoft);
+          if(lift>meetBoost[i])meetBoost[i]=lift;
+          if(lift>meetBoost[j])meetBoost[j]=lift;
+        }
+      }
+    }
+  }
+  for(let i=0;i<nCheck;i++){
+    const b=meetBoost[i],o=i*POINT_STRIDE;
+    pointsData[o+6]=baseSize[i]*(1+MEET_SIZE*b);
+    pointsData[o+7]=baseI[i]*(MEET_REST+MEET_LIFT*b);
+    pointsData[o+10]=baseHalo[i]*(1+MEET_HALO*b);
+  }
+  gl.bindBuffer(gl.ARRAY_BUFFER,buf.points.b);
+  gl.bufferSubData(gl.ARRAY_BUFFER,0,pointsData);
 }
 function target(w,h){
   const tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);
@@ -359,6 +443,7 @@ function blur(src,dst,dx,dy){
 }
 function draw(t){
   const m=rotation(t);
+  updateMeet(m,t);
   gl.disable(gl.DEPTH_TEST);
   // 1. The sharp front layer and the back layer, each into its own texture.
   gl.enable(gl.BLEND);gl.blendFunc(gl.ONE,gl.ONE);gl.clearColor(0,0,0,1);

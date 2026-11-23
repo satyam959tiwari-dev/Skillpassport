@@ -1,0 +1,368 @@
+/* Shared audience-hero styles (employers / verifiers / reviewers / enterprises).
+   Everything animated here is switched off under prefers-reduced-motion. */
+
+.hero {
+  /* Site palette (home hero + logo): logo blues, sky, violet on an indigo/navy ground */
+  --hk-cyan: #6cb8ff;      /* bright logo sky — replaces off-brand cyan */
+  --hk-sky: #62acfa;
+  --hk-blue: #3387f2;
+  --hk-deep: #1071fa;
+  --hk-violet: #5224d4;
+  --hk-violet-line: #6a46e8;
+  --hk-lav: #bdb4ff;
+  --hk-kicker: #bdb4ff;
+  overflow-x: clip;
+}
+
+/* ---------- Ground ---------- */
+.ground {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(52% 62% at 74% 42%, rgb(3 63 127 / 0.38), transparent 78%),
+    radial-gradient(56% 55% at 9% 78%, rgb(13 39 112 / 0.32), transparent 74%),
+    radial-gradient(55% 55% at 12% 32%, rgb(22 17 82 / 0.7), transparent 70%),
+    linear-gradient(115deg, #090d33 0%, #05102a 53%, #040b23 100%);
+}
+
+.groundGlow {
+  position: absolute;
+  right: 6%;
+  top: 14%;
+  width: 52%;
+  height: 62%;
+  background: radial-gradient(closest-side, rgb(16 113 250 / 0.2), transparent 72%);
+  filter: blur(18px);
+}
+
+.wave {
+  position: absolute;
+  left: -4%;
+  right: -4%;
+  bottom: 0;
+  height: clamp(120px, 20vw, 230px);
+}
+
+.waveDots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgb(98 172 250 / 0.9) 1px, transparent 1.5px);
+  background-size: 13px 13px;
+  -webkit-mask-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 200' preserveAspectRatio='none'><path d='M0 70 Q260 200 480 118 T900 136 T1320 108 T1600 22 L1600 200 0 200Z' fill='black'/></svg>"),
+    linear-gradient(0deg, #000 10%, rgb(0 0 0 / 0.35) 55%, transparent 100%);
+  -webkit-mask-size: 100% 100%, 100% 100%;
+  -webkit-mask-composite: source-in;
+  mask-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 200' preserveAspectRatio='none'><path d='M0 70 Q260 200 480 118 T900 136 T1320 108 T1600 22 L1600 200 0 200Z' fill='black'/></svg>"),
+    linear-gradient(0deg, #000 10%, rgb(0 0 0 / 0.35) 55%, transparent 100%);
+  mask-size: 100% 100%, 100% 100%;
+  mask-composite: intersect;
+  opacity: 0.55;
+  animation: hkDrift 60s linear infinite;
+}
+
+.waveLine {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
+}
+
+@keyframes hkDrift {
+  to { background-position: 260px 0; }
+}
+
+.groundFade {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 70px;
+  background: linear-gradient(180deg, rgb(9 13 51 / 0) 0%, #090d33 100%);
+}
+
+/* ---------- Layout ---------- */
+.body {
+  padding-top: 28px;
+  padding-bottom: clamp(56px, 7vw, 96px);
+}
+
+.grid {
+  display: grid;
+  gap: 40px;
+}
+
+.copy {
+  position: relative;
+  z-index: 6;
+  max-width: 600px;
+}
+
+.sceneCol {
+  position: relative;
+  z-index: 4;
+  min-width: 0;
+}
+
+
+
+.footer {
+  position: relative;
+  z-index: 5;
+  margin-top: 28px;
+}
+
+@media (min-width: 1024px) {
+  .body { padding-top: 36px; }
+  .grid {
+    grid-template-columns: var(--hk-cols, minmax(0, 43fr) minmax(0, 57fr));
+    align-items: center;
+    gap: 24px;
+  }
+  .gridOverlap {
+    grid-template-columns: minmax(0, 42fr) minmax(0, 58fr);
+    align-items: start;
+    gap: 0;
+  }
+  /* Scene starts at 32% of the row and ends 2% past it (like the reference) */
+  .gridOverlap .sceneCol {
+    margin-left: -17.24%;
+    width: 120.7%;
+    pointer-events: none;
+  }
+  /* …but every control inside the scene stays clickable */
+  .gridOverlap .sceneCol :is(button, a, [role="tab"], [role="button"], input, select, label, dialog) {
+    pointer-events: auto;
+  }
+  .gridOverlap .copy { padding-top: 40px; }
+}
+
+/* ---------- Copy ---------- */
+.kicker {
+  color: var(--hk-kicker) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.2em !important;
+}
+
+.kicker::before {
+  width: 30px !important;
+  background: linear-gradient(90deg, var(--hk-sky), var(--hk-violet-line)) !important;
+}
+
+.kickerPill {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1px solid rgb(98 172 250 / 0.55);
+  background: linear-gradient(120deg, rgb(16 113 250 / 0.14), rgb(82 36 212 / 0.16));
+  box-shadow: 0 0 18px rgb(98 172 250 / 0.18), inset 0 0 12px rgb(98 172 250 / 0.08);
+  color: #e6f0ff;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 22px 0 22px;
+  max-width: 580px;
+  color: #fff;
+  font-size: clamp(38px, 8.6vw, 58px);
+  font-weight: 760;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+@media (min-width: 1024px) {
+  .title {
+    font-size: clamp(44px, 4.15vw, 66px);
+    line-height: 1.0;
+    text-wrap: initial;
+  }
+}
+
+.accent {
+  /* Same treatment as the home hero "everywhere." (sky → blue → blue-deep) */
+  background: linear-gradient(90deg, #6cb8ff 0%, var(--hk-sky) 25%, var(--hk-blue) 62%, var(--hk-deep) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 18px rgb(51 135 242 / 0.28));
+}
+
+.desc {
+  max-width: 530px;
+  color: #d3daf0;
+  font-size: clamp(15px, 1.15vw, 17.5px);
+  line-height: 1.65;
+}
+
+.actions {
+  margin-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 30px;
+}
+
+.actions[data-variant="outline"] { gap: 14px 16px; }
+
+.primary {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 52px;
+  padding: 14px 26px;
+  /* Home "Create Your Passport" button: logo blue highlight → brand violet */
+  border: 1px solid rgb(98 172 250 / 0.55);
+  border-radius: 12px;
+  background: linear-gradient(115deg, #3d78f0 0%, #3f4fe6 38%, var(--hk-violet) 72%, #441eb6 100%);
+  box-shadow: 0 8px 26px rgb(68 30 182 / 0.38), 0 0 0 1px rgb(16 113 250 / 0.12), inset 0 1px rgb(255 255 255 / 0.2);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.26) 50%, transparent 70%);
+  transform: translateX(-120%);
+  animation: hkSweep 4.2s ease-in-out 1.4s infinite;
+  pointer-events: none;
+}
+
+@keyframes hkSweep {
+  0% { transform: translateX(-120%); }
+  40%, 100% { transform: translateX(120%); }
+}
+
+.primary > svg:first-child:not(.arrow) { width: 18px; height: 18px; flex: none; fill: currentColor; }
+
+.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgb(82 36 212 / 0.5), 0 0 26px rgb(98 172 250 / 0.22), inset 0 1px rgb(255 255 255 / 0.23);
+}
+
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 650;
+  transition: color 0.2s;
+}
+
+.secondary:hover { color: var(--hk-cyan); }
+
+.outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 12px 24px;
+  border: 1px solid rgb(98 172 250 / 0.42);
+  border-radius: 12px;
+  background: linear-gradient(110deg, rgb(7 23 52 / 0.62), rgb(9 19 48 / 0.62));
+  color: #eef4ff;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.outline:hover {
+  border-color: var(--hk-sky);
+  transform: translateY(-2px);
+  box-shadow: 0 0 22px rgb(98 172 250 / 0.2);
+}
+.outline svg:first-child { width: 24px; height: 24px; flex: none; color: #cfe2ff; }
+@media (max-width: 480px) {
+  .outline { font-size: 15px; padding: 11px 18px; min-height: 48px; }
+}
+
+.arrow {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.primary:hover .arrow,
+.secondary:hover .arrow { transform: translateX(3px); }
+
+@media (max-width: 480px) {
+  .primary { font-size: 15px; padding: 13px 20px; min-height: 48px; }
+  .secondary { font-size: 15px; }
+}
+
+/* ---------- Stage ---------- */
+.stageWrap {
+  --k: 0.7;
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--ar);
+}
+
+/* Phone: crop to the stage's focus region and scale it up (labels stay legible) */
+@media (max-width: 639px) {
+  .stageWrap[data-focus] {
+    aspect-ratio: var(--far);
+    overflow: hidden;
+  }
+  .stageWrap[data-focus] > .stage {
+    transform: translate(calc(var(--fx) * -1px * var(--k)), calc(var(--fy) * -1px * var(--k))) scale(var(--k));
+  }
+  .stageWrap[data-focus] [data-mhide] {
+    display: none !important;
+  }
+}
+
+.phoneOnly { display: none; }
+@media (max-width: 639px) {
+  .phoneOnly { display: block; }
+  .notPhone { display: none; }
+}
+
+.stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: scale(var(--k));
+  transform-origin: 0 0;
+  font-family: inherit;
+  color: #f5f7ff;
+}
+
+/* ---------- Shared motion helpers (used by the scene modules) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .waveDots,
+  .primary::after {
+    animation: none !important;
+  }
+  .primary,
+  .arrow {
+    transition: none !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  /* Scenes bleed to the full viewport width on small screens; HTML rows beside them keep the page gutter */
+  .stageWrap {
+    width: calc(100% + 2 * clamp(20px, 5vw, 96px));
+    margin-inline: calc(-1 * clamp(20px, 5vw, 96px));
+  }
+}

@@ -1,7 +1,7 @@
 "use client";
 
-import { useReducedMotion } from "motion/react";
 import { cx } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 export type HeroVisualVariant =
   | "candidates"
@@ -190,7 +190,7 @@ type Props = {
 };
 
 export function PageHeroVisual({ variant, className }: Props) {
-  const reduce = useReducedMotion();
+  const reduce = usePrefersReducedMotion();
   const scene = scenes[variant];
   const byId = Object.fromEntries(scene.nodes.map((n) => [n.id, n]));
 

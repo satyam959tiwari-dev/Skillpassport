@@ -60,6 +60,6 @@ export async function submitContactDemo(payload: ContactPayload): Promise<{
   const stamp = payload.email.trim().toLowerCase().slice(0, 3);
   return {
     ok: true,
-    reference: `DEMO-${stamp.toUpperCase()}-${payload.topic.slice(0, 3).toUpperCase()}-0001`,
+    reference: `SP-${stamp.toUpperCase()}-${payload.topic.slice(0, 3).toUpperCase()}-0001`,
   };
 }

@@ -31,3 +31,22 @@ Thumbs.db
 .vercel
 .turbo
 coverage/
+
+# contact form submissions (local JSONL store)
+.data/
+
+# Prisma generated client (npm run db:generate)
+/lib/generated/
+
+# local backups / tooling scratch (never push)
+.backups/
+*.bak
+*.orig
+
+# extra env / secrets safety
+.env*.local
+*.key
+
+# local agent/tunnel config
+.ngrok/
+ngrok.yml

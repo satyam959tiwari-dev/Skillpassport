@@ -2,7 +2,7 @@ export const trustTopics = [
   {
     id: "verify",
     title: "Reusable credential verification",
-    body: "Verify once, reuse verification state with context across opportunities — not automatic success on upload.",
+    body: "Verify once, reuse everywhere — a checked credential keeps its status across opportunities. Uploading alone never marks it verified.",
   },
   {
     id: "rubrics",
@@ -12,7 +12,7 @@ export const trustTopics = [
   {
     id: "checklists",
     title: "Checklists & mandatory gates",
-    body: "Met/not-met requirements, including mandatory gates where the product uses them.",
+    body: "Met / not-met requirements, including mandatory gates.",
   },
   {
     id: "media",
@@ -22,36 +22,36 @@ export const trustTopics = [
   {
     id: "approvals",
     title: "Approval governance",
-    body: "Assignment, media, and review-result approvals are distinct. Some platform/guest outcomes need admin approval before candidate visibility.",
+    body: "Super Admin approves review results, assignment requests, and media submissions. Platform and guest outcomes can need approval before the candidate sees them.",
   },
   {
     id: "permissions",
     title: "Fine-grained permissions & team roles",
-    body: "Workspace permission slugs plus company roles such as admin, recruiter, reviewer, and verifier.",
+    body: "Fine-grained permissions per workspace, plus company team roles — admin, recruiter, reviewer, and verifier.",
   },
   {
     id: "public",
     title: "Public profiles & guest endorsements",
-    body: "Shareable profiles and guest reviews can exist without login; visibility and approval rules still apply where documented.",
+    body: "Shareable profiles and guest review invites open without login. Guest reviews are human endorsements; an admin may approve them first.",
   },
   {
     id: "realtime",
-    title: "Realtime in the existing application",
-    body: "Permission, queue, team, and affiliate updates can sync live in the product app — not on this static marketing site.",
+    title: "Live updates",
+    body: "Notifications, permission changes, queues, team, and affiliate updates stay in sync across roles in the application.",
   },
   {
     id: "affiliate",
     title: "Referrals & affiliate relationship",
-    body: "Candidate Refer & Earn connects conceptually to Super Admin Affiliate Management.",
+    body: "Candidate Refer & Earn links to Super Admin Affiliate Management.",
   },
   {
     id: "support",
     title: "Support, audit & localization",
-    body: "Raise Query, tickets, notifications, audit logs, and i18n infrastructure — explained here without pretending they run live on this site.",
+    body: "Raise Query and ticket tracking, a notification inbox, Audit Logs for operators, and English-led localization.",
   },
   {
     id: "security",
     title: "Company-scoped data & account security",
-    body: "Documented product capabilities include company-scoped data handling and account-security controls in the existing application — explained here without inventing certifications or live security guarantees on this marketing site.",
+    body: "Company data stays scoped to that company. Email verification for self-serve sign-ups, invited team seats, and account self-deactivation protect access.",
   },
 ] as const;

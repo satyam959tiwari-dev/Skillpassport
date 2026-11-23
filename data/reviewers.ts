@@ -50,7 +50,7 @@ export const reviewerQueueSamples: ReviewerQueueItem[] = [
     state: "Completed",
     result: "Rubric 72%",
   },
-  { id: "q4", title: "Project demo recording — Ananya D.", type: "Media", state: "Queued" },
+  { id: "q4", title: "Project walkthrough recording — Ananya D.", type: "Media", state: "Queued" },
 ];
 
 export type ReviewerImportSample = {
@@ -65,21 +65,21 @@ export type ReviewerImportSample = {
 export const reviewerImportSamples: ReviewerImportSample[] = [
   {
     id: "pdf",
-    label: "Sample PDF rubric",
+    label: "Assessment rubric (PDF)",
     classification: "Rubric",
-    draft: "Draft rubric: Accuracy / Problem solving / Communication with sample weights.",
+    draft: "Draft rubric: Accuracy / Problem solving / Communication, each with a weight.",
     sections: ["Criteria", "Performance levels", "Weights", "Summary"],
   },
   {
     id: "docx",
-    label: "Sample Word checklist",
+    label: "Practical checklist (Word)",
     classification: "Checklist",
     draft: "Draft checklist: evidence attached, format OK, comments required.",
     sections: ["Required items", "Optional items", "Evidence notes", "Sign-off"],
   },
   {
     id: "md",
-    label: "Sample Markdown form",
+    label: "Review form (Markdown)",
     classification: "Rubric",
     draft: "Draft rubric generated from Markdown sections.",
     sections: ["Criteria", "Performance levels", "Evidence notes", "Summary"],

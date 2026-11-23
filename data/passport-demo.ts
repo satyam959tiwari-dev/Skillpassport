@@ -53,19 +53,19 @@ export const verificationStatusCopy: Record<
 > = {
   not_submitted: {
     label: "Not submitted",
-    hint: "Add a document first — status starts after a simulated request.",
+    hint: "Add a document first — status starts once it is submitted.",
   },
   in_review: {
     label: "In review",
-    hint: "Entered a simulated verification queue. Not automatically verified.",
+    hint: "In the verification queue. Not verified until a verifier checks it.",
   },
   verified: {
     label: "Verified",
-    hint: "Illustrative outcome for this demo — not a real credential check.",
+    hint: "Checked by a verifier — shown as verified on the passport.",
   },
   needs_info: {
     label: "Needs info",
-    hint: "Simulated gate: more documentation would be requested in product.",
+    hint: "The verifier needs more documentation before deciding.",
   },
 };
 
@@ -73,12 +73,12 @@ export const passportDemoSteps = [
   {
     id: "profile",
     title: "Your profile",
-    description: "Enter a few details — this is a static demo, nothing is submitted to a server.",
+    description: "Start with a few details about you.",
   },
   {
     id: "skills",
     title: "Skills & credentials",
-    description: "Choose skills and illustrative supporting documents.",
+    description: "Choose your skills and the documents that support them.",
   },
   {
     id: "verify",
@@ -87,8 +87,8 @@ export const passportDemoSteps = [
   },
   {
     id: "prove",
-    title: "Prove skills",
-    description: "Assessments, self-reviews, and expert rubric evidence.",
+    title: "Assessments",
+    description: "Take assessments and self-reviews, or request an expert review.",
   },
   {
     id: "share",
@@ -110,8 +110,8 @@ export const passportFeatureSlides = [
   },
   {
     id: "assess",
-    title: "Prove what you can do",
-    body: "Assessments, self-reviews, and expert rubrics back every claim.",
+    title: "Back your skills with assessments",
+    body: "Assessments, self-reviews, and expert reviews back up your skill claims.",
   },
   {
     id: "match",

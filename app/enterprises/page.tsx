@@ -1,15 +1,29 @@
+import { EnterpriseHero } from "@/components/hero/EnterpriseHero";
 import { EnterpriseExplorer } from "@/components/interactive/EnterpriseExplorer";
 import { AudiencePage } from "@/components/sections/AudiencePage";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Reveal } from "@/components/ui/Reveal";
+import { getAudience } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata("enterprises");
+
+const audience = getAudience("enterprises");
 
 export default function EnterprisesPage() {
   return (
     <AudiencePage
       id="enterprises"
+      hero={
+        <EnterpriseHero
+          eyebrow={audience.eyebrow}
+          headline={audience.headline}
+          accentWord={audience.accentWord}
+          description={audience.summary}
+          primaryCta={audience.primaryCta}
+          secondaryCta={audience.secondaryCta}
+        />
+      }
       uniqueSections={
         <>
           <section className="sp-section bg-[linear-gradient(#090d33,#0b0a33)]">
@@ -20,9 +34,8 @@ export default function EnterprisesPage() {
                   Govern trust at scale — without mixing scopes
                 </h2>
                 <p className="sp-lede mt-4 max-w-2xl">
-                  Super Admin covers platform-wide domains. Organization Admin stays
-                  tenant-scoped (members, modules, scoped access). Do not treat them as
-                  one generic admin dashboard.
+                  Super Admin governs the whole platform. Organization Admin runs one
+                  tenant — members, modules, and scoped roles — without platform-wide powers.
                 </p>
               </Reveal>
             </div>

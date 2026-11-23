@@ -8,7 +8,7 @@ export const audiences: AudienceSolution[] = [
     headline: "Build a profile that shows not only who you are, but what you can prove.",
     accentWord: "prove",
     summary:
-      "Focus on verified identity, skills, documents, assessments, reviews, jobs, applications, and AI support — with a static interactive demo of the candidate portal.",
+      "Verified documents, assessments and expert reviews, jobs and applications, Refer & Earn, and AI help with your summary and assessment picks.",
     href: "/candidates/",
     benefits: [
       "Dashboard with profile strength, photo, visibility, and optional share link",
@@ -29,7 +29,7 @@ export const audiences: AudienceSolution[] = [
       "Notifications · Settings · Raise Query · Support tickets",
     ],
     primaryCta: { label: "Create Your Passport", href: "/create-passport/" },
-    secondaryCta: { label: "Explore interactive demo", href: "#demo" },
+    secondaryCta: { label: "Try the candidate workspace", href: "#demo" },
     footerCta: { label: "Create Your Passport", href: "/create-passport/" },
   },
   {
@@ -39,13 +39,13 @@ export const audiences: AudienceSolution[] = [
     headline: "Hire with more confidence when skills and credentials are supported by trust.",
     accentWord: "trust",
     summary:
-      "Focus on talent search, jobs, applicants, interviews, assessments, reporting, and skill gaps — including an optional AI good-practice query that stays human-reviewed.",
+      "Talent Search, Jobs Management, Applicants, Interviews, company assessments, and Reporting — with Good Practice AI Query to close skill gaps.",
     href: "/employers/",
     benefits: [
-      "Talent search across verified skill signals",
+      "Talent Search across verified skills and credentials",
       "Jobs → applicants → interviews in one workflow",
       "Company assessments and team reviewer seats",
-      "Reporting for skill performance and gaps",
+      "Reporting on team skill performance and gaps",
     ],
     features: [
       "Talent Search",
@@ -53,9 +53,9 @@ export const audiences: AudienceSolution[] = [
       "Applicants & Interviews",
       "Company Assessments & My Reviews",
       "Team Management (invite, roles, seats)",
-      "Reporting + AI good-practice query (illustrative)",
+      "Reporting + Good Practice AI Query",
     ],
-    primaryCta: { label: "Explore hiring demo", href: "#demo" },
+    primaryCta: { label: "Try the hiring workspace", href: "#demo" },
     secondaryCta: { label: "Contact us", href: "/contact/" },
     footerCta: { label: "Talk about employer solutions", href: "/contact/" },
   },
@@ -66,11 +66,11 @@ export const audiences: AudienceSolution[] = [
     headline: "Bring structure, visibility, and accountability to verification.",
     accentWord: "accountability",
     summary:
-      "Focus on workflows, cases, SLAs, accuracy, and governance — apply cases, await admin gates, work the verification board, and report outcomes.",
+      "Apply Verification, work the Verification Board, track SLAs, and report volume and accuracy — with Awaiting Admin oversight on sensitive outcomes.",
     href: "/verifiers/",
     benefits: [
       "Case board for assigned, completed, on-hold, and escalated work",
-      "Tracked case statuses with board, filters, and reporting context",
+      "Apply Verification and Awaiting Admin for cases that need platform sign-off",
       "Team seats for verifier company operations",
       "Reports for volume, accuracy, and SLA",
     ],
@@ -91,7 +91,7 @@ export const audiences: AudienceSolution[] = [
     headline: "Turn expertise into consistent, structured, and scalable skill evaluation.",
     accentWord: "structured",
     summary:
-      "Focus on rubrics, checklists, review queues, rich media review, and AI form workflows — with human control over publish.",
+      "Build rubrics and checklists manually or with AI form import, work the Assessment / Media queue, and review documents, PDFs, and video — you control publish.",
     href: "/reviewers/",
     benefits: [
       "Forms library: rubrics, checklists, weighted criteria",
@@ -102,7 +102,7 @@ export const audiences: AudienceSolution[] = [
     features: [
       "Assessment / Media queue · My Reviews · Reporting",
       "Manual rubric/checklist builder",
-      "AI form import + AI Form Builder (illustrative)",
+      "AI form import + AI Form Builder",
       "Good Practices · Guidelines · Help Center",
       "Form preview, grading summary, media workflows",
     ],
@@ -117,7 +117,7 @@ export const audiences: AudienceSolution[] = [
     headline: "Govern trust at scale.",
     accentWord: "Govern",
     summary:
-      "Focus on multi-tenancy, users, roles, permissions, governance, and audit. Super Admin is platform-wide; Organization Admin stays tenant-scoped to members, modules, and roles.",
+      "Run org tenants with Organization Admin, permissions, verification oversight, assessment approvals, audit, and affiliate — Super Admin platform-wide, tenants scoped.",
     href: "/enterprises/",
     benefits: [
       "Super Admin: platform KPIs, people inventory, verification oversight, approval gates",

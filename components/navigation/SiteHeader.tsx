@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { PrimaryNavMenu } from "@/components/navigation/PrimaryNavMenu";
 import { cx } from "@/lib/utils";
 
@@ -13,13 +14,39 @@ type Props = {
 export function SiteHeader({ variant = "page" }: Props) {
   const [open, setOpen] = useState(false);
   const [dropdown, setDropdown] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const headerRef = useRef<HTMLElement | null>(null);
   const menuId = useId();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const closeAll = () => {
     setOpen(false);
     setDropdown(null);
   };
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Publish the real header height so sticky sub-navs can dock right below it
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!mounted || !el || typeof ResizeObserver === "undefined") return;
+    const root = document.documentElement;
+    const update = () =>
+      root.style.setProperty("--sp-header-offset", `${Math.round(el.getBoundingClientRect().height)}px`);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [mounted]);
 
   useEffect(() => {
     document.body.classList.toggle("menu-open", open);
@@ -54,13 +81,14 @@ export function SiteHeader({ variant = "page" }: Props) {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  return (
+  const header = (
     <header
       ref={headerRef}
       className={cx(
-        "sp-site-header relative z-[80] w-full",
+        "sp-site-header z-[80] w-full",
         variant === "page" && "sp-site-header--page",
         variant === "hero" && "sp-site-header--hero",
+        scrolled && "is-scrolled",
         open && "is-open",
       )}
     >
@@ -91,7 +119,7 @@ export function SiteHeader({ variant = "page" }: Props) {
         <span
           className="nav-cta sp-nav-cta sp-nav-cta--disabled"
           aria-disabled="true"
-          title="Sign up demo coming soon"
+          title="Sign up coming soon"
         >
           Sign up <span aria-hidden="true">→</span>
         </span>
@@ -142,5 +170,13 @@ export function SiteHeader({ variant = "page" }: Props) {
         onClick={closeAll}
       />
     </header>
+  );
+
+  return (
+    <>
+      {/* Reserves layout space — fixed bar is portaled to body so hero overflow can't clip it */}
+      <div className="sp-site-header-spacer" aria-hidden />
+      {mounted ? createPortal(header, document.body) : null}
+    </>
   );
 }

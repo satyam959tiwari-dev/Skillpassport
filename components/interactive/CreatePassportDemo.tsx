@@ -214,7 +214,7 @@ export function CreatePassportDemo() {
             radial-gradient(55% 55% at 12% 30%, rgb(22 17 82 / 0.98) 0%, transparent 70%),
             radial-gradient(42% 48% at 88% 12%, rgb(16 113 250 / 0.2) 0%, transparent 62%),
             radial-gradient(38% 42% at 78% 78%, rgb(68 30 182 / 0.28) 0%, transparent 65%),
-            linear-gradient(105deg, #090d33 0%, #090d33 42%, #05071c 68%, #030508 100%)
+            linear-gradient(105deg, #090d33 0%, #090d33 42%, #0a0c38 68%, #0b0a33 100%)
           `,
         }}
       />
@@ -261,7 +261,7 @@ export function CreatePassportDemo() {
                   : item.id === "credentials"
                     ? "Credentials"
                     : item.id === "assess"
-                      ? "Proof"
+                      ? "Assessments"
                       : "Share"}
               </button>
             ))}
@@ -272,9 +272,6 @@ export function CreatePassportDemo() {
           </div>
         </div>
 
-        <p className="text-sm text-[var(--color-faint)]">
-          Demo mode · local session only · no real account created
-        </p>
       </aside>
 
       {/* Working form — same brand surfaces as the rest of the site */}
@@ -376,7 +373,7 @@ export function CreatePassportDemo() {
                     onChange={(e) =>
                       setDraft((d) => ({ ...d, summary: e.target.value }))
                     }
-                    className="w-full resize-y rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-4 py-3 text-white outline-none placeholder:text-[var(--color-faint)] focus:border-[var(--color-sky)]"
+                    className="w-full resize-y rounded-xl border border-[var(--color-rule)] bg-field px-4 py-3 text-white outline-none placeholder:text-[var(--color-faint)] focus:border-[var(--color-sky)]"
                   />
                 </div>
               </>
@@ -538,7 +535,7 @@ export function CreatePassportDemo() {
                   <span>
                     <span className="block text-white">Allow public profile sharing</span>
                     <span className="text-sm text-[var(--color-faint)]">
-                      Demo toggle only — nothing is published from this page.
+                      Turn on a public profile link you can share.
                     </span>
                   </span>
                 </label>
@@ -554,11 +551,11 @@ export function CreatePassportDemo() {
                       Credentials ·{" "}
                       {draft.credentials.filter((id) => draft.verification[id] === "verified")
                         .length || 0}{" "}
-                      verified (demo)
+                      verified
                     </li>
                     <li>Assessments · {draft.assessments.length || 0}</li>
                     <li>
-                      Sharing · {draft.publicShare ? "Public (demo)" : "Private (demo)"}
+                      Sharing · {draft.publicShare ? "Public" : "Private"}
                     </li>
                   </ul>
                 </div>
@@ -569,18 +566,17 @@ export function CreatePassportDemo() {
                     role="status"
                   >
                     <p className="font-medium text-white">
-                      Demo passport saved in this browser tab
+                      Your passport preview is ready
                     </p>
                     <p className="mt-1 text-sm text-[var(--color-muted)]">
-                      Local only — refresh or close the tab clears it. Want the real product?
-                      Contact us.
+                      It stays in this browser tab until you refresh or close it.
                     </p>
                     <p className="mt-2 text-sm text-[var(--color-sky)]">
-                      Profile data is ready for the Candidate demo on this browser tab.
+                      Open the candidate workspace to keep building it.
                     </p>
                     <div className="mt-4 flex flex-wrap gap-3">
                       <Link href="/candidates/" className="sp-btn-primary">
-                        Open candidate demo
+                        Open candidate workspace
                       </Link>
                       <Link href="/contact/" className="sp-btn-ghost">
                         Contact us
@@ -612,11 +608,11 @@ export function CreatePassportDemo() {
               </button>
             ) : savedDemo ? (
               <p className="text-sm text-[var(--color-sky)]" role="status">
-                Demo passport saved for this session.
+                Passport preview saved.
               </p>
             ) : (
               <button type="button" className="sp-btn-primary" onClick={finishDemo}>
-                Save demo passport
+                Preview my passport
               </button>
             )}
           </div>
@@ -661,7 +657,7 @@ function Field({
         value={value}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-4 py-3 text-white outline-none placeholder:text-[var(--color-faint)] focus:border-[var(--color-sky)]"
+        className="w-full rounded-xl border border-[var(--color-rule)] bg-field px-4 py-3 text-white outline-none placeholder:text-[var(--color-faint)] focus:border-[var(--color-sky)]"
         aria-invalid={Boolean(error)}
       />
       {error ? <p className="mt-2 text-sm text-[#ffb4b4]">{error}</p> : null}
@@ -747,7 +743,7 @@ function PassportPreview({
     },
     {
       label: "Share visibility",
-      value: draft.publicShare ? "Public (demo)" : "Private (demo)",
+      value: draft.publicShare ? "Public" : "Private",
       detail: "Control whether the passport can be shared",
     },
   ];
@@ -756,7 +752,7 @@ function PassportPreview({
     <div className="sp-panel overflow-hidden" aria-live="polite">
       <div className="relative overflow-hidden border-b border-[var(--color-rule)] bg-[radial-gradient(80%_120%_at_10%_0%,rgb(16_113_250/0.35),transparent_55%),linear-gradient(160deg,#120f47,#090d33)] px-5 py-5">
         <p className="text-[10px] tracking-[0.22em] text-[#bdb4ff] uppercase">
-          Digital Skill Passport · Demo
+          Digital Skill Passport · Preview
         </p>
         <div className="mt-4 flex items-start gap-4">
           <div

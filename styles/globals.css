@@ -17,6 +17,10 @@
   --color-rule: rgb(95 54 201 / 0.28);
   --color-surface: #0b0a33;
   --color-surface-2: #120f47;
+  /* Inset surfaces for interactive demos (replace pure-black wells) — indigo glass from the hero kit */
+  --color-inset: rgb(22 17 82 / 0.45);
+  --color-inset-strong: rgb(22 17 82 / 0.62);
+  --color-field: #0e1240;
   --font-sans: Roboto, Arial, sans-serif;
   --container-max: 1440px;
   --ease-spring: linear(
@@ -62,6 +66,8 @@
   #connect,
   #platform,
   #how-it-works,
+  #capabilities,
+  #contact-form,
   #story {
     scroll-margin-top: 112px;
   }
@@ -74,6 +80,18 @@
     background: var(--color-ink);
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+  }
+
+  /* Clickable controls always show a pointer on the marketing site */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [role="tab"]:not([aria-disabled="true"]),
+  summary {
+    cursor: pointer;
+  }
+  button:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
   }
 
   /* App-shell pages (Create Passport) hide the marketing footer */
@@ -120,9 +138,9 @@
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 500;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: #bdb4ff;
   }
@@ -206,10 +224,73 @@
     border-radius: 16px;
   }
 
-  .sp-section {
-    padding-block: clamp(72px, 10vw, 120px);
+  .sp-glass {
+    border: 1px solid rgb(98 172 250 / 0.18);
+    background: linear-gradient(
+      165deg,
+      rgb(255 255 255 / 0.07),
+      rgb(255 255 255 / 0.02) 55%,
+      rgb(16 113 250 / 0.04)
+    );
+    border-radius: 20px;
+    box-shadow:
+      0 0 0 1px rgb(98 172 250 / 0.04),
+      0 20px 50px rgb(0 0 0 / 0.28),
+      inset 0 1px 0 rgb(255 255 255 / 0.06);
+    backdrop-filter: blur(14px);
   }
 
+  .sp-glass-active {
+    border-color: rgb(106 70 232 / 0.55);
+    box-shadow:
+      0 0 0 1px rgb(98 172 250 / 0.12),
+      0 0 36px rgb(82 36 212 / 0.28),
+      0 20px 50px rgb(0 0 0 / 0.3),
+      inset 0 1px 0 rgb(255 255 255 / 0.08);
+  }
+
+  .sp-icon-tile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid rgb(98 172 250 / 0.28);
+    background: linear-gradient(160deg, rgb(98 172 250 / 0.18), rgb(82 36 212 / 0.12));
+    color: var(--color-sky);
+    box-shadow: 0 0 20px rgb(98 172 250 / 0.18);
+  }
+
+  /* Section rhythm: ~88px desktop, ~48px phones; stacked sections don't double up. */
+  .sp-section {
+    padding-block: clamp(48px, 6vw, 88px);
+  }
+  .sp-section + .sp-section {
+    padding-top: clamp(40px, 4.5vw, 72px);
+  }
+
+  .sp-section-glow {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .sp-section-glow::before {
+    content: "";
+    position: absolute;
+    inset: auto -10% -30% 40%;
+    height: 55%;
+    background: radial-gradient(
+      closest-side,
+      rgb(98 172 250 / 0.16),
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* Same logo-blue treatment as hero “everywhere.” (sky → blue → blue-deep) */
   .sp-gradient-text {
     background: linear-gradient(90deg, var(--color-sky), var(--color-blue) 55%, var(--color-blue-deep));
     -webkit-background-clip: text;
@@ -233,23 +314,133 @@
   }
 }
 
-/* ---------- Page header (full-bleed) — independent of homepage .nav drawer ---------- */
+/* ---------- Sticky site header — stays visible while scrolling ---------- */
+.sp-site-header-spacer {
+  width: 100%;
+  height: var(--sp-header-h, 88px);
+  flex: none;
+  pointer-events: none;
+}
 .sp-site-header {
   width: 100%;
-  position: relative;
-  z-index: 80;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    backdrop-filter 0.25s ease,
+    box-shadow 0.25s ease;
 }
-.sp-site-header--page {
-  border-bottom: 1px solid var(--color-rule);
-  background: rgb(9 13 51 / 0.94);
-  backdrop-filter: blur(12px);
+/* Glass bar with a feathered bottom edge — no hard 1px rule / band seam while content
+   scrolls underneath. The ::after extends the blur + tint and fades it out (progressive blur). */
+.sp-site-header--page,
+.sp-site-header.is-scrolled {
+  border-bottom: 0;
+  /* Opaque near-black navy — nothing behind the bar shows through while scrolling. */
+  /* Theme navy-indigo (logo palette) with a soft violet glow — same on every page.
+     Ends on #0c1240 so a docked sub-nav continues the exact same tone. */
+  background:
+    radial-gradient(120% 160% at 50% -50%, rgb(106 70 232 / 0.2), transparent 62%),
+    linear-gradient(180deg, #0a0e38 0%, #0c1240 100%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 10px 30px -18px rgb(5 8 36 / 0.85);
 }
-.sp-site-header--hero {
+.sp-site-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 28px;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgb(12 18 64 / 0.85) 0%, rgb(12 18 64 / 0) 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.sp-site-header--page::after,
+.sp-site-header.is-scrolled::after {
+  opacity: 1;
+}
+.sp-site-header--hero:not(.is-scrolled) {
   border: 0;
   background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+.sp-site-header--hero:not(.is-scrolled)::after {
+  opacity: 0;
+}
+
+/* Sticky in-page navs dock under the fixed header instead of sliding beneath it.
+   Header + sub-nav share ONE surface: the header's gradient ends on #080b2c and the sub-nav
+   picks up that exact colour edge-to-edge and eases into the page navy, so there is no step,
+   seam or shadow between them — only one feathered edge below the sub-nav. */
+/* With a docked sub-nav the header keeps its normal look; only its shadow + feather are
+   dropped so header and sub-nav meet with no seam. */
+body:has(.sp-subnav-sticky) .sp-site-header--page,
+body:has(.sp-subnav-sticky) .sp-site-header.is-scrolled {
+  box-shadow: none;
+}
+body:has(.sp-subnav-sticky) .sp-site-header::after {
+  display: none;
+}
+.sp-subnav-sticky {
+  position: sticky;
+  top: var(--sp-header-offset, 88px);
+  width: 100%;
+  /* starts exactly on the header's bottom tone, lifts slightly toward indigo glass */
+  background:
+    radial-gradient(70% 220% at 50% 120%, rgb(106 70 232 / 0.12), transparent 70%),
+    linear-gradient(180deg, #0c1240 0%, #0f1650 100%);
+  box-shadow: inset 0 -1px 0 rgb(106 70 232 / 0.16), 0 16px 28px -22px rgb(5 8 36 / 0.85);
+}
+.sp-subnav-sticky::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 24px;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgb(15 22 80 / 0.7), rgb(15 22 80 / 0));
+}
+/* Pill row: scrolls sideways on small screens and fades out instead of being cut off */
+.sp-subnav-scroll {
+  scrollbar-width: none;
+}
+.sp-subnav-scroll::-webkit-scrollbar {
+  display: none;
+}
+@media (max-width: 1023px) {
+  .sp-subnav-scroll {
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent);
+    padding-right: 36px;
+  }
+}
+
+/* Homepage event strip: hairline that fades out at both ends instead of a hard full-width rule */
+.hero .event {
+  border-bottom-color: transparent;
+  background-image: linear-gradient(90deg, transparent, rgb(106 70 232 / 0.35) 30%, rgb(98 172 250 / 0.35) 70%, transparent);
+  background-size: 100% 1px;
+  background-position: bottom;
+  background-repeat: no-repeat;
 }
 .sp-site-header--hero .sp-nav-bar {
   padding-block: 24px;
+}
+@media (max-width: 1100px) {
+  .sp-site-header-spacer {
+    height: var(--sp-header-h, 76px);
+  }
 }
 .sp-menu-link:focus-visible,
 .sp-dropdown-item:focus-visible,
@@ -403,7 +594,7 @@
     z-index: 70;
     border: 0;
     padding: 0;
-    background: rgb(3 5 8 / 0.6);
+    background: rgb(9 13 51 / 0.72);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -571,4 +762,19 @@
   .sp-node-breath {
     animation: none !important;
   }
+}
+
+/* Page hero entrance - a short staggered rise (CSS only, no JS needed). */
+@keyframes sp-rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+.sp-rise { animation: sp-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.sp-rise-1 { animation-delay: 0.05s; }
+.sp-rise-2 { animation-delay: 0.14s; }
+.sp-rise-3 { animation-delay: 0.23s; }
+.sp-rise-4 { animation-delay: 0.32s; }
+.sp-rise-5 { animation-delay: 0.3s; animation-duration: 0.95s; }
+@media (prefers-reduced-motion: reduce) {
+  .sp-rise { animation: none; }
 }

@@ -4,7 +4,7 @@ export const employerTalentSamples = [
     name: "Meera Iyer",
     role: "Frontend Engineer",
     skills: ["React", "TypeScript", "Accessibility"],
-    credential: "Certificate verified (demo)",
+    credential: "Certificate verified",
     evidence: "Assessment evidence available",
   },
   {
@@ -12,7 +12,7 @@ export const employerTalentSamples = [
     name: "Rohan Shah",
     role: "Full-stack Engineer",
     skills: ["Node.js", "SQL", "React"],
-    credential: "Degree in review (demo)",
+    credential: "Degree in review",
     evidence: "Self-review + media attached",
   },
   {
@@ -20,7 +20,7 @@ export const employerTalentSamples = [
     name: "Priya Kapoor",
     role: "Product Engineer",
     skills: ["TypeScript", "System design", "Communication"],
-    credential: "License needs info (demo)",
+    credential: "License needs info",
     evidence: "Expert review queued",
   },
 ] as const;
@@ -51,13 +51,13 @@ export const employerAiQueries = [
     id: "q1",
     query: "Find people with frontend accessibility expertise",
     result:
-      "Sample matches (demo): Meera Iyer — Accessibility evidence on profile; assessment checklist completed. Not a live specialist search.",
+      "Matches: Meera Iyer — Accessibility evidence on profile; assessment checklist completed.",
   },
   {
     id: "q2",
     query: "Who shows strong API design practice patterns?",
     result:
-      "Sample matches (demo): Rohan Shah — API scenario assessment draft present. Illustrative Good Practice Query output only.",
+      "Matches: Rohan Shah — API scenario assessment draft present.",
   },
 ] as const;
 

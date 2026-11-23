@@ -77,7 +77,7 @@ export const productExperiences = [
     id: "passport",
     title: "Candidate passport view",
     description:
-      "Illustrative layout for profile strength, documents, assessments, and share visibility—not a live app screenshot.",
+      "Profile strength, document status, assessments, and share visibility in one view.",
     panels: ["Profile strength", "Document status", "Assessments & reviews"],
     href: "/candidates/",
   },
@@ -85,7 +85,7 @@ export const productExperiences = [
     id: "employer",
     title: "Employer hiring view",
     description:
-      "Illustrative layout for talent search, applicants, and interview context.",
+      "Talent Search, applicants, and interview context side by side.",
     panels: ["Talent search", "Applicants pipeline", "Interview schedule"],
     href: "/employers/",
   },
@@ -93,7 +93,7 @@ export const productExperiences = [
     id: "ops",
     title: "Verification & admin view",
     description:
-      "Illustrative queue for verification cases and approval gates.",
+      "Verification cases and approval gates in one queue.",
     panels: ["Verification board", "Approval requests", "Audit context"],
     href: "/verifiers/",
   },

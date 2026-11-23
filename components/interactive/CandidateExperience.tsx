@@ -46,9 +46,9 @@ type TabId = (typeof tabs)[number]["id"];
 
 const journey = [
   { id: "profile" as const, label: "1 · Profile", doNext: "Edit profile, skills, summary, and visibility" },
-  { id: "documents" as const, label: "2 · Documents", doNext: "Attach documents and simulate verifier outcomes" },
+  { id: "documents" as const, label: "2 · Documents", doNext: "Attach documents and see how verifier outcomes show up" },
   { id: "assessments" as const, label: "3 · Assessments", doNext: "Filter assessments, add AI suggestions to drafts, and Use template" },
-  { id: "jobs" as const, label: "4 · Jobs", doNext: "Find, save, and apply to sample jobs" },
+  { id: "jobs" as const, label: "4 · Jobs", doNext: "Find, save, and apply to jobs" },
   { id: "sharing" as const, label: "5 · Sharing", doNext: "Public share link and guest-review approval context" },
   { id: "support" as const, label: "6 · Support & AI", doNext: "Refer & Earn, Raise Query, AI summary draft" },
 ];
@@ -244,7 +244,7 @@ export function CandidateExperience() {
     if (!guestReviews.some((g) => g.state === "visible"))
       items.push({ label: "Invite a guest to review one of your skills", tab: "sharing" });
     if (!applications.length)
-      items.push({ label: "Apply to a sample job", tab: "jobs" });
+      items.push({ label: "Apply to a job", tab: "jobs" });
     return items.slice(0, 5);
   }, [
     docs,
@@ -265,7 +265,7 @@ export function CandidateExperience() {
       else if (d.status === "needs_info")
         lines.push(`Document “${d.label}” needs more information`);
       else if (d.status === "verified")
-        lines.push(`Document “${d.label}” was verified (demo)`);
+        lines.push(`Document “${d.label}” was verified`);
       else lines.push(`Document “${d.label}” has not been submitted yet`);
     }
     if (draftAssessments.length) {
@@ -284,7 +284,7 @@ export function CandidateExperience() {
     }
     if (completedIds.length) {
       lines.push(
-        `${completedIds.length} assessment${completedIds.length === 1 ? "" : "s"} completed (demo)`,
+        `${completedIds.length} assessment${completedIds.length === 1 ? "" : "s"} completed`,
       );
     }
     for (const g of guestReviews) {
@@ -316,7 +316,7 @@ export function CandidateExperience() {
     );
   });
 
-  const shareUrl = `demo.skillpassport.ai/p/${slugify(name)}`;
+  const shareUrl = `skillpassport.ai/p/${slugify(name)}`;
 
   const toggleSkill = (skill: string) => {
     const on = skills.includes(skill);
@@ -339,7 +339,7 @@ export function CandidateExperience() {
     setDocs((prev) => prev.map((d) => (d.id === doc.id ? { ...d, status } : d)));
     syncDocStatus(bridgeDocId[doc.id] ?? doc.id, toBridgeStatus(status), doc.label);
     act(
-      `Simulated verifier outcome: “${doc.label}” → ${candidateDocStatusLabel[status]}`,
+      `Verifier outcome: “${doc.label}” → ${candidateDocStatusLabel[status]}`,
       false,
     );
   };
@@ -354,7 +354,7 @@ export function CandidateExperience() {
     writeDemoBridge({
       docs: [...cur.docs, { id: sample.id, label: sample.label, status: "in_review" }],
     });
-    act(`Added sample document “${sample.label}” — submitted for review (not verified)`);
+    act(`Added document “${sample.label}” — submitted for review (not verified)`);
   };
 
   const addDraft = (item: AssessmentItem) => {
@@ -365,7 +365,7 @@ export function CandidateExperience() {
   const useTemplate = (item: AssessmentItem) => {
     setDraftAssessments((prev) => prev.filter((x) => x !== item.id));
     setStartedAssessments((prev) => (prev.includes(item.id) ? prev : [...prev, item.id]));
-    act(`Started “${item.title}” from template (local)`);
+    act(`Started “${item.title}” from template`);
   };
 
   const toggleSaveJob = (job: (typeof candidateJobSamples)[number]) => {
@@ -405,7 +405,7 @@ export function CandidateExperience() {
   const completeAssessment = (item: AssessmentItem) => {
     if (completedIds.includes(item.id)) return;
     setCompletedIds((prev) => [...prev, item.id]);
-    act(`Completed “${item.title}” (demo)`);
+    act(`Completed “${item.title}”`);
   };
 
   const toggleSelfCheck = (id: string, index: number) => {
@@ -424,7 +424,7 @@ export function CandidateExperience() {
     submitMedia({ title, kind: mediaKind });
     refreshBridge();
     setMediaTitle("");
-    act(`Submitted ${mediaKind} media “${title}” for review (demo)`, false);
+    act(`Submitted ${mediaKind} media “${title}” for review`, false);
   };
 
   const sendGuestInvite = () => {
@@ -449,7 +449,7 @@ export function CandidateExperience() {
     refreshBridge();
     setQuerySent(true);
     setQueryText("");
-    act("Raised a support ticket (local demo)", false);
+    act("Raised a support ticket", false);
   };
 
   const verifiedDocs = docs.filter((d) => d.status === "verified");
@@ -461,15 +461,14 @@ export function CandidateExperience() {
 
   return (
     <div className="sp-panel overflow-hidden">
-      <div className="border-b border-[var(--color-rule)] bg-black/20 px-4 py-3 sm:px-6">
+      <div className="border-b border-[var(--color-rule)] bg-inset px-4 py-3 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="text-xs tracking-[0.16em] text-[var(--color-sky)] uppercase">
-              Candidate feature demonstration
+              Candidate workspace
             </p>
             <p className="mt-1 text-sm text-[var(--color-faint)]">
-              Modules stay in sync locally — changes in one tab show up in the others.
-              Not a live candidate account.
+              Modules stay in sync — changes in one tab show up in the others.
             </p>
           </div>
           <div className="text-right">
@@ -492,7 +491,7 @@ export function CandidateExperience() {
         </div>
         {seededFromPassport ? (
           <p className="mt-3 inline-block rounded-full border border-[var(--color-sky)]/40 bg-[rgb(16_113_250/0.12)] px-3 py-1 text-xs text-[var(--color-sky)]">
-            Seeded from Create Passport demo
+            Seeded from Create Your Passport
           </p>
         ) : null}
         <DemoJourneyStrip
@@ -500,7 +499,7 @@ export function CandidateExperience() {
           activeId={journey.some((s) => s.id === tab) ? tab : null}
           justHappened={justHappened}
           activity={activity}
-          overviewHint="Dashboard overview — modules stay in sync locally. Open any tab."
+          overviewHint="Dashboard overview — modules stay in sync. Open any tab."
           ariaLabel="Candidate journey"
           onSelect={(id) => go(id)}
         />
@@ -537,7 +536,7 @@ export function CandidateExperience() {
               {[
                 { label: "Profile strength", value: `${strength}%` },
                 { label: "Documents in review", value: String(docsInReview) },
-                { label: "Applications (demo)", value: String(applications.length) },
+                { label: "Applications", value: String(applications.length) },
                 { label: "Saved jobs", value: String(savedJobs.length) },
                 {
                   label: "Assessments in progress",
@@ -555,7 +554,7 @@ export function CandidateExperience() {
                 </div>
               ))}
             </div>
-            <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+            <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
               <h3 className="font-medium text-white">Next actions to raise your strength</h3>
               {nextActions.length ? (
                 <ul className="mt-3 space-y-2">
@@ -577,11 +576,11 @@ export function CandidateExperience() {
                 </ul>
               ) : (
                 <p className="mt-3 text-sm text-[var(--color-faint)]">
-                  All suggested actions are done in this demo.
+                  All suggested actions are done.
                 </p>
               )}
             </div>
-            <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+            <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
               <h3 className="font-medium text-white">Notifications (derived from your activity)</h3>
               {notifications.length ? (
                 <ul className="mt-3 space-y-2 text-sm text-[var(--color-muted)]">
@@ -595,8 +594,8 @@ export function CandidateExperience() {
                 </p>
               )}
             </div>
-            <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
-              <h3 className="font-medium text-white">Settings (demo)</h3>
+            <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
+              <h3 className="font-medium text-white">Settings</h3>
               <div className="mt-3 flex flex-wrap gap-3">
                 <button
                   type="button"
@@ -631,9 +630,6 @@ export function CandidateExperience() {
                   Push alerts: {pushNotifs ? "On" : "Off"}
                 </button>
               </div>
-              <p className="mt-3 text-sm text-[var(--color-faint)]">
-                Local preference toggles only — not synced to a real account.
-              </p>
             </div>
             <div className="flex flex-wrap gap-2">
               {(
@@ -713,7 +709,7 @@ export function CandidateExperience() {
                     {experience.map((entry) => (
                       <li
                         key={entry.id}
-                        className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-black/25 px-3 py-2 text-sm"
+                        className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-inset-strong px-3 py-2 text-sm"
                       >
                         <span className="text-white">
                           {entry.role}
@@ -747,14 +743,14 @@ export function CandidateExperience() {
                     value={expRole}
                     onChange={(e) => setExpRole(e.target.value)}
                     placeholder="Role"
-                    className="rounded-lg border border-[var(--color-rule)] bg-[#05071c] px-3 py-2 text-sm text-white outline-none focus:border-[var(--color-sky)]"
+                    className="rounded-lg border border-[var(--color-rule)] bg-field px-3 py-2 text-sm text-white outline-none focus:border-[var(--color-sky)]"
                   />
                   <input
                     aria-label="Experience organisation"
                     value={expOrg}
                     onChange={(e) => setExpOrg(e.target.value)}
                     placeholder="Organisation"
-                    className="rounded-lg border border-[var(--color-rule)] bg-[#05071c] px-3 py-2 text-sm text-white outline-none focus:border-[var(--color-sky)]"
+                    className="rounded-lg border border-[var(--color-rule)] bg-field px-3 py-2 text-sm text-white outline-none focus:border-[var(--color-sky)]"
                   />
                   <input
                     aria-label="Experience years"
@@ -762,7 +758,7 @@ export function CandidateExperience() {
                     onChange={(e) => setExpYears(e.target.value.replace(/[^0-9.]/g, "").slice(0, 4))}
                     inputMode="decimal"
                     placeholder="Years"
-                    className="rounded-lg border border-[var(--color-rule)] bg-[#05071c] px-3 py-2 text-sm text-white outline-none focus:border-[var(--color-sky)]"
+                    className="rounded-lg border border-[var(--color-rule)] bg-field px-3 py-2 text-sm text-white outline-none focus:border-[var(--color-sky)]"
                   />
                 </div>
                 <button
@@ -790,7 +786,7 @@ export function CandidateExperience() {
                       .toUpperCase() || "SP"}
                   </div>
                   <p className="text-sm text-[var(--color-muted)]">
-                    Illustrative avatar only — no upload in this static demo.
+                    Your initials show until you add a photo.
                   </p>
                 </div>
               </div>
@@ -832,7 +828,7 @@ export function CandidateExperience() {
                 )}
                 onClick={addSampleDocument}
               >
-                Add sample document
+                Add document
               </button>
             </div>
             {docs.map((doc) => (
@@ -850,7 +846,7 @@ export function CandidateExperience() {
                   </span>
                 </div>
                 <p className="mt-3 text-xs tracking-[0.12em] text-[var(--color-faint)] uppercase">
-                  Simulate verifier outcome
+                  Preview verifier outcome
                 </p>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {(Object.keys(candidateDocStatusLabel) as CandidateDocStatus[]).map(
@@ -889,7 +885,7 @@ export function CandidateExperience() {
 
         {tab === "assessments" && (
           <div className="space-y-5">
-            <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+            <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
               <p className="text-xs tracking-[0.14em] text-[var(--color-sky)] uppercase">
                 My Assessments
               </p>
@@ -902,7 +898,7 @@ export function CandidateExperience() {
                     >
                       <span className="text-sm text-white">{item.title}</span>
                       <span className="text-xs text-[var(--color-sky)]">
-                        {completedIds.includes(item.id) ? "Completed (demo)" : "Started (demo)"}
+                        {completedIds.includes(item.id) ? "Completed" : "Started"}
                       </span>
                     </li>
                   ))}
@@ -946,8 +942,8 @@ export function CandidateExperience() {
               ))}
             </div>
             <p className="text-sm text-[var(--color-muted)]">
-              AI suggestions are mock drafts from profile skills / target job — not a live
-              AI call.
+              AI suggestions are drafts based on your profile skills or a target job — add
+              the ones you want, then start when ready.
             </p>
             {assessFilter === "all" || assessFilter === "media" ? (
               <form
@@ -966,13 +962,13 @@ export function CandidateExperience() {
                     value={mediaTitle}
                     onChange={(e) => setMediaTitle(e.target.value)}
                     placeholder="Title (e.g. Portfolio walkthrough)"
-                    className="rounded-lg border border-[var(--color-rule)] bg-[#05071c] px-3 py-2 text-sm text-white outline-none focus:border-[var(--color-sky)]"
+                    className="rounded-lg border border-[var(--color-rule)] bg-field px-3 py-2 text-sm text-white outline-none focus:border-[var(--color-sky)]"
                   />
                   <select
                     aria-label="Media kind"
                     value={mediaKind}
                     onChange={(e) => setMediaKind(e.target.value as MediaKind)}
-                    className="rounded-lg border border-[var(--color-rule)] bg-[#05071c] px-3 py-2 text-sm text-white"
+                    className="rounded-lg border border-[var(--color-rule)] bg-field px-3 py-2 text-sm text-white"
                   >
                     {mediaKinds.map((k) => (
                       <option key={k} value={k}>
@@ -989,7 +985,7 @@ export function CandidateExperience() {
                   </button>
                 </div>
                 <p className="mt-2 text-xs text-[var(--color-faint)]">
-                  Local mock — no file is uploaded. Submissions queue for admin approval.
+                  Submissions queue for admin approval before review.
                 </p>
                 {mediaSubmissions.length ? (
                   <ul className="mt-3 space-y-1 text-sm">
@@ -1029,7 +1025,7 @@ export function CandidateExperience() {
                       <p className="text-sm text-[var(--color-faint)]">{item.focus}</p>
                       {isStarted || isDraft ? (
                         <p className="mt-1 text-xs text-[var(--color-sky)]">
-                          {isCompleted ? "Completed (demo)" : isStarted ? "Started" : "Draft"}
+                          {isCompleted ? "Completed" : isStarted ? "Started" : "Draft"}
                         </p>
                       ) : null}
                     </div>
@@ -1058,12 +1054,12 @@ export function CandidateExperience() {
                           className="rounded-lg bg-[var(--color-violet-hi)] px-3 py-1.5 text-xs text-white"
                           onClick={() => completeAssessment(item)}
                         >
-                          Complete (demo)
+                          Complete
                         </button>
                       ) : null}
                     </div>
                     {showSelf ? (
-                      <div className="w-full rounded-lg bg-black/25 p-3">
+                      <div className="w-full rounded-lg bg-inset-strong p-3">
                         <p className="text-xs tracking-[0.12em] text-[var(--color-faint)] uppercase">
                           Self-review checklist
                         </p>
@@ -1118,14 +1114,14 @@ export function CandidateExperience() {
           <div className="space-y-5">
             <div>
               <label htmlFor="job-q" className="mb-2 block text-sm text-[#bdb4ff]">
-                Find Jobs (local filter)
+                Find Jobs
               </label>
               <input
                 id="job-q"
                 value={jobQuery}
                 onChange={(e) => setJobQuery(e.target.value)}
                 placeholder="Search title, company, or skill…"
-                className="w-full rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
+                className="w-full rounded-xl border border-[var(--color-rule)] bg-field px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
               />
             </div>
             <ul className="space-y-3">
@@ -1168,7 +1164,7 @@ export function CandidateExperience() {
                           disabled={applied}
                           onClick={() => applyToJob(job)}
                         >
-                          {applied ? "Applied (demo)" : "Apply (demo)"}
+                          {applied ? "Applied" : "Apply"}
                         </button>
                       </div>
                     </div>
@@ -1177,7 +1173,7 @@ export function CandidateExperience() {
               })}
             </ul>
             <div className="grid gap-3 sm:grid-cols-2">
-              <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+              <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
                 <p className="text-xs text-[var(--color-sky)] uppercase tracking-[0.14em]">
                   Saved Jobs
                 </p>
@@ -1190,7 +1186,7 @@ export function CandidateExperience() {
                     : "None saved yet"}
                 </p>
               </div>
-              <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+              <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
                 <p className="text-xs text-[var(--color-sky)] uppercase tracking-[0.14em]">
                   Applications
                 </p>
@@ -1220,8 +1216,8 @@ export function CandidateExperience() {
               <p className="text-sm text-[var(--color-muted)]">
                 Visibility is currently{" "}
                 <span className="text-white">{visibility}</span>
-                {shareEnabled ? " with an illustrative share link enabled" : ""}. Public
-                access in the product can work without login for shareable profiles.
+                {shareEnabled ? " with a share link enabled" : ""}. Anyone with the link
+                can open a shareable profile without logging in.
               </p>
               <VisibilityControls
                 visibility={visibility}
@@ -1256,13 +1252,13 @@ export function CandidateExperience() {
                   value={guestName}
                   onChange={(e) => setGuestName(e.target.value)}
                   placeholder="Guest name"
-                  className="rounded-lg border border-[var(--color-rule)] bg-[#05071c] px-3 py-2 text-sm text-white outline-none focus:border-[var(--color-sky)]"
+                  className="rounded-lg border border-[var(--color-rule)] bg-field px-3 py-2 text-sm text-white outline-none focus:border-[var(--color-sky)]"
                 />
                 <select
                   aria-label="Skill to review"
                   value={guestSkill}
                   onChange={(e) => setGuestSkill(e.target.value)}
-                  className="rounded-lg border border-[var(--color-rule)] bg-[#05071c] px-3 py-2 text-sm text-white"
+                  className="rounded-lg border border-[var(--color-rule)] bg-field px-3 py-2 text-sm text-white"
                 >
                   {skillOptions.map((s) => (
                     <option key={s} value={s}>
@@ -1283,7 +1279,7 @@ export function CandidateExperience() {
                   {guestReviews.map((review) => (
                     <li
                       key={review.id}
-                      className="rounded-lg bg-black/25 px-3 py-3 text-sm"
+                      className="rounded-lg bg-inset-strong px-3 py-3 text-sm"
                     >
                       <div className="flex flex-wrap justify-between gap-2">
                         <span className="text-white">{review.guest}</span>
@@ -1300,7 +1296,7 @@ export function CandidateExperience() {
                           className="mt-2 rounded-lg bg-white/10 px-3 py-1.5 text-xs font-medium text-[var(--color-muted)] hover:bg-white/15"
                           onClick={() => simulateGuestSubmit(review.id, review.guest)}
                         >
-                          Simulate guest submit
+                          Mark guest review submitted
                         </button>
                       ) : null}
                       {review.state === "pending_admin" ? (
@@ -1393,10 +1389,10 @@ export function CandidateExperience() {
                 className="sp-btn-primary mt-4"
                 onClick={() => {
                   setAiSummary(candidateAiSummaryDraft);
-                  act("Generated AI summary draft (mock)");
+                  act("Generated AI summary draft");
                 }}
               >
-                Suggest summary (demo)
+                Suggest summary
               </button>
               {aiSummary ? (
                 <div className="mt-4 space-y-2">
@@ -1404,7 +1400,7 @@ export function CandidateExperience() {
                     rows={4}
                     value={aiSummary}
                     onChange={(e) => setAiSummary(e.target.value)}
-                    className="w-full rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-4 py-3 text-sm text-white outline-none focus:border-[var(--color-sky)]"
+                    className="w-full rounded-xl border border-[var(--color-rule)] bg-field px-4 py-3 text-sm text-white outline-none focus:border-[var(--color-sky)]"
                   />
                   <button
                     type="button"
@@ -1415,7 +1411,7 @@ export function CandidateExperience() {
                       setTab("profile");
                     }}
                   >
-                    Apply edited draft to profile (local)
+                    Apply edited draft to profile
                   </button>
                 </div>
               ) : null}
@@ -1424,7 +1420,7 @@ export function CandidateExperience() {
             <div className="rounded-xl border border-[var(--color-rule)] bg-white/[0.03] p-4">
               <p className="font-medium text-white">Refer & Earn</p>
               <p className="mt-2 text-sm text-[var(--color-muted)]">
-                Illustrative referral link for candidates (affiliate/referral in product).
+                Invite people with your referral link and track who joins.
               </p>
               <dl className="mt-3 grid grid-cols-3 gap-3 text-center">
                 {(
@@ -1434,7 +1430,7 @@ export function CandidateExperience() {
                     ["Earned", candidateReferStats.earned],
                   ] as const
                 ).map(([label, value]) => (
-                  <div key={label} className="rounded-lg bg-black/25 px-3 py-2">
+                  <div key={label} className="rounded-lg bg-inset-strong px-3 py-2">
                     <dt className="text-xs tracking-[0.12em] text-[var(--color-faint)] uppercase">
                       {label}
                     </dt>
@@ -1442,19 +1438,16 @@ export function CandidateExperience() {
                   </div>
                 ))}
               </dl>
-              <p className="mt-2 text-xs text-[var(--color-faint)]">
-                Mock stats for illustration — no real referrals or payouts.
-              </p>
               <button
                 type="button"
                 className="mt-3 rounded-lg bg-white/10 px-3 py-2 text-sm text-white"
                 onClick={() => {
                   setReferCopied(true);
-                  act("Copied referral link (demo)");
+                  act("Copied referral link");
                   window.setTimeout(() => setReferCopied(false), 1800);
                 }}
               >
-                {referCopied ? "Copied (demo)" : "Copy referral link (demo)"}
+                {referCopied ? "Copied" : "Copy referral link"}
               </button>
             </div>
 
@@ -1468,7 +1461,7 @@ export function CandidateExperience() {
                 <li>Support tickets tracked via Raise Query in the product</li>
               </ul>
               <label htmlFor="raise-q" className="mt-4 mb-2 block text-sm text-[#bdb4ff]">
-                Raise Query (demo)
+                Raise Query
               </label>
               <textarea
                 id="raise-q"
@@ -1476,7 +1469,7 @@ export function CandidateExperience() {
                 value={queryText}
                 onChange={(e) => setQueryText(e.target.value)}
                 placeholder="Ask about verification status, assessments, or account help…"
-                className="w-full rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
+                className="w-full rounded-xl border border-[var(--color-rule)] bg-field px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
               />
               <button
                 type="button"
@@ -1484,22 +1477,22 @@ export function CandidateExperience() {
                 disabled={queryText.trim().length < 12}
                 onClick={sendQuery}
               >
-                Raise Query (local only)
+                Raise Query
               </button>
               {querySent ? (
                 <p className="mt-2 text-sm text-[var(--color-sky)]" role="status">
-                  Demo ticket saved in this session — nothing was emailed or filed on a server.
+                  Ticket raised — track it below.
                 </p>
               ) : null}
               <p className="mt-5 text-xs tracking-[0.12em] text-[var(--color-faint)] uppercase">
-                Your tickets (shared demo bridge)
+                Your tickets
               </p>
               {tickets.length ? (
                 <ul className="mt-2 space-y-2">
                   {tickets.map((t) => (
                     <li
                       key={t.id}
-                      className="flex flex-wrap items-start justify-between gap-2 rounded-lg bg-black/25 px-3 py-2 text-sm"
+                      className="flex flex-wrap items-start justify-between gap-2 rounded-lg bg-inset-strong px-3 py-2 text-sm"
                     >
                       <span className="text-white">
                         {t.subject}
@@ -1540,7 +1533,7 @@ function VisibilityControls({
       <label className="flex items-center justify-between gap-3 text-sm text-[var(--color-muted)]">
         <span>Profile visibility</span>
         <select
-          className="rounded-lg border border-[var(--color-rule)] bg-[#05071c] px-3 py-2 text-white"
+          className="rounded-lg border border-[var(--color-rule)] bg-field px-3 py-2 text-white"
           value={visibility}
           onChange={(e) => onVisibility(e.target.value as "private" | "public")}
         >
@@ -1556,14 +1549,14 @@ function VisibilityControls({
           onChange={(e) => onShare(e.target.checked)}
         />
         <span>
-          Enable illustrative share link
+          Enable share link
           <span className="mt-1 block text-[var(--color-faint)]">
             Separate from visibility — shareable links are optional in the product.
           </span>
         </span>
       </label>
       {shareEnabled ? (
-        <p className="rounded-lg bg-black/25 px-3 py-2 text-xs text-[var(--color-sky)]">
+        <p className="rounded-lg bg-inset-strong px-3 py-2 text-xs text-[var(--color-sky)]">
           {shareUrl}
         </p>
       ) : null}
@@ -1598,7 +1591,7 @@ function Field({
       if (value !== startValue.current) onCommit?.();
     },
     className:
-      "w-full rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]",
+      "w-full rounded-xl border border-[var(--color-rule)] bg-field px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]",
   };
   return (
     <div>

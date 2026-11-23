@@ -1,3 +1,4 @@
+import { CandidateHero } from "@/components/hero/CandidateHero";
 import { CandidateExperience } from "@/components/interactive/CandidateExperience";
 import { AudiencePage } from "@/components/sections/AudiencePage";
 import { ButtonLink } from "@/components/ui/ButtonLink";
@@ -10,7 +11,7 @@ export const metadata = buildMetadata("candidates");
 const sectionNav = [
   { href: "#why", label: "Why" },
   { href: "#candidate-journey", label: "Journey" },
-  { href: "#demo", label: "Interactive demo" },
+  { href: "#demo", label: "Try it" },
   { href: "#modules", label: "Modules" },
   { href: "#connect", label: "Connected roles" },
 ] as const;
@@ -19,18 +20,19 @@ export default function CandidatesPage() {
   return (
     <AudiencePage
       id="candidates"
+      hero={<CandidateHero />}
       uniqueSections={
         <>
           <nav
-            className="sticky top-0 z-30 border-b border-[var(--color-rule)] bg-[#090d33]/95 backdrop-blur"
+            className="sp-subnav-sticky z-30"
             aria-label="On this page"
           >
-            <div className="sp-container flex gap-2 overflow-x-auto py-3">
+            <div className="sp-container sp-subnav-scroll flex gap-2 overflow-x-auto py-3">
               {sectionNav.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="shrink-0 rounded-full border border-[var(--color-rule)] px-3 py-1.5 text-sm text-[var(--color-muted)] transition hover:border-[var(--color-sky)] hover:text-white"
+                  className="shrink-0 rounded-full border border-[rgb(140_196_255/0.24)] bg-white/[0.05] px-3 py-1.5 text-sm text-[var(--color-muted)] transition hover:border-[var(--color-sky)] hover:bg-[rgb(98_172_250/0.12)] hover:text-white"
                 >
                   {item.label}
                 </a>
@@ -89,8 +91,8 @@ export default function CandidatesPage() {
                   From profile to proof—and opportunity
                 </h2>
                 <p className="sp-lede mt-4 max-w-2xl">
-                  Conceptual product journey for candidates. Stages explain capability
-                  areas—not a mandatory sequence every person must complete.
+                  The same steps as the platform story, seen from your side — take them in
+                  whatever order suits you.
                 </p>
               </Reveal>
               <ol className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
@@ -112,14 +114,14 @@ export default function CandidatesPage() {
           <section id="demo" className="sp-section bg-[linear-gradient(#0b0a33,#090d33)]">
             <div className="sp-container">
               <Reveal className="mb-8 max-w-3xl">
-                <p className="sp-eyebrow">Interactive demo</p>
+                <p className="sp-eyebrow">Try it</p>
                 <h2 className="sp-heading mt-4 text-[clamp(28px,3.5vw,44px)]">
-                  Explore candidate features with sample data
+                  Explore the candidate workspace
                 </h2>
                 <p className="sp-lede mt-4">
                   Tabs cover profile strength, documents, assessments (including AI
                   suggestion → draft → use template), jobs, sharing/guest reviews, Refer
-                  & Earn, and Raise Query—all local to this browser.
+                  & Earn, and Raise Query — changes in one tab carry into the others.
                 </p>
               </Reveal>
               <CandidateExperience />
@@ -137,48 +139,48 @@ export default function CandidatesPage() {
           <section id="modules" className="sp-section bg-[#090d33]">
             <div className="sp-container">
               <Reveal>
-                <p className="sp-eyebrow">Brief coverage</p>
+                <p className="sp-eyebrow">Features</p>
                 <h2 className="sp-heading mt-4 max-w-3xl text-[clamp(28px,3.5vw,44px)]">
-                  Candidate modules represented here
+                  Everything in the candidate portal
                 </h2>
               </Reveal>
               <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {[
                   {
                     title: "Dashboard & profile strength",
-                    body: "Completion progress updates as you edit the sample profile and evidence.",
+                    body: "Completion progress updates as you add profile details and evidence.",
                   },
                   {
                     title: "My Profile",
-                    body: "Edit details, illustrative photo, visibility, and optional share link.",
+                    body: "Edit details and photo, set visibility, and turn on an optional share link.",
                   },
                   {
                     title: "Documents",
-                    body: "Upload concept with verification statuses: not submitted, in review, verified, needs info.",
+                    body: "Upload documents and track each status: not submitted, in review, verified, needs info.",
                   },
                   {
                     title: "My Assessments · Add Media",
-                    body: "Filter sample assessments and media submissions by type.",
+                    body: "Take assessments and submit media, filtered by type.",
                   },
                   {
                     title: "Self-Reviews · Expert Reviews",
-                    body: "Self-evaluation and expert rubric paths shown as distinct evidence types.",
+                    body: "Rate yourself, or request an expert review graded on a rubric or checklist.",
                   },
                   {
                     title: "Find Jobs · Saved · Applications",
-                    body: "Local job search, save, and apply actions on sample listings.",
+                    body: "Search jobs, save the ones you like, and track your applications.",
                   },
                   {
                     title: "Public profile & guest reviews",
-                    body: "Visibility vs share link; guest endorsements with approval-where-applicable states.",
+                    body: "Choose who sees your profile, share a link, and invite guest reviews — an admin may approve them first.",
                   },
                   {
                     title: "Refer & Earn · Support",
-                    body: "Referral demo, notifications/settings context, Raise Query ticket simulation.",
+                    body: "Share your referral link, manage notifications, and Raise Query with ticket tracking.",
                   },
                   {
                     title: "AI suggestions",
-                    body: "Editable summary draft; assessment suggestions with draft and Use template flow.",
+                    body: "Suggest with AI drafts your summary; AI assessment suggestions become drafts you start with Use template.",
                   },
                 ].map((item) => (
                   <Reveal key={item.title} className="sp-panel p-6">
@@ -200,8 +202,8 @@ export default function CandidatesPage() {
                   How candidates relate to the rest of the ecosystem
                 </h2>
                 <p className="sp-lede mt-4 max-w-2xl">
-                  Cross-links explain relationships. They do not open authenticated role
-                  portals—this site remains a static marketing experience.
+                  Your passport is what verifiers check, reviewers grade, and employers
+                  search — see how each role works with it.
                 </p>
               </Reveal>
               <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -209,7 +211,7 @@ export default function CandidatesPage() {
                   {
                     href: "/create-passport/",
                     title: "Create Your Passport",
-                    body: "Hands-on static demo of digital skill identity.",
+                    body: "Build your passport in a few guided steps.",
                   },
                   {
                     href: "/verifiers/",

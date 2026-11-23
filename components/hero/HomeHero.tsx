@@ -68,6 +68,9 @@ export function HomeHero() {
       <canvas id="network" aria-hidden="true" />
       <div className="copy-shade" />
       <div className="interface">
+        {/* Fixed sticky nav — spacer keeps hero copy below the bar while scrolling */}
+        <SiteHeader variant="hero" />
+
         <div className="event">
           AI THAT ACCELERATES TRUST
           <span className="sep" aria-hidden="true">
@@ -75,8 +78,6 @@ export function HomeHero() {
           </span>
           <span className="ev2">HUMANS WHO REMAIN IN CONTROL</span>
         </div>
-
-        <SiteHeader variant="hero" />
 
         <section className="copy wrap" id="top">
           <div className="eyebrow arrive">
@@ -102,9 +103,9 @@ export function HomeHero() {
             </em>
           </h1>
           <p className="arrive" style={{ ["--d" as string]: "0.56s" }}>
-            The trust layer connecting skills, credentials, assessments, people,
-            organizations, and opportunities — more than a job board or digital
-            résumé.
+            One trust workflow for candidates, employers, verifiers, reviewers, and
+            admins — build a verified skill profile, prove skills through assessments
+            and reviews, and use that trust in hiring.
           </p>
           <div className="actions arrive" style={{ ["--d" as string]: "0.65s" }}>
             <Link className="main-cta" href={appLinks.register}>
@@ -119,7 +120,7 @@ export function HomeHero() {
         <div className="foot wrap arrive" style={{ ["--d" as string]: "0.76s" }}>
           <span>
             <b aria-hidden="true" />
-            VERIFIED CREDENTIALS · SKILL ASSESSMENTS · TRUSTED HIRING
+            VERIFY CREDENTIALS · PROVE SKILLS · HIRE WITH TRUST
           </span>
           <span>
             CANDIDATES · EMPLOYERS · VERIFIERS · REVIEWERS · SUPER ADMIN · ORG ADMIN

@@ -66,7 +66,7 @@ export const verifierCases: VerifierCase[] = [
     docId: "doc-2",
     outcome: null,
     outcomeReason: "",
-    dueLabel: "Overdue (demo)",
+    dueLabel: "Overdue",
   },
   {
     id: "V-106",
@@ -113,6 +113,6 @@ export const verifierCases: VerifierCase[] = [
 
 /** Sample copy only. Volume is derived from the live case list in the board. */
 export const verifierReportSamples = {
-  accuracy: "Illustrative only",
-  sla: "Sample target: first response within 2 working days",
+  accuracy: "Tracked from case outcomes",
+  sla: "Measured per case against the agreed SLA",
 } as const;

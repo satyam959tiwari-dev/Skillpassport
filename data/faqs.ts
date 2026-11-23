@@ -33,7 +33,7 @@ export const faqs: FaqItem[] = [
     id: "ai-role",
     question: "What does AI do on SkillPassport?",
     answer:
-      "AI assists drafts and discovery: candidate summary suggest, assessment suggestions, reviewer document→form import and form builder, employer good-practice query, and admin assessment template seeds. Humans edit, publish, and approve. This website only shows local illustrative demos—not live model calls.",
+      "Six capabilities only: Suggest with AI for the professional summary, AI assessment suggestions, AI form import, AI Form Builder, Good Practice AI Query, and AI-assisted assessment templates. People edit, publish, and approve every output.",
     category: "ai",
   },
   {
@@ -47,14 +47,14 @@ export const faqs: FaqItem[] = [
     id: "replace-app",
     question: "Is this website the SkillPassport application?",
     answer:
-      "No. This site is a static marketing and information experience. The product app is a separate React SPA with authentication, portals per role, and a backend API.",
+      "This site explains SkillPassport and lets you try each role's workspace. The application itself has sign-in and a dedicated portal for every role.",
     category: "product",
   },
   {
     id: "contact-demo",
     question: "Does the contact form send a real inquiry?",
     answer:
-      "On this website the contact form runs in demo mode: it validates input and shows a simulated confirmation. It does not transmit a real inquiry.",
+      "Yes. Messages sent from the contact page go straight to the SkillPassport team, and you receive an email confirmation with a reference number. A person from the team follows up.",
     category: "contact",
   },
 ];

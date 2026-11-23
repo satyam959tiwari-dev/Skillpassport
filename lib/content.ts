@@ -24,7 +24,9 @@ export {
   aiBoundaries,
   notGenerativeAi,
   aiDemos,
+  aiShowcase,
 } from "@/data/ai";
+export type { AiShowcaseRole } from "@/data/ai";
 export {
   howItWorks,
   valuePillars,

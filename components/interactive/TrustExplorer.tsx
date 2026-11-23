@@ -15,7 +15,7 @@ const visuals: Record<
     eyebrow: "Reuse with context",
     panels: [
       { title: "Upload", body: "Documents enter a tracked verification workflow." },
-      { title: "Status", body: "In review / verified / needs info — not auto-success." },
+      { title: "Status", body: "In review, verified, or needs info — never automatic." },
       { title: "Reuse", body: "Verification state can travel across opportunities with context." },
     ],
   },
@@ -31,14 +31,14 @@ const visuals: Record<
     eyebrow: "Met / not-met gates",
     panels: [
       { title: "Checklist items", body: "Evidence, format, comments, mandatory requirements." },
-      { title: "Gates", body: "Mandatory items can block completion where the product uses them." },
+      { title: "Gates", body: "Mandatory items must be met before the checklist can pass." },
       { title: "Summary", body: "Progress is inspectable before outcomes are finalized." },
     ],
   },
   media: {
     eyebrow: "Rich evidence review",
     panels: [
-      { title: "PDF", body: "Annotation-oriented review workspace in the product app." },
+      { title: "PDF", body: "PDF annotation inside the review workspace." },
       { title: "Video", body: "Timeline notes and evidence capture for media submissions." },
       { title: "Documents", body: "Preview supporting files alongside grading forms." },
     ],
@@ -47,14 +47,14 @@ const visuals: Record<
     eyebrow: "Distinct approval types",
     panels: [
       { title: "Assessment / media", body: "Assignment and media approval requests." },
-      { title: "Review results", body: "Applicable platform/guest outcomes need admin gates." },
+      { title: "Review results", body: "Super Admin approves platform and guest outcomes." },
       { title: "Not universal", body: "Approval types are distinct — not every action needs the same gate." },
     ],
   },
   permissions: {
-    eyebrow: "Roles & slugs",
+    eyebrow: "Roles & permissions",
     panels: [
-      { title: "Workspace permissions", body: "Fine-grained slugs per workspace." },
+      { title: "Workspace permissions", body: "Fine-grained permissions per workspace." },
       { title: "Company roles", body: "Admin, recruiter, reviewer, verifier seats." },
       { title: "Scoped access", body: "Org Admin stays tenant-scoped — not Super Admin." },
     ],
@@ -68,13 +68,13 @@ const visuals: Record<
     ],
   },
   realtime: {
-    eyebrow: "Live in the product app",
+    eyebrow: "Live updates",
     panels: [
       { title: "Queues", body: "Verification and assessment queues can refresh live." },
       { title: "Permissions", body: "Role and membership changes sync without reloads." },
       {
-        title: "This site",
-        body: "Static marketing — realtime is explained, not simulated as live sockets.",
+        title: "Notifications",
+        body: "Notifications, permission changes, and queue refreshes reach every role without page reloads.",
       },
     ],
   },
@@ -83,7 +83,7 @@ const visuals: Record<
     panels: [
       { title: "Candidate Refer & Earn", body: "Referral sharing from the candidate portal." },
       { title: "Super Admin affiliates", body: "Campaigns and reports under Affiliate Management." },
-      { title: "Connection", body: "Same program story across roles — demo only here." },
+      { title: "Connection", body: "One referral program across roles, managed in Affiliate Management." },
     ],
   },
   support: {
@@ -93,7 +93,7 @@ const visuals: Record<
       { title: "Audit logs", body: "Operator-visible activity for governance." },
       {
         title: "Localization",
-        body: "UI string catalog + language preferences (i18n infrastructure).",
+        body: "English-led, with i18n infrastructure and language preferences.",
       },
     ],
   },
@@ -101,10 +101,10 @@ const visuals: Record<
     eyebrow: "Account & tenant security",
     panels: [
       { title: "Company-scoped data", body: "Tenant boundaries for employer/verifier workspaces." },
-      { title: "Self-serve signup", body: "Email verification for self-service signups (product)." },
+      { title: "Self-serve signup", body: "Email verification for self-serve sign-ups." },
       {
         title: "Seats & deactivate",
-        body: "Invited team seats and account self-deactivation — documented product capabilities, not live here.",
+        body: "Invited team seats and account self-deactivation keep access in the account owner's hands.",
       },
     ],
   },
@@ -114,7 +114,7 @@ const journey = [
   {
     id: "verify" as const,
     label: "1 · Verify",
-    doNext: "Understand reusable credential verification with status context",
+    doNext: "See how one verification is reused across opportunities",
   },
   {
     id: "rubrics" as const,
@@ -134,12 +134,12 @@ const journey = [
   {
     id: "permissions" as const,
     label: "5 · Permissions",
-    doNext: "Workspace slugs and company roles (not Super Admin)",
+    doNext: "Workspace permissions and company team roles",
   },
   {
     id: "security" as const,
     label: "6 · Security",
-    doNext: "Company-scoped data and account controls (explained, not live)",
+    doNext: "Company-scoped data and account controls",
   },
 ];
 
@@ -150,7 +150,7 @@ export function TrustExplorer() {
   const { justHappened, activity, act } = useDemoActivity();
   const topic = trustTopics.find((t) => t.id === active) ?? trustTopics[0];
   const visual = visuals[active] ?? {
-    eyebrow: "Illustrative layout",
+    eyebrow: "Overview",
     panels: [{ title: "Context", body: topic.body }],
   };
 
@@ -161,13 +161,12 @@ export function TrustExplorer() {
 
   return (
     <div className="sp-panel overflow-hidden">
-      <div className="border-b border-[var(--color-rule)] bg-black/20 px-4 py-3 sm:px-6">
+      <div className="border-b border-[var(--color-rule)] bg-inset px-4 py-3 sm:px-6">
         <p className="text-xs tracking-[0.16em] text-[var(--color-sky)] uppercase">
           Trust & governance explorer
         </p>
         <p className="mt-1 text-sm text-[var(--color-faint)]">
-          Product differentiators explained — certifications and live security guarantees are not
-          claimed here.
+          How SkillPassport keeps verification, grading, approvals, and access accountable.
         </p>
         <DemoJourneyStrip
           steps={journey}

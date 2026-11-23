@@ -41,7 +41,7 @@ const superJourney = [
   {
     id: "dashboard" as const,
     label: "Dashboard",
-    doNext: "Scan platform KPIs and alerts (illustrative samples)",
+    doNext: "Scan platform KPIs and alerts",
   },
   {
     id: "people" as const,
@@ -93,7 +93,7 @@ const orgJourney = [
   },
 ];
 
-type ApprovalState = "Pending (demo)" | "Approved (demo)" | "Rejected (demo)";
+type ApprovalState = "Pending" | "Approved" | "Rejected";
 
 type ApprovalRow = {
   id: string;
@@ -113,9 +113,9 @@ type ApprovalView = {
 };
 
 const bridgeStateLabel: Record<DemoBridgeState["approvals"][number]["state"], ApprovalState> = {
-  Pending: "Pending (demo)",
-  Approved: "Approved (demo)",
-  Rejected: "Rejected (demo)",
+  Pending: "Pending",
+  Approved: "Approved",
+  Rejected: "Rejected",
 };
 
 const permKey = (slug: string, role: OrgRoleName) => `${slug}:${role}`;
@@ -193,12 +193,12 @@ export function EnterpriseExplorer() {
 
   const setApproval = (row: ApprovalView, state: ApprovalState) => {
     if (row.fromBridge) {
-      if (state === "Approved (demo)") resolveApproval(row.id, "Approved");
-      else if (state === "Rejected (demo)") resolveApproval(row.id, "Rejected");
+      if (state === "Approved") resolveApproval(row.id, "Approved");
+      else if (state === "Rejected") resolveApproval(row.id, "Rejected");
     } else {
       setApprovals((prev) => prev.map((a) => (a.id === row.id ? { ...a, state } : a)));
     }
-    act(`${state.replace(" (demo)", "")}: ${row.type}`, !row.fromBridge);
+    act(`${state}: ${row.type}`, !row.fromBridge);
   };
 
   const addSkill = () => {
@@ -213,7 +213,7 @@ export function EnterpriseExplorer() {
     }
     setSkills((prev) => [...prev, name]);
     setSkillDraft("");
-    act(`Added skill “${name}” (local).`, false);
+    act(`Added skill “${name}”.`, false);
   };
 
   const addMember = () => {
@@ -226,12 +226,12 @@ export function EnterpriseExplorer() {
     setOrgMembers((prev) => [...prev, { id, name, role: "Member", active: true }]);
     setMemberName("");
     setOrgStep("members");
-    act(`Added member “${name}” (local).`);
+    act(`Added member “${name}”.`);
   };
 
   return (
     <div className="sp-panel overflow-hidden">
-      <div className="border-b border-[var(--color-rule)] bg-black/20 px-4 py-3 sm:px-6">
+      <div className="border-b border-[var(--color-rule)] bg-inset px-4 py-3 sm:px-6">
         <p className="text-xs tracking-[0.16em] text-[var(--color-sky)] uppercase">
           Administration explorer
         </p>
@@ -332,24 +332,24 @@ export function EnterpriseExplorer() {
             {groupId === "dashboard" ? (
               <div className="grid gap-3 sm:grid-cols-2">
                 {[
-                  { label: "Open applications (demo)", value: "128" },
+                  { label: "Open applications", value: "128" },
                   { label: "Verification in progress", value: "36" },
                   {
                     label: "Approvals awaiting action",
                     value: String(pendingApprovals),
                   },
                   { label: "Support tickets", value: String(bridgeTickets.length) },
-                  { label: "Alerts (demo)", value: "4" },
+                  { label: "Alerts", value: "4" },
                 ].map((kpi) => (
                   <div
                     key={kpi.label}
-                    className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4"
+                    className="rounded-xl border border-[var(--color-rule)] bg-inset p-4"
                   >
                     <p className="text-xs text-[var(--color-faint)]">{kpi.label}</p>
                     <p className="mt-2 text-xl text-white">{kpi.value}</p>
                   </div>
                 ))}
-                <div className="sm:col-span-2 rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+                <div className="sm:col-span-2 rounded-xl border border-[var(--color-rule)] bg-inset p-4">
                   <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
                     Recent audit activity
                   </p>
@@ -363,13 +363,12 @@ export function EnterpriseExplorer() {
                     </ul>
                   ) : (
                     <p className="mt-3 text-sm text-[var(--color-faint)]">
-                      Nothing logged yet — try an action in another demo.
+                      Nothing logged yet — try an action in another workspace.
                     </p>
                   )}
                 </div>
                 <p className="sm:col-span-2 text-xs text-[var(--color-faint)]">
-                  Most cards are illustrative samples. Approvals, tickets, and audit lines follow
-                  this browser session&apos;s demo activity.
+                  Approvals, tickets, and audit lines follow activity in the other role workspaces.
                 </p>
               </div>
             ) : null}
@@ -415,7 +414,7 @@ export function EnterpriseExplorer() {
 
             {groupId === "verification" ? (
               <div className="space-y-4">
-                <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+                <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
                   <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
                     Verification cases
                   </p>
@@ -430,7 +429,7 @@ export function EnterpriseExplorer() {
                     ))}
                   </ul>
                 </div>
-                <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+                <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
                   <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
                     Rejection log
                   </p>
@@ -451,7 +450,7 @@ export function EnterpriseExplorer() {
             ) : null}
 
             {groupId === "assessments" ? (
-              <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+              <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
                 <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
                   Approval requests · {pendingApprovals} pending
                 </p>
@@ -459,7 +458,7 @@ export function EnterpriseExplorer() {
                   {approvalRows.map((q) => (
                     <li
                       key={q.id}
-                      className="rounded-lg border border-[var(--color-rule)] bg-black/20 px-3 py-3"
+                      className="rounded-lg border border-[var(--color-rule)] bg-inset px-3 py-3"
                     >
                       <div className="flex flex-wrap items-start justify-between gap-2">
                         <p className="text-sm text-white">{q.type}</p>
@@ -469,22 +468,22 @@ export function EnterpriseExplorer() {
                         <button
                           type="button"
                           className="rounded-lg bg-white/10 px-3 py-1.5 text-xs text-white"
-                          onClick={() => setApproval(q, "Approved (demo)")}
+                          onClick={() => setApproval(q, "Approved")}
                         >
                           Approve
                         </button>
                         <button
                           type="button"
                           className="rounded-lg border border-[var(--color-rule)] px-3 py-1.5 text-xs text-[var(--color-muted)]"
-                          onClick={() => setApproval(q, "Rejected (demo)")}
+                          onClick={() => setApproval(q, "Rejected")}
                         >
                           Reject
                         </button>
-                        {!q.fromBridge && q.state !== "Pending (demo)" ? (
+                        {!q.fromBridge && q.state !== "Pending" ? (
                           <button
                             type="button"
                             className="rounded-lg px-3 py-1.5 text-xs text-[var(--color-sky)] hover:underline"
-                            onClick={() => setApproval(q, "Pending (demo)")}
+                            onClick={() => setApproval(q, "Pending")}
                           >
                             Reset
                           </button>
@@ -501,7 +500,7 @@ export function EnterpriseExplorer() {
                 {sampleOrganizations.map((org) => (
                   <div
                     key={org.id}
-                    className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4"
+                    className="rounded-xl border border-[var(--color-rule)] bg-inset p-4"
                   >
                     <p className="font-medium text-white">{org.name}</p>
                     <p className="mt-1 text-sm text-[var(--color-muted)]">
@@ -518,7 +517,7 @@ export function EnterpriseExplorer() {
 
             {groupId === "support" ? (
               <div className="space-y-4 text-sm">
-                <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+                <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
                   <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
                     Support tickets · {bridgeTickets.length}
                   </p>
@@ -535,11 +534,11 @@ export function EnterpriseExplorer() {
                     </ul>
                   ) : (
                     <p className="mt-3 text-[var(--color-faint)]">
-                      No tickets yet. Raise a query from the candidate demo and it shows up here.
+                      No tickets yet. Raise a query from the candidate workspace and it shows up here.
                     </p>
                   )}
                 </div>
-                <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+                <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
                   <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
                     Audit log
                   </p>
@@ -554,7 +553,7 @@ export function EnterpriseExplorer() {
                     ) : null}
                   </ul>
                 </div>
-                <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+                <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
                   <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
                     Messages & notifications
                   </p>
@@ -575,24 +574,24 @@ export function EnterpriseExplorer() {
             ) : null}
 
             {groupId === "affiliates" ? (
-              <div className="space-y-3 rounded-xl border border-[var(--color-rule)] bg-black/20 p-4 text-sm text-[var(--color-muted)]">
+              <div className="space-y-3 rounded-xl border border-[var(--color-rule)] bg-inset p-4 text-sm text-[var(--color-muted)]">
                 <p>
                   Affiliate management connects to the candidate Refer & Earn flow.{" "}
                   <Link href="/candidates/" className="text-[var(--color-sky)] hover:underline">
-                    Open candidate demo
+                    Open candidate workspace
                   </Link>
                 </p>
                 <div className="rounded-lg bg-white/[0.04] px-3 py-2">
                   <p className="text-white">{sampleAffiliateCampaign.name}</p>
                   <p className="text-[var(--color-faint)]">
                     {sampleAffiliateCampaign.status} · {sampleAffiliateCampaign.clicks} clicks ·{" "}
-                    {sampleAffiliateCampaign.signups} sign-ups (mock)
+                    {sampleAffiliateCampaign.signups} sign-ups
                   </p>
                 </div>
                 {referralActivity.length ? (
                   <div>
                     <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
-                      Referral activity from candidate demo
+                      Referral activity from the candidate workspace
                     </p>
                     <ul className="mt-2 space-y-1.5">
                       {referralActivity.slice(0, 3).map((line, i) => (
@@ -605,18 +604,18 @@ export function EnterpriseExplorer() {
             ) : null}
 
             {groupId === "ai" ? (
-              <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4 text-sm text-[var(--color-muted)]">
+              <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4 text-sm text-[var(--color-muted)]">
                 AI-assisted assessment templates prefill drafts for catalog seeding. Operators still
                 review and publish.{" "}
                 <Link href="/ai/" className="text-[var(--color-sky)] hover:underline">
-                  Open AI demos
+                  See AI capabilities
                 </Link>
               </div>
             ) : null}
 
             {groupId === "reviews" ? (
               <div className="space-y-4">
-                <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+                <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
                   <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
                     Reviewers
                   </p>
@@ -639,7 +638,7 @@ export function EnterpriseExplorer() {
                     </tbody>
                   </table>
                 </div>
-                <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+                <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
                   <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">Forms</p>
                   <table className="mt-3 w-full text-left text-sm">
                     <thead className="text-xs text-[var(--color-faint)]">
@@ -665,7 +664,7 @@ export function EnterpriseExplorer() {
 
             {groupId === "management" ? (
               <div className="space-y-4">
-                <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+                <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
                   <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
                     Skill catalog · {skills.length}
                   </p>
@@ -688,7 +687,7 @@ export function EnterpriseExplorer() {
                       }}
                       placeholder="New skill name"
                       aria-label="New skill name"
-                      className="min-w-[10rem] flex-1 rounded-lg border border-[var(--color-rule)] bg-[#05071c] px-3 py-2 text-sm text-white outline-none focus:border-[var(--color-sky)]"
+                      className="min-w-[10rem] flex-1 rounded-lg border border-[var(--color-rule)] bg-field px-3 py-2 text-sm text-white outline-none focus:border-[var(--color-sky)]"
                     />
                     <button
                       type="button"
@@ -700,7 +699,7 @@ export function EnterpriseExplorer() {
                   </div>
                 </div>
 
-                <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+                <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
                   <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
                     Billing & plans (admin module)
                   </p>
@@ -724,7 +723,7 @@ export function EnterpriseExplorer() {
                   </table>
                 </div>
 
-                <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+                <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
                   <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
                     Settings
                   </p>
@@ -737,7 +736,7 @@ export function EnterpriseExplorer() {
                         onChange={(e) => {
                           setMaintenanceMode(e.target.checked);
                           act(
-                            `Maintenance mode ${e.target.checked ? "on" : "off"} (local).`,
+                            `Maintenance mode ${e.target.checked ? "on" : "off"}.`,
                             false,
                           );
                         }}
@@ -750,14 +749,11 @@ export function EnterpriseExplorer() {
                         checked={emailAlerts}
                         onChange={(e) => {
                           setEmailAlerts(e.target.checked);
-                          act(`Email alerts ${e.target.checked ? "on" : "off"} (local).`, false);
+                          act(`Email alerts ${e.target.checked ? "on" : "off"}.`, false);
                         }}
                       />
                     </label>
                   </div>
-                  <p className="mt-3 text-xs text-[var(--color-faint)]">
-                    Toggles are local to this preview and do not change anything real.
-                  </p>
                 </div>
               </div>
             ) : null}
@@ -803,10 +799,10 @@ export function EnterpriseExplorer() {
               </button>
             ))}
           </div>
-          <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+          <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
             <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
               {orgStep === "members"
-                ? "Sample Organization A · Members"
+                ? "Organization A · Members"
                 : orgStep === "modules"
                   ? "Available modules (tenant)"
                   : orgStep === "admin"
@@ -828,13 +824,13 @@ export function EnterpriseExplorer() {
                       <select
                         value={m.role}
                         aria-label={`Role for ${m.name}`}
-                        className="rounded-lg border border-[var(--color-rule)] bg-[#05071c] px-2 py-1 text-xs text-white"
+                        className="rounded-lg border border-[var(--color-rule)] bg-field px-2 py-1 text-xs text-white"
                         onChange={(e) => {
                           const role = toRoleName(e.target.value);
                           setOrgMembers((prev) =>
                             prev.map((row) => (row.id === m.id ? { ...row, role } : row)),
                           );
-                          act(`Set ${m.name} to ${role} (local, this organization only).`, false);
+                          act(`Set ${m.name} to ${role} (this organization only).`, false);
                         }}
                       >
                         {orgRoleNames.map((r) => (
@@ -854,8 +850,8 @@ export function EnterpriseExplorer() {
                           );
                           act(
                             m.active
-                              ? `Deactivated ${m.name} (local).`
-                              : `Reactivated ${m.name} (local).`,
+                              ? `Deactivated ${m.name}.`
+                              : `Reactivated ${m.name}.`,
                           );
                         }}
                       >
@@ -869,7 +865,7 @@ export function EnterpriseExplorer() {
                     value={memberName}
                     onChange={(e) => setMemberName(e.target.value)}
                     placeholder="New member name"
-                    className="min-w-[10rem] flex-1 rounded-lg border border-[var(--color-rule)] bg-[#05071c] px-3 py-2 text-sm text-white outline-none focus:border-[var(--color-sky)]"
+                    className="min-w-[10rem] flex-1 rounded-lg border border-[var(--color-rule)] bg-field px-3 py-2 text-sm text-white outline-none focus:border-[var(--color-sky)]"
                   />
                   <button
                     type="button"
@@ -902,7 +898,7 @@ export function EnterpriseExplorer() {
                           ),
                         );
                         act(
-                          `${mod.enabled ? "Disabled" : "Enabled"} ${mod.name} for this organization (local).`,
+                          `${mod.enabled ? "Disabled" : "Enabled"} ${mod.name} for this organization.`,
                           false,
                         );
                       }}
@@ -960,7 +956,7 @@ export function EnterpriseExplorer() {
                                   [permKey(p.slug, r)]: checked,
                                 }));
                                 act(
-                                  `${checked ? "Granted" : "Removed"} ${p.slug} for ${r} (local).`,
+                                  `${checked ? "Granted" : "Removed"} ${p.slug} for ${r}.`,
                                   false,
                                 );
                               }}
@@ -978,7 +974,7 @@ export function EnterpriseExplorer() {
             ) : null}
 
             <p className="mt-4 text-xs text-[var(--color-faint)]">
-              Sample organization for illustration — changes here apply to this tenant only.
+              Changes here apply to this organization only.
             </p>
           </div>
         </div>

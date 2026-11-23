@@ -21,8 +21,8 @@ const tabs = [
   { id: "reviews", label: "My Reviews" },
   { id: "reporting", label: "Reporting" },
   { id: "media", label: "Media workspace" },
-  { id: "rubric", label: "Rubric demo" },
-  { id: "checklist", label: "Checklist demo" },
+  { id: "rubric", label: "Rubric" },
+  { id: "checklist", label: "Checklist" },
   { id: "ai", label: "AI import · builder" },
   { id: "resources", label: "Resources" },
 ] as const;
@@ -34,7 +34,7 @@ const journey = [
   { id: "reviews" as const, label: "2 · My Reviews", doNext: "Track in-review and completed work" },
   { id: "media" as const, label: "3 · Media", doNext: "Preview PDF / video / document workspace concepts" },
   { id: "rubric" as const, label: "4 · Rubric", doNext: "Score weighted criteria and submit grading" },
-  { id: "ai" as const, label: "5 · AI import", doNext: "Import sample, generate a draft, refine in Form Builder, preview / publish" },
+  { id: "ai" as const, label: "5 · AI import", doNext: "Import a document, generate a draft, refine in AI Form Builder, preview / publish" },
   { id: "resources" as const, label: "6 · Resources", doNext: "Good Practices, Guidelines, Help (not generative AI)" },
 ];
 
@@ -64,7 +64,7 @@ const resourceSections: Array<{
 }> = [
   {
     title: "Good Practices",
-    body: "Curated guidance cards for reviewers. Static reference content — not generative AI.",
+    body: "Curated guidance cards for reviewers — written guidance, not generative AI.",
     cards: [
       {
         title: "Fair scoring",
@@ -126,7 +126,7 @@ const resourceSections: Array<{
   },
   {
     title: "PDF / video / document review",
-    body: "Product workspaces support annotation, video evidence, and document preview — explained here; not a live media player on this site.",
+    body: "Review workspaces support PDF annotation, video evidence, and document preview.",
   },
   {
     title: "Forms library & publishing",
@@ -368,7 +368,7 @@ export function ReviewerExperience() {
   const submitBar = (kind: "rubric" | "checklist" | "media") => {
     const blocked = kind === "checklist" && missingMandatory.length > 0;
     return (
-      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-[var(--color-rule)] bg-inset p-4">
         <button
           type="button"
           className="sp-btn-primary disabled:cursor-not-allowed disabled:opacity-50"
@@ -394,7 +394,7 @@ export function ReviewerExperience() {
 
   return (
     <div className="sp-panel overflow-hidden">
-      <div className="border-b border-[var(--color-rule)] bg-black/20 px-4 py-3 sm:px-6">
+      <div className="border-b border-[var(--color-rule)] bg-inset px-4 py-3 sm:px-6">
         <p className="text-xs tracking-[0.16em] text-[var(--color-sky)] uppercase">
           Reviewer workspace preview
         </p>
@@ -566,7 +566,7 @@ export function ReviewerExperience() {
                       : "Grading in progress — continue to score and submit."}
                   </p>
                   {item.state === "Completed" && summaries[item.id] ? (
-                    <div className="mt-3 rounded-lg bg-black/25 p-3">
+                    <div className="mt-3 rounded-lg bg-inset-strong p-3">
                       <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
                         Grading summary
                       </p>
@@ -655,23 +655,23 @@ export function ReviewerExperience() {
                 </button>
               ))}
             </div>
-            <div className="rounded-xl border border-[var(--color-rule)] bg-gradient-to-br from-black/40 to-[rgb(82_36_212/0.15)] p-6 min-h-[200px]">
+            <div className="rounded-xl border border-[var(--color-rule)] bg-gradient-to-br from-inset-strong to-[rgb(82_36_212/0.15)] p-6 min-h-[200px]">
               <p className="text-xs uppercase tracking-[0.14em] text-[var(--color-sky)]">
                 {mediaMode === "pdf"
-                  ? "PDF workspace (illustrative)"
+                  ? "PDF workspace"
                   : mediaMode === "video"
-                    ? "Video workspace (illustrative)"
-                    : "Document workspace (illustrative)"}
+                    ? "Video workspace"
+                    : "Document workspace"}
               </p>
               <div className="mt-6 space-y-3">
                 <div className="h-3 w-[80%] rounded bg-white/10" />
                 <div className="h-3 w-[60%] rounded bg-white/10" />
-                <div className="h-24 rounded-lg border border-dashed border-white/20 bg-black/20 flex items-center justify-center text-sm text-[var(--color-faint)]">
+                <div className="h-24 rounded-lg border border-dashed border-white/20 bg-inset flex items-center justify-center text-sm text-[var(--color-faint)]">
                   {mediaMode === "pdf"
-                    ? "Annotation markers · page preview (static)"
+                    ? "Annotation markers · page preview"
                     : mediaMode === "video"
-                      ? "Timeline · evidence notes (static)"
-                      : "Document preview pane (static)"}
+                      ? "Timeline · evidence notes"
+                      : "Document preview pane"}
                 </div>
               </div>
               <p className="mt-4 text-sm text-[var(--color-muted)]">
@@ -689,11 +689,11 @@ export function ReviewerExperience() {
                 }
                 onBlur={(e) => {
                   if (e.target.value.trim()) {
-                    act(`Saved ${mediaModeLabels[mediaMode]} notes (local)`);
+                    act(`Saved ${mediaModeLabels[mediaMode]} notes`);
                   }
                 }}
                 placeholder="Timestamps, page references, evidence observations…"
-                className="mt-2 w-full rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
+                className="mt-2 w-full rounded-xl border border-[var(--color-rule)] bg-field px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
               />
               <span className="mt-1 block text-xs text-[var(--color-faint)]">
                 Notes are kept per mode while you switch between PDF, video, and document.
@@ -790,7 +790,7 @@ export function ReviewerExperience() {
                 </li>
               ))}
             </ul>
-            <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4">
+            <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4">
               <p className="text-sm text-[var(--color-muted)]">
                 Checklist progress: {checklistProgress.done} of {checklistProgress.total} criteria met
               </p>
@@ -847,10 +847,10 @@ export function ReviewerExperience() {
                 rows={2}
                 value={context}
                 onChange={(e) => setContext(e.target.value)}
-                className="mt-2 w-full rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
+                className="mt-2 w-full rounded-xl border border-[var(--color-rule)] bg-field px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
               />
             </label>
-            <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4 text-sm text-[var(--color-muted)] space-y-3">
+            <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4 text-sm text-[var(--color-muted)] space-y-3">
               <p>
                 Classification: <span className="text-white">{imported.classification}</span>
               </p>
@@ -870,11 +870,11 @@ export function ReviewerExperience() {
               {generated ? (
                 <>
                   <pre className="whitespace-pre-wrap text-[var(--color-faint)]">{imported.draft}</pre>
-                  <p className="text-xs">Context applied locally: {context}</p>
+                  <p className="text-xs">Context applied: {context}</p>
                 </>
               ) : (
                 <p className="text-xs text-[var(--color-faint)]">
-                  Choose a sample, then generate a draft to fill the builder below.
+                  Choose a document, then generate a draft to fill the builder below.
                 </p>
               )}
             </div>
@@ -885,14 +885,14 @@ export function ReviewerExperience() {
               <input
                 value={builderTitle}
                 onChange={(e) => setBuilderTitle(e.target.value)}
-                className="w-full rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
+                className="w-full rounded-xl border border-[var(--color-rule)] bg-field px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
                 aria-label="Draft form title"
               />
               <ul className="space-y-2">
                 {sections.map((section, index) => (
                   <li
                     key={section}
-                    className="flex items-center justify-between gap-2 rounded-lg bg-black/25 px-3 py-2"
+                    className="flex items-center justify-between gap-2 rounded-lg bg-inset-strong px-3 py-2"
                   >
                     <span className="text-sm text-white">{section}</span>
                     <span className="flex gap-1">
@@ -924,7 +924,7 @@ export function ReviewerExperience() {
                       setPublishState(state);
                       act(
                         state === "published"
-                          ? `Published “${builderTitle}” (local)`
+                          ? `Published “${builderTitle}”`
                           : state === "preview"
                             ? `Previewing “${builderTitle}”`
                             : `Returned “${builderTitle}” to draft`,
@@ -943,8 +943,7 @@ export function ReviewerExperience() {
               </div>
               <p className="text-xs text-[var(--color-faint)]">
                 Form state: <span className="text-white">{publishState}</span>
-                {generated ? "" : " — generate a draft to enable preview and publish"}. Local only,
-                not a live catalog publish.
+                {generated ? "" : " — generate a draft to enable preview and publish"}.
               </p>
 
               {publishState === "preview" ? (
@@ -954,7 +953,7 @@ export function ReviewerExperience() {
                   </p>
                   <h4 className="text-lg text-white">{builderTitle || "Untitled form"}</h4>
                   {sections.map((section) => (
-                    <div key={section} className="rounded-lg bg-black/25 p-3">
+                    <div key={section} className="rounded-lg bg-inset-strong p-3">
                       <p className="text-sm font-medium text-white">{section}</p>
                       {imported.classification === "Rubric" &&
                       section.toLowerCase().startsWith("criteria") ? (
@@ -985,7 +984,7 @@ export function ReviewerExperience() {
                             ))}
                         </ul>
                       ) : (
-                        <div className="mt-2 h-10 rounded-md border border-dashed border-white/20 bg-black/20" />
+                        <div className="mt-2 h-10 rounded-md border border-dashed border-white/20 bg-inset" />
                       )}
                     </div>
                   ))}
@@ -1022,7 +1021,7 @@ export function ReviewerExperience() {
                 {item.cards ? (
                   <div className="mt-4 grid gap-3 md:grid-cols-3">
                     {item.cards.map((card) => (
-                      <div key={card.title} className="rounded-lg bg-black/25 p-3">
+                      <div key={card.title} className="rounded-lg bg-inset-strong p-3">
                         <p className="text-sm font-medium text-white">{card.title}</p>
                         <ul className="mt-2 list-disc space-y-1.5 pl-4 text-sm text-[var(--color-muted)]">
                           {card.bullets.map((b) => (

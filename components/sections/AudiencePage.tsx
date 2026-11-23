@@ -9,13 +9,16 @@ import type { AudienceId } from "@/types";
 type Props = {
   id: AudienceId;
   uniqueSections: ReactNode;
+  /** Optional custom hero that replaces the default PageHero */
+  hero?: ReactNode;
 };
 
-export function AudiencePage({ id, uniqueSections }: Props) {
+export function AudiencePage({ id, uniqueSections, hero }: Props) {
   const audience = getAudience(id);
 
   return (
     <>
+      {hero ?? (
       <PageHero
         eyebrow={audience.eyebrow}
         title={accentHeadline(audience.headline, audience.accentWord)}
@@ -24,6 +27,7 @@ export function AudiencePage({ id, uniqueSections }: Props) {
         secondaryCta={audience.secondaryCta}
         visual={id}
       />
+      )}
 
       <section className="sp-section bg-[#090d33]">
         <div className="sp-container grid gap-8 lg:grid-cols-2">

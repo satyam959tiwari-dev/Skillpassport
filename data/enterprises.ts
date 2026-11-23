@@ -80,10 +80,10 @@ export const orgAdminCapabilities = [
 ] as const;
 
 export const sampleApprovalQueues = [
-  { id: "ap1", type: "Assessment approval request", state: "Pending (demo)" },
-  { id: "ap2", type: "Media approval request", state: "Pending (demo)" },
-  { id: "ap3", type: "Review-result approval (platform/guest context)", state: "Pending (demo)" },
-  { id: "ap4", type: "Assignment-related approval request", state: "Pending (demo)" },
+  { id: "ap1", type: "Assessment approval request", state: "Pending" },
+  { id: "ap2", type: "Media approval request", state: "Pending" },
+  { id: "ap3", type: "Review-result approval (platform/guest context)", state: "Pending" },
+  { id: "ap4", type: "Assignment-related approval request", state: "Pending" },
 ] as const;
 
 export const sampleOrgMembers = [
@@ -95,7 +95,7 @@ export const sampleOrgMembers = [
 export const samplePeopleInventory = {
   candidates: {
     label: "Candidates",
-    total: "1,240 (demo)",
+    total: "1,240",
     rows: [
       { name: "Candidate 014", meta: "Profile 82% · 2 documents in review" },
       { name: "Candidate 027", meta: "Profile 64% · public profile on" },
@@ -104,7 +104,7 @@ export const samplePeopleInventory = {
   },
   companies: {
     label: "Job companies",
-    total: "86 (demo)",
+    total: "86",
     rows: [
       { name: "Job Company A", meta: "4 open jobs · 12 team seats" },
       { name: "Job Company B", meta: "2 open jobs · 5 team seats" },
@@ -113,7 +113,7 @@ export const samplePeopleInventory = {
   },
   jobs: {
     label: "Jobs",
-    total: "212 (demo)",
+    total: "212",
     rows: [
       { name: "Frontend engineer", meta: "Job Company A · published" },
       { name: "Data analyst", meta: "Job Company B · draft" },
@@ -122,7 +122,7 @@ export const samplePeopleInventory = {
   },
   applications: {
     label: "Applications",
-    total: "128 open (demo)",
+    total: "128 open",
     rows: [
       { name: "Candidate 014 → Frontend engineer", meta: "Interview scheduled" },
       { name: "Candidate 027 → Data analyst", meta: "Applied" },
@@ -144,13 +144,13 @@ export const sampleRejectionLog = [
     id: "rj1",
     subject: "ID document · Candidate 019",
     reason: "Image unreadable — resubmit a clearer scan",
-    when: "Today (demo)",
+    when: "Today",
   },
   {
     id: "rj2",
     subject: "Experience letter · Candidate 044",
     reason: "Issuer details could not be confirmed",
-    when: "Yesterday (demo)",
+    when: "Yesterday",
   },
 ] as const;
 
@@ -163,9 +163,9 @@ export const sampleOrganizations = [
 export const sampleSkillCatalog = ["React", "TypeScript", "Accessibility", "Data analysis"] as const;
 
 export const sampleBillingPlans = [
-  { id: "bp1", name: "Trial", seats: "Up to 3 seats", price: "Free (sample)" },
-  { id: "bp2", name: "Team", seats: "Up to 10 seats", price: "Sample rate" },
-  { id: "bp3", name: "Business", seats: "Up to 50 seats", price: "Sample rate" },
+  { id: "bp1", name: "Trial", seats: "Seats set by admin", price: "Set by the business" },
+  { id: "bp2", name: "Team", seats: "Seats set by admin", price: "Set by the business" },
+  { id: "bp3", name: "Business", seats: "Seats set by admin", price: "Set by the business" },
 ] as const;
 
 export const sampleReviewers = [
@@ -187,7 +187,7 @@ export const sampleSupportMessages = [
 
 export const sampleAffiliateCampaign = {
   name: "Spring referral",
-  status: "Active (sample)",
+  status: "Active",
   clicks: 124,
   signups: 18,
 } as const;

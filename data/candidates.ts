@@ -1,27 +1,27 @@
 export const candidateJourneySteps = [
   {
     id: "profile",
-    title: "Build your profile",
+    title: "Complete your profile",
     body: "Personal details, skills, experience, professional summary, photo, and visibility.",
   },
   {
     id: "credentials",
-    title: "Add skills and credentials",
-    body: "Attach certificates and documents. Status is tracked—upload does not mean verified.",
+    title: "Upload documents",
+    body: "Attach certificates and other documents. Each one gets a tracked status — uploading alone never marks it verified.",
   },
   {
     id: "verify",
-    title: "Submit for verification",
-    body: "Documents enter verification workflows with verifier partners and admin oversight.",
+    title: "Get verified",
+    body: "Verifier companies check your documents in verification queues, with Super Admin oversight.",
   },
   {
     id: "prove",
-    title: "Prove skills",
-    body: "Assessments, Add Media, Self-Reviews, and Expert Reviews create structured evidence.",
+    title: "Take assessments",
+    body: "My Assessments, Add Media, Self-Reviews, and Expert Reviews — graded by reviewers on rubrics or checklists.",
   },
   {
     id: "opportunities",
-    title: "Explore opportunities",
+    title: "Apply and share",
     body: "Find Jobs, Saved Jobs, Applications, optional public sharing, and Refer & Earn.",
   },
 ] as const;
@@ -128,7 +128,7 @@ export const candidateAiAssessmentSuggestions = [
   {
     id: "sug-job",
     title: "Role-prep: Frontend Engineer screening",
-    reason: "Aligned to sample target job",
+    reason: "Aligned to your target job",
   },
 ] as const;
 
@@ -138,14 +138,14 @@ export const candidateGuestReviews = [
     from: "Peer endorsement · Maya K.",
     skill: "Mentoring",
     status: "visible" as const,
-    note: "Visible to candidate (illustrative).",
+    note: "Visible to candidate.",
   },
   {
     id: "guest-2",
     from: "Guest invite · Dev circle",
     skill: "System design",
     status: "pending_approval" as const,
-    note: "Awaiting applicable admin approval before candidate visibility (illustrative).",
+    note: "Awaiting applicable admin approval before candidate visibility.",
   },
 ];
 
@@ -154,7 +154,7 @@ export type CandidateDocStatus = "not_submitted" | "in_review" | "verified" | "n
 export const candidateDocStatusLabel: Record<CandidateDocStatus, string> = {
   not_submitted: "Not submitted",
   in_review: "In review",
-  verified: "Verified (demo)",
+  verified: "Verified",
   needs_info: "Needs info",
 };
 
@@ -165,9 +165,9 @@ export const candidateSelfReviewChecklist = [
   "I can name one area I still want to improve",
 ] as const;
 
-/** Mock referral stats for Refer & Earn (demo only). */
+/** Referral stats shown in the Refer & Earn panel. */
 export const candidateReferStats = {
   invites: 3,
   joined: 1,
-  earned: "₹0 demo",
+  earned: "₹0",
 } as const;

@@ -8,67 +8,67 @@ export const pageMeta: Record<string, PageMeta> = {
   home: {
     title: "SkillPassport | Verify Once. Be Trusted Everywhere.",
     description:
-      "SkillPassport connects verified credentials, proven skills, expert reviews, and career opportunities in one trusted ecosystem.",
+      "Verify credentials · Prove skills · Hire with trust. One trust workflow for candidates, employers, verifiers, reviewers, and admins.",
     path: "/",
   },
   candidates: {
     title: "For Candidates | SkillPassport",
     description:
-      "Explore SkillPassport for candidates: profile strength, documents and verification status, assessments and expert reviews, jobs, public sharing, referrals, support, and AI-assisted drafts—via a static interactive demo.",
+      "Build a verified profile: documents with tracked verification, assessments and expert reviews, Find Jobs, Refer & Earn, and AI help with your summary and assessment picks.",
     path: "/candidates/",
   },
   employers: {
     title: "For Employers | SkillPassport",
     description:
-      "Find and evaluate talent using verified credentials, assessment outcomes, and expert reviews in one trust-focused hiring workflow.",
+      "Talent Search, Jobs Management, Applicants, Interviews, and Reporting with Good Practice AI Query — hiring on verified skills and assessments.",
     path: "/employers/",
   },
   verifiers: {
     title: "For Verifiers | SkillPassport",
     description:
-      "Operate credential verification with clear request workflows, status tracking, and accountable outcomes.",
+      "Run verification cases on the Verification Board — Apply Verification, Awaiting Admin, All Verifications — with SLA and accuracy reporting.",
     path: "/verifiers/",
   },
   reviewers: {
     title: "For Expert Reviewers | SkillPassport",
     description:
-      "Apply expert judgment to assessments with rubrics, evidence review, and human-in-the-loop assistance.",
+      "Build rubrics and checklists in the Forms library or with AI form import, then grade documents, PDFs, and video in structured review workspaces.",
     path: "/reviewers/",
   },
   enterprises: {
     title: "For Enterprises | SkillPassport",
     description:
-      "Explore Super Admin platform governance and Organization Admin tenant-scoped members, modules, and roles — kept as separate scopes.",
+      "Org tenants with Organization Admin, permissions, verification oversight, assessment approvals, audit, and affiliate — Super Admin and tenant scopes kept separate.",
     path: "/enterprises/",
   },
   ai: {
     title: "AI on SkillPassport",
     description:
-      "See how AI assists SkillPassport workflows—summaries, assessment guidance, and rubric drafts—while humans remain in control.",
+      "Six AI capabilities — summary suggest, assessment suggestions, AI form import, AI Form Builder, Good Practice AI Query, assessment templates — always with human review.",
     path: "/ai/",
   },
   trust: {
     title: "Trust & Security | SkillPassport",
     description:
-      "Learn how SkillPassport approaches verification, governance, accountability, and human control across the trust ecosystem.",
+      "Verification workflow, admin approvals, audit logs, roles and permissions, email verification, and company-scoped data — trust built around people.",
     path: "/trust/",
   },
   contact: {
     title: "Contact | SkillPassport",
     description:
-      "Get in touch about SkillPassport solutions. The on-site form runs in demo mode and does not transmit a real inquiry.",
+      "Talk with the SkillPassport team about candidates, hiring, verification, expert reviews, or enterprise governance. Send a message and a person from the team follows up.",
     path: "/contact/",
   },
   createPassport: {
     title: "Create Your Passport | SkillPassport",
     description:
-      "Build an illustrative digital Skill Passport—profile, skills, credentials, simulated verification, and assessment evidence—in a static interactive demo. No account or backend required.",
+      "Create your digital Skill Passport — profile, skills, credentials with verification status, and assessment evidence — in a few guided steps.",
     path: "/create-passport/",
   },
   signIn: {
-    title: "Sign in (demo) | SkillPassport",
+    title: "Sign in | SkillPassport",
     description:
-      "Static sign-in demonstration for the SkillPassport marketing site. Validates locally and does not authenticate a real account.",
+      "Sign in to SkillPassport — your profile, verifications, assessments, and jobs in one account.",
     path: "/sign-in/",
   },
 };

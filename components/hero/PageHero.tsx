@@ -28,7 +28,7 @@ export function PageHero({
   const centered = align === "center" && !visual;
 
   return (
-    <div className="relative border-b border-[var(--color-rule)]">
+    <div className="relative">
       {/* Brand ground — navy → indigo → logo blues, synced with homepage hero.
           Decorative layer is clipped; header stays outside so dropdowns are not cut off. */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -50,6 +50,11 @@ export function PageHero({
               "linear-gradient(180deg, rgb(3 5 8 / 0.75) 0%, transparent 100%)",
           }}
         />
+        {/* Seamless hand-off to the next section (no hard rule) */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-28"
+          style={{ background: "linear-gradient(180deg, rgb(9 13 51 / 0) 0%, #090d33 100%)" }}
+        />
       </div>
 
       <SiteHeader variant="page" />
@@ -63,18 +68,18 @@ export function PageHero({
           }
         >
           <div className={centered ? "mx-auto max-w-3xl text-center" : "max-w-2xl"}>
-            <p className={`sp-eyebrow ${centered ? "justify-center" : ""}`}>
+            <p className={`sp-eyebrow sp-rise sp-rise-1 ${centered ? "justify-center" : ""}`}>
               {eyebrow}
             </p>
-            <h1 className="sp-heading mt-5 text-[clamp(36px,5.4vw,64px)] text-white">
+            <h1 className="sp-heading sp-rise sp-rise-2 mt-5 text-[clamp(36px,5.4vw,64px)] text-white">
               {title}
             </h1>
-            <p className={`sp-lede mt-5 ${centered ? "mx-auto" : ""}`}>
+            <p className={`sp-lede sp-rise sp-rise-3 mt-5 ${centered ? "mx-auto" : ""}`}>
               {description}
             </p>
             {(primaryCta || secondaryCta) && (
               <div
-                className={`mt-8 flex flex-wrap items-center gap-4 ${
+                className={`sp-rise sp-rise-4 mt-8 flex flex-wrap items-center gap-4 ${
                   centered ? "justify-center" : ""
                 }`}
               >
@@ -91,7 +96,7 @@ export function PageHero({
           </div>
 
           {visual ? (
-            <div className="relative mx-auto w-full max-w-[520px] lg:mx-0 lg:max-w-none">
+            <div className="sp-rise sp-rise-5 relative mx-auto w-full max-w-[520px] lg:mx-0 lg:max-w-none">
               <PageHeroVisual variant={visual} />
             </div>
           ) : null}

@@ -102,7 +102,7 @@ const defaultState = (): DemoBridgeState => ({
       source: "seed",
     },
   ],
-  audit: ["Demo bridge ready — local session only."],
+  audit: ["Audit log started."],
   approvalsPending: 2,
   activity: [],
 });

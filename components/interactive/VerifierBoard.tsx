@@ -48,7 +48,7 @@ const journey = [
   { id: "Board" as const, label: "2 · Board", doNext: "Filter areas/statuses, change case status and record outcomes" },
   { id: "Team" as const, label: "3 · Team", doNext: "Review the verifier team roles" },
   { id: "Notifications" as const, label: "4 · Notifications", doNext: "See the event log built from your case changes" },
-  { id: "Settings" as const, label: "5 · Settings", doNext: "Set notification email and preferences (local)" },
+  { id: "Settings" as const, label: "5 · Settings", doNext: "Set notification email and preferences" },
   { id: "Queries" as const, label: "6 · Queries", doNext: "Raise a support query" },
 ];
 
@@ -244,7 +244,7 @@ export function VerifierBoard() {
     setQueryText("");
     raiseTicket({ from: companyLabel, subject: text });
     logEvent(`Query #${tickets.length + 1} raised: ${text}`);
-    act(`Query #${tickets.length + 1} sent to the demo support queue`, false);
+    act(`Query #${tickets.length + 1} sent to support`, false);
   };
 
   // ---- Apply Verification intake ----
@@ -347,7 +347,7 @@ export function VerifierBoard() {
 
   return (
     <div className="sp-panel overflow-hidden">
-      <div className="border-b border-[var(--color-rule)] bg-black/20 px-4 py-3 sm:px-6">
+      <div className="border-b border-[var(--color-rule)] bg-inset px-4 py-3 sm:px-6">
         <p className="text-xs tracking-[0.16em] text-[var(--color-sky)] uppercase">
           Verification board preview
         </p>
@@ -392,7 +392,7 @@ export function VerifierBoard() {
                 <input
                   value={companyName}
                   onChange={(e) => setCompanyName(e.target.value)}
-                  className="mt-2 w-full rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
+                  className="mt-2 w-full rounded-xl border border-[var(--color-rule)] bg-field px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
                 />
               </label>
               <p className="text-sm text-[var(--color-muted)]">
@@ -407,8 +407,8 @@ export function VerifierBoard() {
           )}
           {ops === "Team" && (
             <div className="space-y-4">
-              <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-4 space-y-3">
-                <p className="text-sm text-[#bdb4ff]">Add team member (local)</p>
+              <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-4 space-y-3">
+                <p className="text-sm text-[#bdb4ff]">Add team member</p>
                 <div className="grid gap-3 sm:grid-cols-[1fr_auto_auto]">
                   <input
                     value={memberName}
@@ -422,13 +422,13 @@ export function VerifierBoard() {
                     placeholder="Member name"
                     aria-label="Member name"
                     aria-invalid={memberError ? true : undefined}
-                    className="rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
+                    className="rounded-xl border border-[var(--color-rule)] bg-field px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
                   />
                   <select
                     value={memberRole}
                     onChange={(e) => setMemberRole(e.target.value)}
                     aria-label="Member role"
-                    className="rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-3 py-3 text-white"
+                    className="rounded-xl border border-[var(--color-rule)] bg-field px-3 py-3 text-white"
                   >
                     {teamRoles.map((role) => (
                       <option key={role}>{role}</option>
@@ -516,7 +516,7 @@ export function VerifierBoard() {
                       if (emailError) setEmailError(null);
                     }}
                     aria-invalid={emailError ? true : undefined}
-                    className="mt-2 w-full rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
+                    className="mt-2 w-full rounded-xl border border-[var(--color-rule)] bg-field px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
                   />
                 </label>
                 {emailError ? (
@@ -565,7 +565,7 @@ export function VerifierBoard() {
                     if (queryError) setQueryError(null);
                   }}
                   aria-invalid={queryError ? true : undefined}
-                  className="mt-2 w-full rounded-xl border border-[var(--color-rule)] bg-[#05071c] px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
+                  className="mt-2 w-full rounded-xl border border-[var(--color-rule)] bg-field px-4 py-3 text-white outline-none focus:border-[var(--color-sky)]"
                 />
               </label>
               {queryError ? (
@@ -618,8 +618,8 @@ export function VerifierBoard() {
             ))}
           </div>
           <p className="px-4 pt-3 text-xs text-[var(--color-faint)] sm:px-5">
-            Counts above, report volume and accuracy in case detail are derived from the{" "}
-            {cases.length} cases on this board. The SLA line is sample text.
+            Counts, report volume, and accuracy are derived from the {cases.length} cases on
+            this board.
           </p>
 
           <div className="flex gap-2 overflow-x-auto border-b border-[var(--color-rule)] px-3 py-3">
@@ -786,7 +786,7 @@ export function VerifierBoard() {
                       )}
                     </div>
                   </div>
-                  <div className="rounded-xl border border-[var(--color-rule)] bg-black/20 p-3 space-y-3">
+                  <div className="rounded-xl border border-[var(--color-rule)] bg-inset p-3 space-y-3">
                     <p className="text-sm text-[#bdb4ff]">
                       Outcome:{" "}
                       <span className="text-white">
@@ -799,7 +799,7 @@ export function VerifierBoard() {
                         rows={2}
                         value={reasonDraft}
                         onChange={(e) => setReasonDraft(e.target.value)}
-                        className="mt-1 w-full rounded-lg border border-[var(--color-rule)] bg-[#05071c] px-3 py-2 text-sm text-white outline-none focus:border-[var(--color-sky)]"
+                        className="mt-1 w-full rounded-lg border border-[var(--color-rule)] bg-field px-3 py-2 text-sm text-white outline-none focus:border-[var(--color-sky)]"
                       />
                     </label>
                     <div className="flex flex-wrap gap-2">
@@ -832,12 +832,12 @@ export function VerifierBoard() {
                         value: `${report.volume} case${report.volume === 1 ? "" : "s"}`,
                       },
                       { label: "Accuracy", value: report.accuracy },
-                      { label: "SLA (sample)", value: verifierReportSamples.sla },
+                      { label: "SLA", value: verifierReportSamples.sla },
                       ...(report.hasDue
                         ? [{ label: "Overdue", value: `${report.overdue} case${report.overdue === 1 ? "" : "s"}` }]
                         : []),
                     ].map((r) => (
-                      <div key={r.label} className="rounded-lg bg-black/25 p-3">
+                      <div key={r.label} className="rounded-lg bg-inset-strong p-3">
                         <p className="text-xs text-[var(--color-faint)]">{r.label}</p>
                         <p className="mt-1 text-sm text-white">{r.value}</p>
                       </div>
@@ -850,7 +850,7 @@ export function VerifierBoard() {
                     {rejections.length ? (
                       <ul className="space-y-1.5 text-sm text-[var(--color-muted)]">
                         {rejections.map((r) => (
-                          <li key={r.id} className="rounded-lg bg-black/25 px-3 py-2">
+                          <li key={r.id} className="rounded-lg bg-inset-strong px-3 py-2">
                             <span className="text-white">{r.id}</span> · {r.title} —{" "}
                             {r.outcomeReason || "No reason given"}
                           </li>

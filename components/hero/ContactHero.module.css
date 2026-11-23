@@ -1,0 +1,140 @@
+/* Contact hero — contact.png, in the site palette. */
+
+.title { max-width: 660px; }
+@media (min-width: 1024px) {
+  .title { font-size: clamp(40px, 3.65vw, 60px) !important; line-height: 1.1 !important; }
+}
+
+.topics { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
+.topic {
+  display: inline-flex; align-items: center; gap: 12px;
+  min-height: 56px; padding: 10px 16px;
+  border-radius: 14px;
+  border: 1px solid rgb(98 172 250 / 0.38);
+  background: linear-gradient(140deg, rgb(16 40 110 / 0.55), rgb(12 18 60 / 0.7));
+  box-shadow: inset 0 0 14px rgb(98 172 250 / 0.06);
+  color: #e6ecff; text-align: left;
+  font-size: 13.5px; font-weight: 600; line-height: 1.25;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.topic svg { width: 28px; height: 28px; color: #6cb8ff; flex: none; stroke-width: 1.6; }
+.topic:hover { border-color: #8cc4ff; transform: translateY(-2px); box-shadow: 0 0 20px rgb(51 135 242 / 0.25); }
+.topicOn { border-color: #b9dcff; background: linear-gradient(140deg, rgb(51 135 242 / 0.4), rgb(82 36 212 / 0.35)); }
+
+.sceneCol { position: relative; }
+@media (min-width: 1024px) {
+  .sceneCol { margin-left: 2%; }
+}
+.stageWrap { position: relative; }
+
+.back { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.swoosh { fill: none; stroke-width: 3; filter: drop-shadow(0 0 8px #3387f2); opacity: 0.85; }
+.swooshThin { fill: none; stroke-width: 1.2; opacity: 0.5; }
+.disc1 { fill: rgb(10 28 86 / 0.7); stroke: rgb(98 172 250 / 0.4); stroke-width: 1.2; }
+.disc2 { fill: none; stroke: #8cc4ff; stroke-width: 2.4; stroke-dasharray: 200 40 60 40; filter: drop-shadow(0 0 8px #3387f2); }
+.dashSpin { animation: ctDash 18s linear infinite; }
+@keyframes ctDash { to { stroke-dashoffset: -680; } }
+.discHot { fill: none; stroke: #e0f0ff; stroke-width: 3; filter: drop-shadow(0 0 10px #62acfa); }
+.wireG { transition: opacity 0.3s; }
+.wireHot path { stroke: #d6ecff !important; stroke-width: 2.4 !important; filter: drop-shadow(0 0 6px #62acfa); }
+
+/* bubbles */
+.bubbles { position: absolute; left: 200px; top: 30px; width: 140px; height: 110px; }
+.bubbleBob { animation: ctBob 6s ease-in-out infinite; }
+@keyframes ctBob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+.bubbleBack, .bubbleFront {
+  position: absolute; border-radius: 16px;
+  border: 1.5px solid rgb(140 196 255 / 0.7);
+  background: linear-gradient(150deg, rgb(51 135 242 / 0.5), rgb(16 36 110 / 0.85));
+  box-shadow: 0 0 22px rgb(51 135 242 / 0.45);
+}
+.bubbleBack { left: 52px; top: 0; width: 84px; height: 58px; opacity: 0.8; }
+.bubbleFront { left: 0; top: 26px; width: 96px; height: 64px; display: flex; align-items: center; justify-content: center; gap: 9px; }
+.bubbleFront::after { content: ""; position: absolute; left: 18px; bottom: -12px; border: 7px solid transparent; border-top-color: rgb(140 196 255 / 0.7); }
+.bubbleFront i { width: 10px; height: 10px; border-radius: 50%; background: #fff; box-shadow: 0 0 8px #8cc4ff; }
+
+/* cube */
+.cube {
+  position: absolute; left: 166px; top: 132px; width: 276px; height: 262px; z-index: 3;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+  border-radius: 30px;
+  border: 2px solid rgb(140 196 255 / 0.85);
+  background:
+    linear-gradient(165deg, rgb(255 255 255 / 0.14), transparent 35%),
+    linear-gradient(155deg, rgb(51 135 242 / 0.55), rgb(14 30 96 / 0.92) 50%, rgb(40 36 130 / 0.85));
+  box-shadow: inset 0 0 40px rgb(98 172 250 / 0.22), 0 0 50px rgb(51 135 242 / 0.5), 0 26px 50px rgb(2 6 30 / 0.6);
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+.cubeEdge { position: absolute; inset: 10px; border-radius: 22px; border: 1px solid rgb(140 196 255 / 0.25); pointer-events: none; }
+.cubeFloat { animation: ctBob 7s ease-in-out -2s infinite; }
+.cubeIcon { width: 76px; height: 76px; color: #8cc4ff; stroke-width: 1.5; filter: drop-shadow(0 0 12px rgb(98 172 250 / 0.7)); }
+.cube p { margin: 0; font-size: 25px; font-weight: 650; line-height: 1.2; color: #fff; }
+
+/* route cards */
+.route {
+  position: absolute; left: 612px; width: 250px; min-height: 76px;
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  border: 1.5px solid rgb(108 184 255 / 0.6);
+  background: linear-gradient(150deg, rgb(26 64 150 / 0.55), rgb(10 22 70 / 0.9));
+  box-shadow: 0 0 22px rgb(51 135 242 / 0.3), inset 0 0 14px rgb(98 172 250 / 0.1);
+  color: #fff; text-align: left;
+  backdrop-filter: blur(8px);
+  z-index: 4;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+}
+.route_product { top: 112px; }
+.route_verification { top: 252px; left: 628px; }
+.route_enterprise { top: 382px; }
+.route:hover, .route:focus-visible { border-color: #b9dcff; transform: translateX(4px); box-shadow: 0 0 32px rgb(98 172 250 / 0.5); }
+.routeOn { border-color: #d6ecff !important; background: linear-gradient(150deg, rgb(51 135 242 / 0.5), rgb(82 36 212 / 0.4)) !important; }
+.routeIcon { width: 38px; height: 38px; color: #8cc4ff; flex: none; stroke-width: 1.6; }
+.routeLabel { flex: 1; font-size: 16px; font-weight: 600; line-height: 1.25; }
+.routeGo { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid rgb(140 196 255 / 0.7); color: #d6ecff; flex: none; }
+.routeGo svg { width: 18px; height: 18px; }
+
+.assurances {
+  display: flex; align-items: center; justify-content: center; gap: 18px;
+  margin-top: 4px;
+}
+.assurances span {
+  display: inline-flex; align-items: center; gap: 10px;
+  min-height: 44px; padding: 8px 18px;
+  border-radius: 14px;
+  border: 1px solid rgb(98 172 250 / 0.4);
+  background: rgb(10 24 70 / 0.6);
+  font-size: 15px; color: #e6ecff;
+}
+.assurances svg { width: 20px; height: 20px; color: #8cc4ff; }
+.assurances i { width: 1px; height: 28px; background: rgb(117 145 203 / 0.5); }
+@media (min-width: 1024px) {
+  .assurances { justify-content: flex-start; margin-left: 12%; }
+}
+
+/* phone */
+.phoneRoutes { display: flex; flex-direction: column; gap: 8px; margin: 4px 0 14px; }
+.phoneRoute {
+  display: flex; align-items: center; gap: 12px;
+  min-height: 60px; padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid rgb(98 172 250 / 0.4);
+  background: linear-gradient(150deg, rgb(26 64 150 / 0.45), rgb(10 22 70 / 0.85));
+  color: #fff; text-align: left;
+}
+.phoneRoute > svg:first-child { width: 28px; height: 28px; color: #8cc4ff; flex: none; }
+.phoneRoute b { display: block; font-size: 15px; font-weight: 600; }
+.phoneRoute small { display: block; font-size: 12.5px; color: #b9c4e6; margin-top: 2px; }
+.phoneRoute > span { flex: 1; }
+.chev { width: 20px; height: 20px; color: #8cc4ff; flex: none; }
+
+@media (max-width: 639px) {
+  .topics { display: none; } /* the same routes appear as full cards under the scene */
+  .assurances span { font-size: 14px; padding: 8px 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashSpin, .bubbleBob, .cubeFloat { animation: none !important; }
+  .topic, .route, .wireG { transition: none !important; }
+}

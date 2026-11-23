@@ -1,29 +1,29 @@
 /**
- * Configurable mock statistics for marketing only.
- * Replace with real figures when business provides them — never present as verified facts.
+ * "Platform at a glance" facts — product facts from the brief, not usage metrics.
+ * Never put invented counts, customers, or percentages here.
  */
 export const platformStatistics = [
   {
-    id: "professionals",
-    value: "10,000+",
-    label: "Professionals (illustrative)",
+    id: "roles",
+    title: "Six connected roles",
+    label: "Candidates, employers, verifier companies, reviewers, Super Admin, and Organization Admin in one workflow.",
   },
   {
-    id: "skills",
-    value: "5,000+",
-    label: "Skills & credentials (illustrative)",
+    id: "reuse",
+    title: "Verify once, reuse everywhere",
+    label: "A checked credential keeps its status across the profile, applications, and Talent Search.",
   },
   {
-    id: "organizations",
-    value: "250+",
-    label: "Organizations (illustrative)",
+    id: "graded",
+    title: "Structured grading",
+    label: "Rubrics with weighted criteria and performance levels; checklists with met / not met and mandatory items.",
   },
   {
-    id: "quality",
-    value: "98%",
-    label: "Verification quality target (goal, not a measured claim)",
+    id: "governed",
+    title: "Human-approved outcomes",
+    label: "Sensitive results pass admin approval, and operator actions are recorded in Audit Logs.",
   },
 ] as const;
 
 export const statisticsDisclaimer =
-  "Illustrative placeholders for layout and messaging only — not verified SkillPassport production metrics.";
+  "What every role can rely on — product facts, not usage figures.";
