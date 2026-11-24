@@ -1,6 +1,6 @@
 /**
  * Bootable hero network for the Next.js site.
- * Safe to call on remount. Original static renderer remains in src/app.js.
+ * Safe to call on remount. Loaded by HomeHero from /network/app.js.
  */
 window.__bootSkillNetwork = function __bootSkillNetwork() {
   if (typeof window.__spNetworkCleanup === "function") {
@@ -14,8 +14,7 @@ window.__bootSkillNetwork = function __bootSkillNetwork() {
  * front and back hemispheres overlap, long lavender filaments fan out of hubs,
  * near nodes melt into soft bokeh, and far nodes stay small and crisp. That
  * depth cue needs real perspective, so the graph lives in 3D and is drawn with
- * raw WebGL (additive light, point-sprite depth of field). No Three.js, no build
- * step, so index.html still opens straight from disk.
+ * raw WebGL (additive light, point-sprite depth of field). No Three.js.
  *
  * No pointer listeners. The slow turn is the only motion (hub breathing is locked to it),
  * frozen entirely for prefers-reduced-motion.

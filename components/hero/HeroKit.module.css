@@ -362,7 +362,7 @@
 @media (max-width: 1023px) {
   /* Scenes bleed to the full viewport width on small screens; HTML rows beside them keep the page gutter */
   .stageWrap {
-    width: calc(100% + 2 * clamp(20px, 5vw, 96px));
-    margin-inline: calc(-1 * clamp(20px, 5vw, 96px));
+    width: calc(100% + 2 * var(--gutter));
+    margin-inline: calc(-1 * var(--gutter));
   }
 }

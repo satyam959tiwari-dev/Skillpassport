@@ -1,10 +1,8 @@
 # SkillPassport Website
 
-Premium Next.js marketing site for SkillPassport — static, interactive demos, and a luminous-network homepage hero.
+Next.js (App Router) marketing site for SkillPassport — interactive demos and a WebGL luminous-network homepage hero.
 
-Homepage network hero: a thick 3D shell of glowing nodes around a cloud of small white points, with soft background lights. It has **no pointer or mouse interaction**, and **one motion only**: the camera orbits the sphere once every 180 s, swinging ±25° up and down once per orbit, so the loop is seamless.
-
-**Brand message:** Verify Once. Be Trusted Everywhere.
+**Brand:** Verify Once. Be Trusted Everywhere.
 
 ## Quick start
 
@@ -16,51 +14,59 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000).
 
 ```bash
-npm run build   # static export to /out
-npm start       # serve the Next server build (optional)
+npm run build    # production build
+npm start        # serve the Node server (contact API works)
+npm run typecheck
 ```
 
-## What is preserved
-
-The original hero implementation remains intact:
-
-- `index.html`
-- `src/app.js` (WebGL luminous network)
-- `src/style.css`
-- `assets/`
-
-The Next.js homepage ports that hero visually and behaviorally (same copy, motion, and network renderer via `public/network/`), then extends the site with full sections and audience pages.
+Optional static export (no API routes): `npm run build:static` → `/out`.
 
 ## Routes
 
 | Path | Page |
 |------|------|
-| `/` | Homepage + hero + platform sections |
+| `/` | Homepage + WebGL hero + platform sections |
 | `/candidates` | Candidate solutions |
 | `/employers` | Employer solutions |
 | `/verifiers` | Verifier solutions |
 | `/reviewers` | Expert reviewer solutions |
 | `/enterprises` | Enterprise / org admin |
-| `/ai` | AI capabilities + illustrative demos |
+| `/ai` | AI capabilities + demos |
 | `/trust` | Trust & governance |
-| `/contact` | Demo contact form |
+| `/contact` | Contact form (API + optional DB/SMTP) |
+| `/sign-in` | Sign-in demo |
+| `/create-passport` | Passport demo |
 
-## Structure
+## Project structure
 
 ```text
-app/                 App Router pages + SEO (sitemap, robots)
-components/          layout, navigation, hero, animation, sections, interactive, ui
+app/                 App Router pages + API (`*.api.ts`) + SEO
+components/          layout, navigation, hero, sections, interactive, ui
 data/                typed static content
 hooks/               client hooks
-lib/                 content access + SEO helpers
-types/               shared TypeScript types
+lib/                 content, SEO, contact, db helpers
+prisma/              schema + migrations
 public/images/       logos
-public/network/      hero WebGL + hero CSS used by the Next homepage
-styles/globals.css   design tokens (synced with hero brand)
+public/network/      homepage WebGL (`app.js`) + hero CSS
+public/ui/           runtime media (e.g. reviewer clip)
+styles/globals.css   design tokens + imports hero CSS
+types/               shared TypeScript types
+.github/workflows/   CI
 ```
+
+## Homepage hero
+
+Raw WebGL (no Three.js) draws the 3D node sphere on `<canvas id="network">`.  
+`HomeHero` loads `/network/app.js`. Motion elsewhere uses `motion/react` and CSS.
+
+## Env
+
+Copy `.env.example` → `.env.local` (never commit secrets).
+
+- `DATABASE_URL` — contact messages in Postgres (optional; JSONL fallback locally)
+- SMTP vars — email delivery (optional)
 
 ## Notes
 
-- No real backend, auth, or database in this phase.
-- Contact form and AI demos use local mock data and are clearly labeled as demo / illustrative.
-- Static export is enabled (`output: "export"` in `next.config.ts`).
+- Default build is a **server** app so `/api/contact` works.
+- CI runs `typecheck` + `build` on push / PR.

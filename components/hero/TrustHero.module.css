@@ -34,7 +34,7 @@
 
 /* Desktop: the scene bleeds a little past the container edge, like the reference */
 @media (min-width: 1024px) {
-  .scene { margin-right: calc(clamp(20px, 5vw, 96px) * -0.65); }
+  .scene { margin-right: calc(var(--gutter) * -0.65); }
 }
 
 /* Core composition, authored in 900 × 500 px and scaled up from the pedestal centre */

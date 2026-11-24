@@ -25,9 +25,9 @@ const nextConfig: NextConfig = {
 
   trailingSlash: true,
 
-  allowedDevOrigins: [
-    "repeated-pants-emphatic.ngrok-free.dev",
-  ],
+  // Dev tunnels only (ngrok etc.). Production ignores this.
+  // Example: allowedDevOrigins: ["*.ngrok-free.dev"],
+  allowedDevOrigins: [],
 };
 
 export default nextConfig;
