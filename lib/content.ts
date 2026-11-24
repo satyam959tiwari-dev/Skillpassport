@@ -30,9 +30,6 @@ export type { AiShowcaseRole } from "@/data/ai";
 export {
   howItWorks,
   valuePillars,
-  skillNetworkNodes,
-  skillNetworkEdges,
-  skillNetworkCopy,
   ecosystemAudiences,
   ecosystemConnections,
 } from "@/data/workflows";

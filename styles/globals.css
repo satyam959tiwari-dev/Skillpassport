@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "../public/network/hero.css";
 
-/* Brand tokens — synced with the existing SkillPassport hero (src/style.css). */
+/* Brand tokens — synced with the homepage hero (public/network/hero.css). */
 @theme {
   --color-ink: #090d33;
   --color-indigo: #161152;
@@ -22,7 +22,8 @@
   --color-inset-strong: rgb(22 17 82 / 0.62);
   --color-field: #0e1240;
   --font-sans: Roboto, Arial, sans-serif;
-  --container-max: 1440px;
+  /* Mirrors hero.css --container; keep for any Tailwind theme consumers. */
+  --container-max: var(--container, 1440px);
   --ease-spring: linear(
     0,
     0.0344,
@@ -127,11 +128,12 @@
 }
 
 @layer components {
+  /* Same edge math as homepage `.wrap` (public/network/hero.css — --container / --gutter). */
   .sp-container {
     width: 100%;
-    max-width: calc(var(--container-max) + 2 * clamp(20px, 5vw, 96px));
+    max-width: calc(var(--container) + 2 * var(--gutter));
     margin-inline: auto;
-    padding-inline: clamp(20px, 5vw, 96px);
+    padding-inline: var(--gutter);
   }
 
   .sp-eyebrow {
